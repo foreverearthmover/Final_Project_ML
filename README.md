@@ -39,3 +39,11 @@ Final_Project_ML/
 ├── requirements.txt
 └── README.md
 ```
+---
+  
+| Item                               | Description                                                        |
+|------------------------------------|--------------------------------------------------------------------|
+| [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) is here      |
+| [docs](./docs)                     | Documentation for our game (coming soon)                           |
+| [src](./src)                       | Python code for the game is here.                                  |  
+| [requirements.txt](./requirements) | All the libraries and dependencies you'll need to install are here |
