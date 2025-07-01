@@ -24,7 +24,7 @@ Final_Project_ML/
 │   └── sprites/
 │       ├── my_cat.png
 │       ├── enemy_cat.png
-        └── squirrel.png
+│       └── squirrel.png
 │   └── media/
 │     └── backgrounds/
 │        ├── bg1.png
@@ -36,6 +36,11 @@ Final_Project_ML/
 │   ├── scene2.py
 │   └── scene3.py
 │
+├── docs/
+│   ├── documentation
+│   ├── references
+│   └── work_distribution
+│
 ├── requirements.txt
 └── README.md
 ```
@@ -44,6 +49,6 @@ Final_Project_ML/
 | Item                               | Description                                                         |
 |------------------------------------|---------------------------------------------------------------------|
 | [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) is here.      |
-| [docs](./docs)                     | Documentation for our game (coming soon)                            |
+| [docs](./docs)                     | Documentation for our game.                                         |
 | [src](./src)                       | Python code for the game is here.                                   |  
 | [requirements](./requirements.txt) | All the libraries and dependencies you'll need to install are here. |
