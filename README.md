@@ -41,9 +41,9 @@ Final_Project_ML/
 ```
 ---
   
-| Item                               | Description                                                        |
-|------------------------------------|--------------------------------------------------------------------|
-| [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) is here      |
-| [docs](./docs)                     | Documentation for our game (coming soon)                           |
-| [src](./src)                       | Python code for the game is here.                                  |  
-| [requirements.txt](./requirements) | All the libraries and dependencies you'll need to install are here |
+| Item                               | Description                                                         |
+|------------------------------------|---------------------------------------------------------------------|
+| [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) is here.      |
+| [docs](./docs)                     | Documentation for our game (coming soon)                            |
+| [src](./src)                       | Python code for the game is here.                                   |  
+| [requirements](./requirements.txt) | All the libraries and dependencies you'll need to install are here. |
