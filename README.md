@@ -1,4 +1,4 @@
-# Hungry Cat Simulator 
+# Catventure - Hungry Cat Simulator 
 by Lilli (https://github.com/foreverearthmover) and Maja (https://github.com/MajaPapayo)
 
 #### Description
@@ -24,31 +24,47 @@ Final_Project_ML/
 │   └── sprites/
 │       ├── my_cat.png
 │       ├── enemy_cat.png
-│       └── squirrel.png
+│       ├── squirrel.png
+│       └── items/
+│           ├── yarn.png
+│           ├── ribbon.png
+│           ├── toilet_paper.png
+│           ├── carton.png
+│           ├── ...
+│           └── cable.png
 │   └── media/
 │     └── backgrounds/
-│        ├── bg1.png
-│        ├── bg2.png
-│        └── bg3.png
+│        ├── living_room.png
+│        ├── bathroom.png
+│        └── garden.png
 ├── src/
 │   ├── main.py
-│   ├── scene1.py
-│   ├── scene2.py
-│   └── scene3.py
+│   ├── game.py
+│   └── scenes/
+│        ├── living_room.py
+│        ├── bathroom.py
+│        └── garden.py
+│   └── objects/
+│        ├── player.py
+│        ├── item.py
+│        └── cat_enemy.py
+│   └── ui/
+│         ├── inventory.py
+│         └── fight.py
 │
 ├── docs/
 │   ├── documentation
-│   ├── references
 │   └── work_distribution
 │
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 ---
   
-| Item                               | Description                                                         |
-|------------------------------------|---------------------------------------------------------------------|
-| [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) is here.      |
-| [docs](./docs)                     | Documentation for our game.                                         |
-| [src](./src)                       | Python code for the game is here.                                   |  
-| [requirements](./requirements.txt) | All the libraries and dependencies you'll need to install are here. |
+| Item                               | Description                                                                       |
+|------------------------------------|-----------------------------------------------------------------------------------|
+| [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) are here.                   |
+| [docs](./docs)                     | Documentation for our game.                                                       |
+| [src](./src)                       | Python code for the game is here.                                                 |  
+| [requirements](./requirements.txt) | All the libraries and dependencies you'll need to install are here. (coming soon) |
