@@ -3,7 +3,7 @@ from game import Game
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((400, 300))
+    screen = pygame.display.set_mode((750, 500))
     pygame.display.set_caption("Catventure")
     clock = pygame.time.Clock()
 
