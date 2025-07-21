@@ -1,24 +1,31 @@
-from scenes.living_room import LivingRoom
-from scenes.bathroom import Bathroom
-from scenes.garden import Garden
+#from scenes.living_room import LivingRoom
+from ui.menu import MainMenu
 
 class Game:
     def __init__(self, screen):
         self.screen = screen
-        self.inventory = []
-        self.cat = None  # will be passed to each scene
-        self.scene_name = "living_room"
-        self.scenes = {
-            "living_room": LivingRoom(self),
-            "bathroom": Bathroom(self),
-            "garden": Garden(self)
-        }
+        self.state = "menu"  # start in menu
+        #self.inventory = []
+        #self.cat = None
+        #self.scene_name = "living_room"
+        #self.scenes = {
+            #"living_room": LivingRoom(self)
+        #}
+        self.menu = MainMenu(self)
 
     def handle_event(self, event):
-        self.scenes[self.scene_name].handle_event(event)
+        if self.state == "menu":
+            self.menu.handle_event(event)
+        #elif self.state == "playing":
+            #self.scenes[self.scene_name].handle_event(event)
 
     def update(self):
-        self.scenes[self.scene_name].update()
+        pass
+        #if self.state == "playing":
+        #self.scenes[self.scene_name].update()
 
     def draw(self):
-        self.scenes[self.scene_name].draw()
+        if self.state == "menu":
+            self.menu.draw(self.screen)
+        #elif self.state == "playing":
+            #self.scenes[self.scene_name].draw()

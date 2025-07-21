@@ -5,7 +5,7 @@ class LivingRoom:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-        self.background = pygame.image.load("assets/backgrounds/living_room.png")
+        self.background = pygame.image.load("../assets/media/backgrounds/living_room.png")
         self.cat = Cat(100, 200)
         self.items = []  # add items later
 
