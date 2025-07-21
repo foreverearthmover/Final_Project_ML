@@ -42,6 +42,6 @@ class MainMenu:
         # Quit Button
         quit_color = self.button_color_hover if self.quit_button_rect.collidepoint(mouse_pos) else self.button_color_default
         pygame.draw.rect(screen, quit_color, self.quit_button_rect, border_radius=10)
-        quit_text = self.button_font.render("Quit", True, (0, 0, 0))
+        quit_text = self.button_font.render("Exit", True, (0, 0, 0))
         quit_rect = quit_text.get_rect(center=self.quit_button_rect.center)
         screen.blit(quit_text, quit_rect)
