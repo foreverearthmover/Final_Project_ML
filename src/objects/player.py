@@ -27,14 +27,16 @@ sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
 
 
 class Cat:
-    def __init__(self,sheet,frame, x, y, width, height, scale, color):
+    def __init__(self,sheet, frame, width, height, x, y, scale, color):
         self.sprite_sheet = sheet
-        self.image = self.get_image(sprite_sheet,(frame * width) ,x,y,width, height, scale, color)
+        self.image = self.get_image(sprite_sheet,((frame * width) , x,y,width, height, scale, color))
         self.rect = self.image.get_rect(topleft=(x, y))
         self.speed = 4
+        self.frame = self.get_image(sprite_sheet,((frame * width),0, 0, 900,900, 0.2, WHITE))
+
 
     #printing the image on a different sheet
-    def get_image(self,sheet, frame, x, y, width, height,scale,color ):
+    def get_image(self, frame, x, y, width, height,scale,color ):
         image = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha() #this should be an empty image
         image.blit(self.sprite_sheet, (0,0), pygame.Rect(x,y,width,height))
         image = pygame.transform.scale(image,(width * scale, height * scale))
