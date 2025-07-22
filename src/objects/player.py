@@ -37,6 +37,11 @@ class Cat:
         self.rect = self.image.get_rect(topleft=(x, y))
         self.speed = 4
 
+        #Animation timing
+        self.animation_timer = 0
+        self.animation_delay = 100 #milsecs between frames
+
+
 
 
     #printing the image on a different sheet
