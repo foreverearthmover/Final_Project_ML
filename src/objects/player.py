@@ -1,53 +1,37 @@
 import pygame
 import os
-import time
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
+
 WHITE = (255, 255, 255)
 
-
-#putting a BG to work, later DELETE
-window_width = 800
-window_height = 600
-screen = pygame.display.set_mode((window_width, window_height))
-pygame.display.set_caption('Cat')
-
-#Load BG DELETE
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-image_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "backgrounds", "garden.png")
-image_path = os.path.normpath(image_path)
-background = pygame.image.load(image_path)
-
-
-#Load sprite
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sprite_sheet_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "sprites", "cat_sprite.png")
-sprite_sheet_path = os.path.normpath(sprite_sheet_path)
-sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
-
-
-
-
 class Cat:
-    def __init__(self, sheet, frame_width, frame_height, x, y, scale, color, num_frames):
-        self.sprite_sheet = sheet
-        self.frame_width = frame_width
-        self.frame_height = frame_height
-        self.scale = scale
-        self.color = color
-        self.frames = []
-        self.rect = pygame.Rect(x, y, frame_width, frame_height)
+    def __init__(self, x, y):
+        self.frame_width = 975
+        self.frame_height = 1000
+        self.scale = 0.15
+        self.color = WHITE
         self.speed = 4
 
-        #Animation
+        # Load sprite sheet
+        sprite_sheet_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'cat_sprite.png'
+        )
+        sprite_sheet_path = os.path.normpath(sprite_sheet_path)
+        self.sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
+
+        self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
         self.idle_frames = self.load_frames(start_index=0, count=4)
         self.walk_frames = self.load_frames(start_index=4, count=3)
         self.current_frames = self.idle_frames
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
         self.animation_timer = 0
-        self.animation_delay = 200 #milsecs between frames
+        self.animation_delay = 200
         self.state = "idle"
         self.facing_left = False
-
+    ...
     def load_frames(self, start_index, count):
         frames = []
         for i in range(start_index, start_index + count):
@@ -105,34 +89,3 @@ class Cat:
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-
-#later DELETE
-
-# Example
-cat = Cat(
-    sheet=sprite_sheet,
-    frame_width=975,
-    frame_height=1000,
-    x=100,
-    y=200,
-    scale=0.2,
-    color=WHITE,
-    num_frames=40
-)
-
-clock = pygame.time.Clock()
-running = True
-
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-
-    screen.blit (background, (0, 0))  # Draw background
-    cat.update()
-    cat.draw(screen)
-    pygame.display.update()
-    clock.tick(60)
-
-pygame.quit()

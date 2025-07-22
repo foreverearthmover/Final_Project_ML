@@ -1,12 +1,21 @@
 import pygame
-import sys
+import os
 
 class MainMenu:
     def __init__(self, game):
         self.game = game
-        self.font_path = "../assets/media/fonts/8-BIT WONDER.ttf"
-        self.title_font = pygame.font.Font(self.font_path, 48)
-        self.button_font = pygame.font.Font(self.font_path, 32)
+        self.screen = game.screen
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "fonts", "8-bit_wonder.TTF")
+        font_path = os.path.normpath(font_path)
+
+        # debugging
+        if not os.path.isfile(font_path):
+            raise FileNotFoundError(f"Font file not found at {font_path}")
+
+        self.title_font = pygame.font.Font(font_path, 48)
+        self.button_font = pygame.font.Font(font_path, 36)
 
         self.start_button_rect = pygame.Rect(275, 280, 200, 60)
         self.quit_button_rect = pygame.Rect(275, 360, 200, 60)
@@ -15,20 +24,20 @@ class MainMenu:
         self.button_color_hover = (180, 180, 180)
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if self.start_button_rect.collidepoint(event.pos):
-                self.game.state = "playing"
-            elif self.quit_button_rect.collidepoint(event.pos):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            if self.start_button_rect.collidepoint(mouse_pos):
+                self.game.state = "living_room"  # transition to the game
+            elif self.quit_button_rect.collidepoint(mouse_pos):
                 pygame.quit()
-                sys.exit()
+                exit()
 
     def draw(self, screen):
         screen.fill((0, 0, 0))
 
-        # Title
-        title_text = self.title_font.render("Main Menu", True, (255, 255, 255))
-        title_rect = title_text.get_rect(center=(375, 150))
-        screen.blit(title_text, title_rect)
+        # title
+        title_surface = self.title_font.render("Main Menu", True, (255, 255, 255))
+        screen.blit(title_surface, (screen.get_width() // 2 - title_surface.get_width() // 2, 100))
 
         mouse_pos = pygame.mouse.get_pos()
 
@@ -45,3 +54,4 @@ class MainMenu:
         quit_text = self.button_font.render("Exit", True, (0, 0, 0))
         quit_rect = quit_text.get_rect(center=self.quit_button_rect.center)
         screen.blit(quit_text, quit_rect)
+
