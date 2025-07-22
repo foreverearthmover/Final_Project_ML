@@ -1,10 +1,41 @@
 import pygame
+import os
+
+
+#putting a BG to work, later DELETE
+
+# Setting game window dimensions
+window_width = 800
+window_height = 600
+game_display = pygame.display.set_mode((window_width, window_height))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "backgrounds", "garden.png")
+image_path = os.path.normpath(image_path)
+
+background = pygame.image.load(image_path)
+
+
+# it is having troubles t find the picture, so I used this method, but i dont know where to put it in the code yet:
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sprite_sheet_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "sprites", "spritesheet.png")
+
+
+
 
 class Cat:
     def __init__(self, x, y):
-        self.image = pygame.image.load("assets/sprites/my_cat.png")
+        self.sprite_sheet = pygame.image.load("assets/media/sprites/cat_sprite.png").convert_alpha() #to remove the bg
+        self.image = self.get_image(0,0,40,40)
         self.rect = self.image.get_rect(topleft=(x, y))
         self.speed = 4
+
+    #printing the image on a different sheet
+    def get_image(self,sprite, x, y, width, height ):
+        image = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha() #this should be an empty image
+        image.blit(self.sprite_sheet, (0,0), pygame.Rect(x,y,width,height))
+        return image
+
+
 
     def handle_event(self, event):
         keys = pygame.key.get_pressed()
@@ -18,3 +49,20 @@ class Cat:
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+#later DELETE
+clock = pygame.time.Clock()
+cat = Cat(100, 100)
+running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        cat.handle_event(event)
+
+    screen.blit(background, (0, 0))  # Draw background
+    cat.update()
+    cat.draw(screen)
+    pygame.display.update()
+    clock.tick(60)
