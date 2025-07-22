@@ -14,7 +14,7 @@ To install required dependencies/libraries:
 #### Usage
 To play our game, please have all files in one directory and run this in your terminal:
 
-    python run main.py
+    python main.py
 
 #### Navigation
 
