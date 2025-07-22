@@ -21,20 +21,20 @@ background = pygame.image.load(image_path)
 # it is having troubles t find the picture, so I used this method, but i dont know where to put it in the code yet:
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sprite_sheet_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "sprites", "cat_sprite.png")
-sprite_sheet = pygame.image.load(sprite_sheet_path)
+sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
 
 
 
 
 class Cat:
-    def __init__(self, x, y):
-        self.sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha() #to remove the bg
-        self.image = self.get_image(sprite_sheet,0,0,1000, 1000, 0.2, WHITE)
+    def __init__(self,sheet,frame, x, y, width, height, scale, color):
+        self.sprite_sheet = sheet
+        self.image = self.get_image(sprite_sheet,(frame * width) ,x,y,width, height, scale, color)
         self.rect = self.image.get_rect(topleft=(x, y))
         self.speed = 4
 
     #printing the image on a different sheet
-    def get_image(self,sheet, x, y, width, height,scale,color ):
+    def get_image(self,sheet, frame, x, y, width, height,scale,color ):
         image = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha() #this should be an empty image
         image.blit(self.sprite_sheet, (0,0), pygame.Rect(x,y,width,height))
         image = pygame.transform.scale(image,(width * scale, height * scale))
@@ -60,7 +60,15 @@ class Cat:
 
 #later DELETE
 clock = pygame.time.Clock()
-cat = Cat(100, 100)
+cat = Cat(
+    sprite_sheet,  # sheet
+    0,             # frame
+    100, 100,      # x, y
+    900, 900,      # width, height from the sprite sheet (adjust as needed!)
+    0.2,           # scale
+    WHITE          # color to make transparent
+)
+
 running = True
 
 while running:
