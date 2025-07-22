@@ -33,6 +33,7 @@ class Cat:
         self.frame_height = frame_height
         self.scale = scale
         self.color = color
+        self.frames = []
         self.rect = pygame.Rect(x, y, frame_width, frame_height)
         self.speed = 4
 
@@ -43,15 +44,15 @@ class Cat:
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
         self.animation_timer = 0
-        self.animation_delay = 150 #milsecs between frames
+        self.animation_delay = 200 #milsecs between frames
         self.state = "idle"
+        self.facing_left = False
 
     def load_frames(self, start_index, count):
         frames = []
         for i in range(start_index, start_index + count):
             x = i * self.frame_width
-            y = 0
-            frame = self.get_image(x,y, self.frame_width, self.frame_height)
+            frame = self.get_image(x,0, self.frame_width, self.frame_height)
             frames.append(frame)
         return frames
 
@@ -63,37 +64,44 @@ class Cat:
         image.set_colorkey(self.color)
         return image
 
-
-    def handle_event(self, event):
+    def update(self):
         keys = pygame.key.get_pressed()
         moved = False
+
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.rect.x -= self.speed
+            self.facing_left = True
             moved = True
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+
+        elif keys[pygame.K_RIGHT]: #or keys[pygame.K_d]:
             self.rect.x += self.speed
+            self.facing_left = False
             moved = True
 
         if moved:
-            if self.state != "walk":
+            #if self.state != "walk":
                 self.state = "walk"
                 self.current_frames = self.walk_frames
-                self.frame_index = 0 #to reset it
+                #self.frame_index = 0 #to reset it
         else:
-            if self.state != "idle":
+            #if self.state != "idle":
                 self.state = "idle"
                 self.current_frames = self.idle_frames
-                self.frame_index = 0
+                #self.frame_index = 0
+        self.animate()
 
     def animate(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.animation_timer > self.animation_delay:
             self.animation_timer = current_time
             self.frame_index = (self.frame_index +1) % len(self.current_frames)
-            self.image = self.current_frames[self.frame_index]
+            frame = self.current_frames[self.frame_index]
 
-    def update(self):
-        self.animate()
+            #flipping the image if walking left
+            if self.facing_left:
+                frame = pygame.transform.flip(frame, True, False).convert_alpha()
+            self.image = frame
+
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -106,7 +114,7 @@ cat = Cat(
     frame_width=975,
     frame_height=1000,
     x=100,
-    y=100,
+    y=200,
     scale=0.2,
     color=WHITE,
     num_frames=4
@@ -120,7 +128,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        cat.handle_event(event)
 
     screen.blit (background, (0, 0))  # Draw background
     cat.update()
