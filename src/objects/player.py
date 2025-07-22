@@ -1,6 +1,6 @@
 import pygame
 import os
-
+import time
 WHITE = (255, 255, 255)
 
 
@@ -117,7 +117,7 @@ cat = Cat(
     y=200,
     scale=0.2,
     color=WHITE,
-    num_frames=4
+    num_frames=40
 )
 
 clock = pygame.time.Clock()
