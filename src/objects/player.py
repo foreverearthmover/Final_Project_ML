@@ -11,6 +11,7 @@ class Cat:
         self.frame_width = 975
         self.frame_height = 1000
         self.scale = 0.15
+        self.scale_smaller = 0.14
         self.color = WHITE
         self.speed = 4
 
@@ -22,8 +23,8 @@ class Cat:
         self.sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
 
         self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
-        self.idle_frames = self.load_frames(start_index=0, count=4)
-        self.walk_frames = self.load_frames(start_index=4, count=3)
+        self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
+        self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
         self.current_frames = self.idle_frames
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
@@ -32,19 +33,19 @@ class Cat:
         self.state = "idle"
         self.facing_left = False
     ...
-    def load_frames(self, start_index, count):
+    def load_frames(self, start_index, count, scale):
         frames = []
         for i in range(start_index, start_index + count):
             x = i * self.frame_width
-            frame = self.get_image(x,0, self.frame_width, self.frame_height)
+            frame = self.get_image(x,0, self.frame_width, self.frame_height, scale)
             frames.append(frame)
         return frames
 
     #printing the image on a different sheet
-    def get_image(self, x, y, width, height):
+    def get_image(self, x, y, width, height, scale):
         image = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha() #this should be an empty image
         image.blit(self.sprite_sheet, (0,0), pygame.Rect(x,y,width,height))
-        image = pygame.transform.scale(image,(int(width * self.scale), int(height * self.scale)))
+        image = pygame.transform.scale(image,(int(width * scale), int(height * scale)))
         image.set_colorkey(self.color)
         return image
 
