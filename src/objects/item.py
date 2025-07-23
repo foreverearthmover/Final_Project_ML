@@ -30,11 +30,17 @@ rooms = {
     ]
 }
 
+#load item images
+cat_tree_img = pygame.image.load('location').convert_alpha()
+
 
 class Item:
-    def __init__(self, name, image_path, pos):
+    def __init__(self, name, pos, image, scale):
+        width = image.get_width()
+        height = image.get_height()
         self.name = name
-        self.image = pygame.image.load(image_path)
+        self.scale = 1
+        self.image = pygame.transform.scale (image, (int(width  * scale), int(height * scale)))
         self.rect = self.image.get_rect(topleft=pos)
         self.picked_up = False
 
@@ -42,5 +48,11 @@ class Item:
         if not self.picked_up:
             screen.blit(self.image, self.rect)
 
+
     def check_click(self, pos):
         return self.rect.collidepoint(pos)
+
+#maybe needs to be moved
+cat_tree = Item("Cat tree", (100, 100), cat_tree_img, scale )
+
+cat_tree.draw()
