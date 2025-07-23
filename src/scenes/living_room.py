@@ -3,7 +3,7 @@ import os
 import pygame
 from objects.item import Item, load_test_image #!!!
 
-#Hello I have to edit a couple things since the Items will be inthis room, I will mark everything I add
+#Hello I have to edit a couple things since the Items will be in this room, I will mark everything I add
 class LivingRoom:
     def __init__(self, game):
         self.game = game

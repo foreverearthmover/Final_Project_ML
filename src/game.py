@@ -14,7 +14,7 @@ class Game:
         self.living_room = None
 
         # shared cat object reusable across scenes
-        self.cat = Cat(x=100, y=250) # adjust
+        self.cat = Cat(x=100, y=250)
 
         #ignore for now:
         #self.inventory = []
