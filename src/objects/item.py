@@ -1,10 +1,14 @@
 import pygame
-#To do:
-#items clickable
-#list of constants
-INVENTORY_MAX = 4
+import os
 
-#list of variables
+#Constants
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
+INVENTORY_MAX = 4
+IMAGE_SCALE = 1
+WHITE = (255, 255, 255)
+
+#Inventory
 inventory = []
 
 #dictonary of what is inside the rooms
@@ -30,8 +34,7 @@ rooms = {
     ]
 }
 
-#load item images
-cat_tree_img = pygame.image.load('location').convert_alpha()
+
 
 
 class Item:
@@ -39,20 +42,46 @@ class Item:
         width = image.get_width()
         height = image.get_height()
         self.name = name
-        self.scale = 1
-        self.image = pygame.transform.scale (image, (int(width  * scale), int(height * scale)))
+        self.scale = scale
+        self.image = pygame.transform.scale(
+            image, (int(image.get_width() * scale), int(image.get_height() * scale)))
         self.rect = self.image.get_rect(topleft=pos)
         self.picked_up = False
+        self.clicked = False
+        self.msg = self.get_msg_for_item(name)
+
+    def get_msg_for_item(self, name):
+        for room_items in rooms.values():
+            for item in room_items:
+                if item ['item'] == name:
+                    return item ['msg']
+        return None
 
     def draw(self, screen):
+        #only show item if not in inventory
         if not self.picked_up:
             screen.blit(self.image, self.rect)
 
+        #mouse hovering
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            print(self.msg) #supposed to show the message predifned in the dic when hovering
+
+        if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
+            self.clicked = True
+            if len(inventory) < INVENTORY_MAX:
+                self.picked_up = True
+                print(f"You picked up [Item: {self.name}]")
+                #inventory.append(self.name)
+            else:
+                print("Your inventory is full. Drop something first.")
+
+        #make things be clickable multiple times
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
 
     def check_click(self, pos):
         return self.rect.collidepoint(pos)
 
-#maybe needs to be moved
-cat_tree = Item("Cat tree", (100, 100), cat_tree_img, scale )
-
-cat_tree.draw()
+#testing
+def load_test_image

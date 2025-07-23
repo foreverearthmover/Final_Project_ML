@@ -2,6 +2,7 @@ import pygame
 from scenes.living_room import LivingRoom
 from ui.menu import MainMenu
 from objects.player import Cat
+from objects.item import Item
 
 class Game:
     def __init__(self, screen):
