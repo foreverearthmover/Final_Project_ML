@@ -84,4 +84,7 @@ class Item:
         return self.rect.collidepoint(pos)
 
 #testing
-def load_test_image
+def load_test_image(name):
+    image_path = os.path.join(ASSETS_DIR, "media", "Items", f"{name}.png")
+    image_path = os.path.normpath(image_path)
+    return pygame.image.load(image_path).convert_alpha()

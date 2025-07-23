@@ -2,7 +2,7 @@ import pygame
 from scenes.living_room import LivingRoom
 from ui.menu import MainMenu
 from objects.player import Cat
-from objects.item import Item
+from objects.item import Item, load_test_image
 
 class Game:
     def __init__(self, screen):
@@ -22,6 +22,7 @@ class Game:
         #self.scenes = {
             #"living_room": LivingRoom(self)
         #}
+
 
 
     def handle_event(self, event):
@@ -50,3 +51,4 @@ class Game:
             self.living_room.draw()
         #elif self.state == "playing":
             #self.scenes[self.scene_name].draw()
+
