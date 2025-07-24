@@ -49,6 +49,7 @@ class Item:
         self.picked_up = False
         self.clicked = False
         self.msg = self.get_msg_for_item(name)
+        self.mouse_was_pressed = True  # Track initial mouse state
 
     def get_msg_for_item(self, name):
         for room_items in rooms.values():
@@ -67,14 +68,20 @@ class Item:
         if self.rect.collidepoint(mouse_pos):
             print(self.msg) #supposed to show the message predifned in the dic when hovering
 
-        if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+        if not mouse_pressed:
+            self.mouse_was_pressed = False
+
+        if mouse_pressed and not self.mouse_was_pressed and not self.clicked:
             self.clicked = True
             if len(inventory) < INVENTORY_MAX:
                 self.picked_up = True
                 print(f"You picked up [Item: {self.name}]")
-                #inventory.append(self.name)
             else:
                 print("Your inventory is full. Drop something first.")
+
+        if not mouse_pressed:
+            self.clicked = False
 
         #make things be clickable multiple times
         if pygame.mouse.get_pressed()[0] == 0:
@@ -90,6 +97,11 @@ def load_test_image(item_name):
     )
     path = os.path.normpath(path)
     return pygame.image.load(path).convert_alpha()
+
+    img = pygame.image.load(path).convert_alpha()
+    print(f"[Image Load] {item_name}: size = {img.get_size()}, mode = {img.get_bitsize()}bpp")
+    return img
+
 
 # Function to create items from dic
 def create_items_for_room(room_name):
@@ -111,8 +123,3 @@ def create_items_for_room(room_name):
             item = Item(name, (x, y), image, IMAGE_SCALE)
             item_list.append(item)
     return item_list
-
-
-#trying inside Item
-
-
