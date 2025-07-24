@@ -14,8 +14,8 @@ inventory = []
 #dictonary of what is inside the rooms
 rooms = {
     "Living room":[
-        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "you scratch your claws on the tree.", "x": 395, "y": 130},
-        {"item": "Couch", "movable": "no", "use": "health", "msg": "you lie down on the couch and take a nap.","x": 60, "y": 145},
+        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "you could scratch your claws on the tree.", "x": 395, "y": 130},
+        {"item": "Couch", "movable": "no", "use": "health", "msg": "you could lie down on the couch and take a nap.","x": 60, "y": 145},
         {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry.","x": 526, "y": 405},
         {"item": "Carton", "movable": "no", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
