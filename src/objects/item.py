@@ -18,7 +18,7 @@ rooms = {
         {"item": "Couch", "movable": "no", "use": "health", "msg": "you lie down on the couch and take a nap.","x": 60, "y": 145},
         {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry.","x": 526, "y": 405},
         {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
-        {"item": "Carton", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 300, "y": 400},
+        {"item": "Carton", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
         {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
         #do we add a message?
     ],
