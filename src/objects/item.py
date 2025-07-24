@@ -5,7 +5,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 INVENTORY_MAX = 4
-IMAGE_SCALE = 2
+IMAGE_SCALE = 1
 WHITE = (255, 255, 255)
 
 #Inventory
@@ -14,23 +14,23 @@ inventory = []
 #dictonary of what is inside the rooms
 rooms = {
     "Living room":[
-        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "you scratch your claws on the tree."},
-        {"item": "Couch", "movable": "no", "use": "health", "msg": "you lie down on the couch and take a nap."},
-        {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry."},
-        {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught."},
-        {"item": "Cartoon", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?"},
-        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.", },
+        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "you scratch your claws on the tree.", "pos": "100, 100"},
+        {"item": "Couch", "movable": "no", "use": "health", "msg": "you lie down on the couch and take a nap.","pos": "100, 100"},
+        {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry.","pos": "100, 100"},
+        {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","pos": "100, 100"},
+        {"item": "Cartoon", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?","pos": "100, 100"},
+        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","pos": "100, 100" },
         #do we add a message?
     ],
     "Bathroom":[
-        {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet."},
-        {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat."},
-        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I dont' t need to go right now."},
-        {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could roll down the entire roll.. Or maybe just take one."},
+        {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet." ,"pos": "100, 100"},
+        {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat." ,"pos": "100, 100"},
+        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I dont' t need to go right now." ,"pos": "100, 100"},
+        {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could roll down the entire roll.. Or maybe just take one." ,"pos": "100, 100"},
     ],
     "Garden":[
-        {"item": "Squirrel", "movable": "no", "use": "Scene change", "msg": "You could try to catch that Squirrel!"},
-        {"item": "Boss Cat", "movable": "no", "use": "interact", "msg": "Other cat bad."},
+        {"item": "Squirrel", "movable": "no", "use": "Scene change", "msg": "You could try to catch that Squirrel!" ,"pos": "100, 100"},
+        {"item": "Boss Cat", "movable": "no", "use": "interact", "msg": "Other cat bad." ,"pos": "100, 100"},
     ]
 }
 
@@ -107,19 +107,17 @@ def load_test_image(item_name):
 def create_items_for_room(room_name):
     item_list = []
     if room_name in rooms:
-        base_x, base_y = 100, 100  # Place holder
-        spacing = 120
-
-        for index, item_data in enumerate(rooms[room_name]):
+        for item_data in rooms[room_name]:
             name = item_data["item"]
             try:
-                image = load_test_image(name)  #expects File
+                image = load_test_image(name)
             except FileNotFoundError:
                 print(f"[Warning] No pic found for {name}")
                 continue
 
-            x = base_x + (index % 3) * spacing
-            y = base_y + (index // 3) * spacing
+            x = item_data.get("x", 100)
+            y = item_data.get("y", 100)
+
             item = Item(name, (x, y), image, IMAGE_SCALE)
             item_list.append(item)
-    return item_list
+        return item_list
