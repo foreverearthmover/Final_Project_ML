@@ -9,20 +9,19 @@ class LivingRoom:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
-        #self.items = [] #!!!
         self.items = create_items_for_room("Living room")
 
-        #!!!Test item hinzufügen, gotta see if there is a way to not add them all individually
-        #cat_tree_img = load_test_image("Cat tree")
-        #cat_tree = Item("Cat tree", (100, 100), cat_tree_img)
-        #self.items.append(cat_tree)
+
 
         path = os.path.join("..", "assets", "media", "backgrounds", "living_room.png")
         self.background = pygame.image.load(path).convert()
 
     def handle_event(self, event):
-        # No event-specific behavior here (yet) --> later add click detection logic
-        pass
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print("Mouse clicked at:", pygame.mouse.get_pos())
+        #No event-specific behavior here (yet) --> later add click detection logic
+        #pass
+
 
     def update(self):
         self.cat.update()
@@ -33,3 +32,7 @@ class LivingRoom:
         #!!!
         for item in self.items:
             item.draw(self.screen)
+
+
+
+

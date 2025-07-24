@@ -19,7 +19,7 @@ rooms = {
         {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry.","x": 100, "y": 100},
         {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","x": 100, "y": 200},
         {"item": "Cartoon", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 100, "y": 100},
-        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 250 },
+        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
         #do we add a message?
     ],
     "Bathroom":[
