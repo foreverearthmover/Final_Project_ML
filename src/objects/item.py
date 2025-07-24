@@ -84,7 +84,33 @@ class Item:
         return self.rect.collidepoint(pos)
 
 #testing
-def load_test_image(name):
-    image_path = os.path.join(ASSETS_DIR, "media", "Items", f"{name}.png")
-    image_path = os.path.normpath(image_path)
-    return pygame.image.load(image_path).convert_alpha()
+def load_test_image(item_name):
+    path = os.path.join(
+        os.path.dirname(__file__), '..', '..', 'assets', 'media', 'Items', f"{item_name}.png"
+    )
+    path = os.path.normpath(path)
+    return pygame.image.load(path).convert_alpha()
+
+# Function to create items from dic
+def create_items_for_room(room_name):
+    item_list = []
+    if room_name in rooms:
+        base_x, base_y = 100, 100  # Place holder
+        spacing = 120
+
+        for index, item_data in enumerate(rooms[room_name]):
+            name = item_data["item"]
+            try:
+                image = load_test_image(name)  #expects File
+            except FileNotFoundError:
+                print(f"[Warning] No pic found for {name}")
+                continue
+
+            x = base_x + (index % 3) * spacing
+            y = base_y + (index // 3) * spacing
+            item = Item(name, (x, y), image, IMAGE_SCALE)
+            item_list.append(item)
+    return item_list
+
+
+#
