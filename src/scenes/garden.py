@@ -1,3 +1,7 @@
+from objects.player import Cat
+import os
+import pygame
+from objects.item import Item, load_test_image, create_items_for_room, inventory
 
 class Garden:
     def __init__(self, game):
@@ -18,8 +22,8 @@ class Garden:
         self.cat.update()
         self.check_boundaries()
 
-    def draw(self, screen):
-        screen.blit(self.background, (0, 0))
+    def draw(self):
+        self.screen.blit(self.background, (0, 0))
         self.cat.draw(self.screen)
 
     def check_boundaries(self):
