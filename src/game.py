@@ -38,11 +38,6 @@ class Game:
             if event.key == pygame.K_e:
                 self.show_inventory = not self.show_inventory
 
-            elif event.key == pygame.K_d and inventory:
-                dropped_item = inventory.pop()
-                dropped_item.picked_up = False
-                dropped_item.rect.topleft = dropped_item.previous_pos
-                self.living_room.items.append(dropped_item)
 
         # add bathroom, garden, game over screens
         # elif self.state == "playing":

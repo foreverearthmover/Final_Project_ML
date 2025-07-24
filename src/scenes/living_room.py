@@ -11,21 +11,43 @@ class LivingRoom:
         self.cat = game.cat
         #self.items = create_items_for_room("Living room")
         self.items = create_items_for_room("Living room", game=self.game)
+        self.selected_inventory_item = None
 
         path = os.path.join("..", "assets", "media", "backgrounds", "living_room.png")
         self.background = pygame.image.load(path).convert()
 
-
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-            print("Mouse clicked at:", pygame.mouse.get_pos())
+            print("Mouse clicked at:", mouse_pos)
+
+            # Check clicks on items in the world
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos) and not item.picked_up:
                     item.try_pick_up()
 
+            # Check inventory interactions
+            if self.game.show_inventory:
+                for i, item in enumerate(inventory):
+                    item_x = 20 + i * 50
+                    item_y = 20
+                    item_rect = pygame.Rect(item_x, item_y, 40, 40)
 
+                    # Select item if clicked
+                    if item_rect.collidepoint(mouse_pos):
+                        self.selected_inventory_item = item
+                        return
+
+                    # Drop button click
+                    drop_rect = pygame.Rect(item_x, 65, 40, 20)
+                    if item == self.selected_inventory_item and item.movable == "yes" and drop_rect.collidepoint(
+                            mouse_pos):
+                        item.picked_up = False
+                        item.rect.topleft = item.previous_pos
+                        self.items.append(item)
+                        inventory.remove(item)
+                        self.selected_inventory_item = None
+                        return
 
         #No event-specific behavior here (yet) --> later add click detection logic
         #pass
@@ -47,6 +69,15 @@ class LivingRoom:
             # Optional: item name below it
             text = font.render(item.name, True, (255, 255, 255))
             self.screen.blit(text, (20 + i * 50, 65))
+
+            # If selected, show drop option (only if movable)
+            if self.selected_inventory_item == item and item.movable == "yes":
+                drop_font = pygame.font.SysFont(None, 18)
+                drop_text = drop_font.render("Drop", True, (255, 0, 0))
+                item_x = 20 + i * 50  # <-- this must be inside the loop
+                drop_rect = pygame.Rect(item_x, 65, 40, 20)
+                pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
+                self.screen.blit(drop_text, (item_x + 5, 67))
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
