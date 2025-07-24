@@ -58,6 +58,13 @@ class Item:
                     return item ['msg']
         return None
 
+    def try_pick_up(self):
+        if len(inventory) < INVENTORY_MAX:
+            self.picked_up = True
+            print(f"You picked up [Item: {self.name}]")
+        else:
+            print("Inventory full. Drop something first.")
+
     def draw(self, screen):
         #only show item if not in inventory
         if not self.picked_up:
@@ -72,13 +79,13 @@ class Item:
         if not mouse_pressed:
             self.mouse_was_pressed = False
 
-        if mouse_pressed and not self.mouse_was_pressed and not self.clicked:
-            self.clicked = True
-            if len(inventory) < INVENTORY_MAX:
-                self.picked_up = True
-                print(f"You picked up [Item: {self.name}]")
-            else:
-                print("Your inventory is full. Drop something first.")
+        #if mouse_pressed and not self.mouse_was_pressed and not self.clicked:
+            #self.clicked = True
+            #if len(inventory) < INVENTORY_MAX:
+                #self.picked_up = True
+                #print(f"You picked up [Item: {self.name}]")
+            #else:
+                #print("Your inventory is full. Drop something first.")
 
         if not mouse_pressed:
             self.clicked = False

@@ -18,6 +18,12 @@ class LivingRoom:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            for item in self.items:
+                if item.rect.collidepoint(mouse_pos) and not item.picked_up:
+                    item.try_pick_up()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
             print("Mouse clicked at:", pygame.mouse.get_pos())
         #No event-specific behavior here (yet) --> later add click detection logic
         #pass
