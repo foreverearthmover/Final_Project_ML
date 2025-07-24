@@ -1,7 +1,7 @@
 from objects.player import Cat
 import os
 import pygame
-from objects.item import Item, load_test_image #!!!
+from objects.item import Item, load_test_image, create_items_for_room #!!!
 
 #Hello I have to edit a couple things since the Items will be in this room, I will mark everything I add
 class LivingRoom:
@@ -10,6 +10,7 @@ class LivingRoom:
         self.screen = game.screen
         self.cat = game.cat
         #self.items = [] #!!!
+        self.items = create_items_for_room("Living room")
 
         #!!!Test item hinzufügen, gotta see if there is a way to not add them all individually
         #cat_tree_img = load_test_image("Cat tree")

@@ -113,4 +113,29 @@ def create_items_for_room(room_name):
     return item_list
 
 
-#
+#trying inside Item
+
+if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption("Item Test")
+
+    items = create_items_for_room("Living room")
+
+    clock = pygame.time.Clock()
+    running = True
+    while running:
+        screen.fill(WHITE)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        for item in items:
+            item.draw(screen)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+
