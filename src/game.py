@@ -2,7 +2,7 @@ import pygame
 from scenes.living_room import LivingRoom
 from ui.menu import MainMenu
 from objects.player import Cat
-from objects.item import Item, load_test_image
+from objects.item import Item, load_test_image, inventory
 
 class Game:
     def __init__(self, screen):
@@ -13,6 +13,7 @@ class Game:
 
         self.living_room = None
 
+        self.show_inventory = False
         # shared cat object reusable across scenes
         self.cat = Cat(x=100, y=250)
 
@@ -23,15 +24,28 @@ class Game:
             #"living_room": LivingRoom(self)
         #}
 
-
+    # I had multiple problems with it going past the menu screen. so I added some stuff here
 
     def handle_event(self, event):
         if self.state == "menu":
             self.menu.handle_event(event)
+
         elif self.state == "living_room":
             self.living_room.handle_event(event)
+
+        #Global input (for all scenes
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_e:
+                self.show_inventory = not self.show_inventory
+
+            elif event.key == pygame.K_d and inventory:
+                dropped_item = inventory.pop()
+                dropped_item.picked_up = False
+                dropped_item.rect.topleft = dropped_item.previous_pos
+                self.living_room.items.append(dropped_item)
+
         # add bathroom, garden, game over screens
-        #elif self.state == "playing":
+        # elif self.state == "playing":
             #self.scenes[self.scene_name].handle_event(event)
 
     def update(self):

@@ -17,8 +17,8 @@ rooms = {
         {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "you scratch your claws on the tree.", "x": 395, "y": 130},
         {"item": "Couch", "movable": "no", "use": "health", "msg": "you lie down on the couch and take a nap.","x": 60, "y": 145},
         {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry.","x": 526, "y": 405},
+        {"item": "Carton", "movable": "no", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
-        {"item": "Carton", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
         {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
         #do we add a message?
     ],
@@ -38,11 +38,14 @@ rooms = {
 
 
 class Item:
-    def __init__(self, name, pos, image, scale):
+    def __init__(self, name, pos, image, scale, game):
         width = image.get_width()
         height = image.get_height()
+        self.game = game
         self.name = name
         self.scale = scale
+        self.previous_pos = pos
+        self.movable = self.get_movable_status(name)
         self.image = pygame.transform.scale(
             image, (int(image.get_width() * scale), int(image.get_height() * scale)))
         self.rect = self.image.get_rect(topleft=pos)
@@ -59,11 +62,16 @@ class Item:
         return None
 
     def try_pick_up(self):
-        if len(inventory) < INVENTORY_MAX:
-            self.picked_up = True
-            print(f"You picked up [Item: {self.name}]")
+        if self.movable == "yes":
+            if len(inventory) < INVENTORY_MAX:
+                self.picked_up = True
+                inventory.append(self)
+                print(f"You picked up [Item: {self.name}]")
+            else:
+                print("Inventory full. Drop something first.")
         else:
-            print("Inventory full. Drop something first.")
+            print(f"[{self.name}] is not movable and cannot be picked up.")
+
 
     def draw(self, screen):
         #only show item if not in inventory
@@ -79,14 +87,6 @@ class Item:
         if not mouse_pressed:
             self.mouse_was_pressed = False
 
-        #if mouse_pressed and not self.mouse_was_pressed and not self.clicked:
-            #self.clicked = True
-            #if len(inventory) < INVENTORY_MAX:
-                #self.picked_up = True
-                #print(f"You picked up [Item: {self.name}]")
-            #else:
-                #print("Your inventory is full. Drop something first.")
-
         if not mouse_pressed:
             self.clicked = False
 
@@ -94,10 +94,23 @@ class Item:
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
+        if self.rect.collidepoint(mouse_pos) and not self.picked_up:
+            self.game.hover_message = self.msg
+
     def check_click(self, pos):
         return self.rect.collidepoint(pos)
 
+    def get_movable_status(self, name):
+        for room_items in rooms.values():
+            for item in room_items:
+                if item['item'] == name:
+                    return item['movable']
+        return "no"
+
+
 #testing
+
+
 def load_test_image(item_name):
     path = os.path.join(
         os.path.dirname(__file__), '..', '..', 'assets', 'media', 'Items', f"{item_name}.png"
@@ -107,7 +120,7 @@ def load_test_image(item_name):
 
 
 # Function to create items from dic
-def create_items_for_room(room_name):
+def create_items_for_room(room_name, game):
     item_list = []
     if room_name in rooms:
         for item_data in rooms[room_name]:
@@ -121,6 +134,6 @@ def create_items_for_room(room_name):
             x = item_data.get("x", 100)
             y = item_data.get("y", 100)
 
-            item = Item(name, (x, y), image, IMAGE_SCALE)
+            item = Item(name, (x, y), image, IMAGE_SCALE, game)
             item_list.append(item)
         return item_list
