@@ -5,7 +5,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 INVENTORY_MAX = 4
-IMAGE_SCALE = 1
+IMAGE_SCALE = 2
 WHITE = (255, 255, 255)
 
 #Inventory
@@ -19,13 +19,13 @@ rooms = {
         {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry."},
         {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught."},
         {"item": "Cartoon", "movable": "yes", "use": "key ", "msg": "You could go inside, or maybe on top?"},
-        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now."},
+        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.", },
         #do we add a message?
     ],
     "Bathroom":[
         {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet."},
         {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat."},
-        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I dont't need to go right now."},
+        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I dont' t need to go right now."},
         {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could roll down the entire roll.. Or maybe just take one."},
     ],
     "Garden":[
@@ -86,7 +86,7 @@ class Item:
 #testing
 def load_test_image(item_name):
     path = os.path.join(
-        os.path.dirname(__file__), '..', '..', 'assets', 'media', 'Items', f"{item_name}.png"
+        os.path.dirname(__file__), '..', '..', 'assets', 'media', 'Items', f"{item_name}.jpg"
     )
     path = os.path.normpath(path)
     return pygame.image.load(path).convert_alpha()
@@ -115,27 +115,4 @@ def create_items_for_room(room_name):
 
 #trying inside Item
 
-if __name__ == "__main__":
-    pygame.init()
-    screen = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption("Item Test")
-
-    items = create_items_for_room("Living room")
-
-    clock = pygame.time.Clock()
-    running = True
-    while running:
-        screen.fill(WHITE)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-        for item in items:
-            item.draw(screen)
-
-        pygame.display.flip()
-        clock.tick(60)
-
-    pygame.quit()
 

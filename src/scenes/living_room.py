@@ -31,5 +31,5 @@ class LivingRoom:
         self.screen.blit(self.background, (0, 0))
         self.cat.draw(self.screen)
         #!!!
-        #for item in self.items:
-            #item.draw(self.screen)
+        for item in self.items:
+            item.draw(self.screen)
