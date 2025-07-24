@@ -14,9 +14,9 @@ inventory = []
 #dictonary of what is inside the rooms
 rooms = {
     "Living room":[
-        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "you could scratch your claws on the tree.", "x": 395, "y": 130},
-        {"item": "Couch", "movable": "no", "use": "health", "msg": "you could lie down on the couch and take a nap.","x": 60, "y": 145},
-        {"item": "Food bowl", "movable": "no", "use": "none", "msg": "the bowl is empty, but you are still hungry.","x": 526, "y": 405},
+        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "You could sharpen your claws on this.", "x": 395, "y": 130},
+        {"item": "Couch", "movable": "no", "use": "health", "msg": "You could lie down on the couch and take a nap.","x": 60, "y": 145},
+        {"item": "Food bowl", "movable": "no", "use": "none", "msg": "The bowl is empty, but you are still hungry.","x": 526, "y": 405},
         {"item": "Carton", "movable": "no", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
         {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
@@ -25,8 +25,8 @@ rooms = {
     "Bathroom":[
         {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet." ,"x": 100, "y": 100},
         {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat." ,"x": 100, "y": 100},
-        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I dont' t need to go right now." ,"x": 100, "y": 100},
-        {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could roll down the entire roll.. Or maybe just take one." ,"x": 100, "y": 100},
+        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I don't need to go right now." ,"x": 100, "y": 100},
+        {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could push over the tower.. Or maybe just take one." ,"x": 100, "y": 100},
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "use": "Scene change", "msg": "You could try to catch that Squirrel!" ,"x": 100, "y": 100},
