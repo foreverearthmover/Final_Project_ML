@@ -49,10 +49,6 @@ class LivingRoom:
                         self.selected_inventory_item = None
                         return
 
-        #No event-specific behavior here (yet) --> later add click detection logic
-        #pass
-
-
     def update(self):
         self.cat.update()
 
@@ -100,8 +96,3 @@ class LivingRoom:
             bg_rect = msg_surface.get_rect(topleft=(10, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
             self.screen.blit(msg_surface, bg_rect)
-
-
-
-
-

@@ -27,7 +27,8 @@ class MainMenu:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if self.start_button_rect.collidepoint(mouse_pos):
-                self.game.state = "living_room"  # transition to the game
+                #self.game.state = "playing"  # Change to playing state
+                self.game.start_game()  # Initialize the living room
             elif self.quit_button_rect.collidepoint(mouse_pos):
                 pygame.quit()
                 exit()
@@ -54,4 +55,3 @@ class MainMenu:
         quit_text = self.button_font.render("Exit", True, (0, 0, 0))
         quit_rect = quit_text.get_rect(center=self.quit_button_rect.center)
         screen.blit(quit_text, quit_rect)
-

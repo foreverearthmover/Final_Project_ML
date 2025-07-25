@@ -20,14 +20,7 @@ class Garden:
 
     def update(self):
         self.cat.update()
-        #self.check_boundaries()
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
         self.cat.draw(self.screen)
-
-    def check_boundaries(self):
-        # Can only exit to the left (back to living room)
-        if self.cat.rect.left < 0:
-            self.game.change_scene("living_room", "right")
-
