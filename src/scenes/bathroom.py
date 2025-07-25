@@ -19,7 +19,7 @@ class Bathroom:
 
     def update(self):
         self.cat.update()
-        self.check_boundaries()
+        #self.check_boundaries()
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
