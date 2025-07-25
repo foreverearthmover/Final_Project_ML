@@ -7,6 +7,8 @@ ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 INVENTORY_MAX = 4
 IMAGE_SCALE = 1
 WHITE = (255, 255, 255)
+INVENTORY_COLOR = (155, 103, 60)
+INVENTORY_BORDER_COLOR = (245,222,179)
 
 #Inventory
 inventory = []

@@ -1,7 +1,7 @@
 from objects.player import Cat
 import os
 import pygame
-from objects.item import Item, load_test_image, create_items_for_room, inventory #!!!
+from objects.item import Item, load_test_image, create_items_for_room, inventory, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, WHITE #!!!
 
 #Hello I have to edit a couple things since the Items will be in this room, I will mark everything I add
 class LivingRoom:
@@ -58,17 +58,17 @@ class LivingRoom:
 
     def draw_inventory(self):
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, (0, 0, 0), (10, 10, 300, 100))  # inventory background
-        pygame.draw.rect(self.screen, (255, 255, 255), (10, 10, 300, 100), 2)  # border
+        pygame.draw.rect(self.screen, (INVENTORY_COLOR), (10, 10, 300, 80))  # inventory background
+        pygame.draw.rect(self.screen, (INVENTORY_BORDER_COLOR), (10, 10, 300, 80), 2)  # border
 
         for i, item in enumerate(inventory):
             # Scale image for inventory display
-            inventory_img = pygame.transform.scale(item.image, (40, 40))
-            self.screen.blit(inventory_img, (20 + i * 50, 20))
+            inventory_img = pygame.transform.scale(item.image, (45, 45))
+            self.screen.blit(inventory_img, (20 + i * 60, 20))
 
             # Optional: item name below it
-            text = font.render(item.name, True, (255, 255, 255))
-            self.screen.blit(text, (20 + i * 50, 65))
+            text = font.render(item.name, True, (WHITE))
+            self.screen.blit(text, (15 + i * 65, 65))
 
             # If selected, show drop option (only if movable)
             if self.selected_inventory_item == item and item.movable == "yes":
