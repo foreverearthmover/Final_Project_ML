@@ -27,12 +27,10 @@ class CharacterSelect:
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
-            for i, cat in enumerate(self.cat_images):
-                rect = pygame.Rect(100 + i * 120, 200, 80, 80)
-                if rect.collidepoint(pos):
-                    # Set selected cat
-                    self.game.cat = Cat(x=100, y=250, image_path=cat["image_path"])
-                    self.game.state = "menu"  # go to menu after choosing
+            for entry in self.cat_objects:
+                if entry["cat"].rect.collidepoint(pos):
+                    self.game.cat = Cat(x=100, y=250, image_path=entry["image_path"])
+                    self.game.state = "menu"
 
     def update(self):
         mouse_pos = pygame.mouse.get_pos()
@@ -49,14 +47,16 @@ class CharacterSelect:
 
             cat.animate()
 
-
     def draw(self):
         self.screen.fill((20, 20, 30))
         font = pygame.font.SysFont(None, 40)
         title = font.render("Choose Your Cat", True, (255, 255, 255))
         self.screen.blit(title, (200, 100))
 
-        for i, cat in enumerate(self.cat_images):
-            self.screen.blit(cat["image"], (100 + i * 120, 200))
-            label = pygame.font.SysFont(None, 20).render(cat["name"], True, (200, 200, 200))
-            self.screen.blit(label, (100 + i * 120, 290))
+        for entry in self.cat_objects:
+            cat = entry["cat"]
+            name = entry["name"]
+
+            cat.draw(self.screen)  # draws animated sprite
+            label = pygame.font.SysFont(None, 20).render(name, True, (200, 200, 200))
+            self.screen.blit(label, (cat.rect.x, cat.rect.y + 90))
