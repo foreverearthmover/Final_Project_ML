@@ -39,11 +39,13 @@ class CharacterSelect:
             rect = cat.rect
 
             if rect.collidepoint(mouse_pos):
-                cat.state = "walk"
-                cat.current_frames = cat.walk_frames
+                if cat.state != "walk":
+                    cat.state = "walk"
+                    cat.current_frames = cat.walk_frames
             else:
-                cat.state = "idle"
-                cat.current_frames = cat.idle_frames
+                if cat.state != "idle":
+                    cat.state = "idle"
+                    cat.current_frames = cat.idle_frames
 
             cat.animate()
 
