@@ -6,19 +6,23 @@ class CharacterSelect:
         self.game = game
         self.screen = game.screen
 
-        # Example cat skins
+        #cat skins
         self.cat_options = [
             {"name": "Gray Cat", "image_path": "../assets/media/sprites/cat_sprite.png"},
             {"name": "Orange Cat", "image_path": "../assets/media/sprites/cat_sprite.png"},
             {"name": "Black Cat", "image_path": "../assets/media/sprites/cat_sprite.png"},
         ]
 
-        self.cat_images = []
-        for cat in self.cat_options:
-            image = pygame.image.load(cat["image_path"]).convert_alpha()
-            image = pygame.transform.scale(image, (80, 80))
-            cat["image"] = image
-            self.cat_images.append(cat)
+        self.cat_objects = []
+        for i, cat_data in enumerate(self.cat_options):
+            # Each cat starts at a fixed Y position, with different X offset
+            cat = Cat(x=100 + i * 120, y=200, image_path=cat_data["image_path"])
+            cat.rect = pygame.Rect(100 + i * 120, 200, 80, 80)  # override for UI layout
+            self.cat_objects.append({
+                "cat": cat,
+                "name": cat_data["name"],
+                "image_path": cat_data["image_path"]
+            })
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
