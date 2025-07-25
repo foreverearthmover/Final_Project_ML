@@ -57,6 +57,9 @@ class CharacterSelect:
             cat = entry["cat"]
             name = entry["name"]
 
-            cat.draw(self.screen)  # draws animated sprite
-            label = pygame.font.SysFont(None, 20).render(name, True, (200, 200, 200))
-            self.screen.blit(label, (cat.rect.x, cat.rect.y + 90))
+            cat.draw(self.screen)  # ✅ Draw animated cat first
+
+            label_font = pygame.font.SysFont(None, 20)
+            label = label_font.render(name, True, (200, 200, 200))
+            # draw label BELOW the cat
+            self.screen.blit(label, (cat.rect.x + 10, cat.rect.y + cat.image.get_height() + 5))
