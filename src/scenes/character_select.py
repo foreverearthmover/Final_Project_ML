@@ -35,7 +35,20 @@ class CharacterSelect:
                     self.game.state = "menu"  # go to menu after choosing
 
     def update(self):
-        pass  # Nothing to update yet
+        mouse_pos = pygame.mouse.get_pos()
+        for cat_entry in self.cat_objects:
+            cat = cat_entry["cat"]
+            rect = cat.rect
+
+            if rect.collidepoint(mouse_pos):
+                cat.state = "walk"
+                cat.current_frames = cat.walk_frames
+            else:
+                cat.state = "idle"
+                cat.current_frames = cat.idle_frames
+
+            cat.animate()
+
 
     def draw(self):
         self.screen.fill((20, 20, 30))
