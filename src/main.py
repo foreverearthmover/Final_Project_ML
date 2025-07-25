@@ -8,7 +8,7 @@ def main():
     clock = pygame.time.Clock()
 
     game = Game(screen)
-
+    game.state = "character_select"  # set this to start directly there
     running = True
     while running:
         for event in pygame.event.get():

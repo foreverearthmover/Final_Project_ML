@@ -7,14 +7,14 @@ ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 WHITE = (255, 255, 255)
 
 class Cat:
-    def __init__(self, x, y):
+    def __init__(self, x, y, image_path):
         self.frame_width = 975
         self.frame_height = 1000
         self.scale = 0.15
         self.scale_smaller = 0.14
         self.color = WHITE
         self.speed = 4
-
+        self.image = pygame.image.load(image_path).convert_alpha()
         # Load sprite sheet
         sprite_sheet_path = os.path.join(
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'cat_sprite.png'
