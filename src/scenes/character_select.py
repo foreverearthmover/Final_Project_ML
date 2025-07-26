@@ -8,9 +8,10 @@ class CharacterSelect:
 
         #cat skins
         self.cat_options = [
-            {"name": "Gray Cat", "image_path": "../assets/media/sprites/cat_sprite.png"},
-            {"name": "Orange Cat", "image_path": "../assets/media/sprites/cat_sprite.png"},
-            {"name": "Black Cat", "image_path": "../assets/media/sprites/cat_sprite.png"},
+            {"name": "Tofu", "image_path": "../assets/media/sprites/Tofu.png"},
+            {"name": "Asja", "image_path": "../assets/media/sprites/Asja.png"},
+            {"name": "Kira", "image_path": "../assets/media/sprites/Kira.png"},
+            {"name": "Tommy", "image_path": "../assets/media/sprites/Tommy.png"},
         ]
 
         self.cat_objects = []
@@ -52,14 +53,14 @@ class CharacterSelect:
     def draw(self):
         self.screen.fill((20, 20, 30))
         font = pygame.font.SysFont(None, 40)
-        title = font.render("Choose Your Cat", True, (255, 255, 255))
+        title = font.render("Which cat do you want to play as:", True, (255, 255, 255))
         self.screen.blit(title, (200, 100))
 
         for entry in self.cat_objects:
             cat = entry["cat"]
             name = entry["name"]
 
-            cat.draw(self.screen)  # ✅ Draw animated cat first
+            cat.draw(self.screen)  # Draw animated cat first
 
             label_font = pygame.font.SysFont(None, 20)
             label = label_font.render(name, True, (200, 200, 200))

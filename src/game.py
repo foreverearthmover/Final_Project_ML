@@ -43,7 +43,8 @@ class Game:
         }
 
     def start_game(self):
-        self.cat = Cat(x=100, y=250, image_path="../assets/media/sprites/cat_sprite.png")
+        if not self.cat:
+            self.cat = Cat(x=100, y=250, image_path="../assets/media/sprites/Tofu.png")
 
         # Set up initial scene
         self.current_scene = LivingRoom(self)

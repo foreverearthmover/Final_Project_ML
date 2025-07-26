@@ -1,6 +1,9 @@
 import pygame
 import os
 
+
+
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 
@@ -14,13 +17,26 @@ class Cat:
         self.scale_smaller = 0.14
         self.color = WHITE
         self.speed = 4
-        self.image = pygame.image.load(image_path).convert_alpha()
+        #self.image = pygame.image.load(image_path).convert_alpha()
         # Load sprite sheet
-        sprite_sheet_path = os.path.join(
-            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'cat_sprite.png'
+        Tofu_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Tofu.png'
         )
-        sprite_sheet_path = os.path.normpath(sprite_sheet_path)
-        self.sprite_sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
+
+        Asja_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Asja.png'
+        )
+
+        Tommy_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Tommy.png'
+        )
+
+        Kira_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Kira.png'
+        )
+
+
+        self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
         self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
