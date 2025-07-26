@@ -93,6 +93,6 @@ class LivingRoom:
         if hasattr(self.game, "hover_message") and self.game.hover_message:
             font = pygame.font.SysFont(None, 20)
             msg_surface = font.render(self.game.hover_message, True, (255, 255, 255))
-            bg_rect = msg_surface.get_rect(topleft=(10, self.screen.get_height() - 30))
+            bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
             self.screen.blit(msg_surface, bg_rect)
