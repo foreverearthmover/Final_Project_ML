@@ -84,8 +84,7 @@ class LivingRoom:
         for item in self.items:
             item.draw(self.screen)
         self.cat.draw(self.screen)
-        if self.game.show_inventory:
-            self.draw_inventory()
+
         self.draw_hover_message()
 
 

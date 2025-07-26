@@ -150,3 +150,7 @@ class Game:
         elif self.state == "playing" and self.current_scene:
             self.current_scene.draw()
             self.draw_navigation_buttons()
+
+            if self.show_inventory:
+                self.current_scene.draw_inventory()
+
