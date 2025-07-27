@@ -4,6 +4,9 @@ import pygame
 from objects.item import Item, load_test_image, create_items_for_room, inventory, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, WHITE #!!!
 from objects.item import create_items_for_room
 
+from src.objects.item import rooms
+
+
 #Hello I have to edit a couple things since the Items will be in this room, I will mark everything I add
 class LivingRoom:
     def __init__(self, game):
@@ -48,17 +51,31 @@ class LivingRoom:
                         self.selected_inventory_item = item
                         return
 
-                    # Drop button click
+                    # Drop item if clicking "drop" button
                     drop_rect = pygame.Rect(item_x, 65, 40, 20)
-                    if item == self.selected_inventory_item and item.movable == "yes" and drop_rect.collidepoint(mouse_pos):
+                    if (
+                        item == self.selected_inventory_item
+                        and item.movable == "yes"
+                        and drop_rect.collidepoint(mouse_pos)
+                    ):
                         # Mark item as not picked up
                         item.picked_up = False
-                        self.game.item_states[item.name] = False  # Update global state
-                        item.rect.topleft = item.previous_pos
-                        self.items.append(item)
+                        self.game.item_states[item.name] = False
+
+                        # Assign item back to its original room
+                        for room_name, room_items in rooms.items():
+                            if any(room_item["item"] == item.name for room_item in room_items):
+                                target_room_items = self.game.rooms.get(
+                                    room_name.lower().replace(" ", "_"), []
+                                )
+                                target_room_items.append(item)
+                                break  # Stop searching once the correct room is found
+
+                        # Remove item from inventory and reset selection
                         inventory.remove(item)
                         self.selected_inventory_item = None
                         return
+
 
     def update(self):
         self.cat.update()

@@ -2,6 +2,7 @@ import pygame
 from scenes.living_room import LivingRoom
 from scenes.bathroom import Bathroom
 from scenes.garden import Garden
+from src.objects.item import create_items_for_room
 from ui.menu import MainMenu
 from objects.player import Cat
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
@@ -18,6 +19,14 @@ class Game:
         self.character_select = CharacterSelect(self)  # Initialize CharacterSelect
         self.hover_message = ""
         self.current_room = None
+
+        # Track items in each room
+        self.rooms = {
+            "living_room": create_items_for_room("Living room", self),
+            "bathroom": create_items_for_room("Bathroom", self),
+            "garden": create_items_for_room("Garden", self),
+        }
+
         # Load custom font
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         font_path = os.path.join(BASE_DIR, "..", "assets", "media", "fonts", "8-bit_wonder.TTF")
