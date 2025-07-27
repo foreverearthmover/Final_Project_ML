@@ -68,6 +68,7 @@ class Item:
             if len(inventory) < INVENTORY_MAX:
                 self.picked_up = True
                 inventory.append(self)
+                self.game.item_states[self.name] = True  # Update global state
                 print(f"You picked up [Item: {self.name}]")
             else:
                 print("Inventory full. Drop something first.")
@@ -76,9 +77,14 @@ class Item:
 
 
     def draw(self, screen):
-        #only show item if not in inventory
+        # Only draw the item if it is not picked up
         if not self.picked_up:
             screen.blit(self.image, self.rect)
+
+        # Handle mouse hovering (optional based on your logic)
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos) and not self.picked_up:
+            self.game.hover_message = self.msg
 
         #mouse hovering
         mouse_pos = pygame.mouse.get_pos()

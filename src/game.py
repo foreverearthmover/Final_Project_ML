@@ -36,6 +36,7 @@ class Game:
         #self.right_button = pygame.Rect(self.screen.get_width() - 140, self.screen.get_height() - 40, 100, 30)
 
         # Room connections
+        self.item_states = {}  # Dictionary to track item states across scenes
         self.room_exits = {
             "living_room": {"left": "bathroom", "right": "garden"},
             "bathroom": {"right": "living_room"},

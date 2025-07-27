@@ -2,6 +2,7 @@ from objects.player import Cat
 import os
 import pygame
 from objects.item import Item, load_test_image, create_items_for_room, inventory, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, WHITE #!!!
+from objects.item import create_items_for_room
 
 #Hello I have to edit a couple things since the Items will be in this room, I will mark everything I add
 class LivingRoom:
@@ -9,8 +10,17 @@ class LivingRoom:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
-        #self.items = create_items_for_room("Living room")
+
+        # Load items for the room
         self.items = create_items_for_room("Living room", game=self.game)
+
+        # Update item states based on the global state in self.game.item_states
+        for item in self.items:
+            if item.name in self.game.item_states:
+                item.picked_up = self.game.item_states[item.name]
+            else:
+                self.game.item_states[item.name] = item.picked_up
+
         self.selected_inventory_item = None
 
         path = os.path.join("..", "assets", "media", "backgrounds", "living_room.png")
@@ -40,9 +50,10 @@ class LivingRoom:
 
                     # Drop button click
                     drop_rect = pygame.Rect(item_x, 65, 40, 20)
-                    if item == self.selected_inventory_item and item.movable == "yes" and drop_rect.collidepoint(
-                            mouse_pos):
+                    if item == self.selected_inventory_item and item.movable == "yes" and drop_rect.collidepoint(mouse_pos):
+                        # Mark item as not picked up
                         item.picked_up = False
+                        self.game.item_states[item.name] = False  # Update global state
                         item.rect.topleft = item.previous_pos
                         self.items.append(item)
                         inventory.remove(item)
@@ -76,16 +87,25 @@ class LivingRoom:
                 self.screen.blit(drop_text, (item_x + 5, 67))
 
     def draw(self):
+        # Draw the background
         self.screen.blit(self.background, (0, 0))
 
-        #!!!
+        # Reset the hover message
         self.game.hover_message = ""
 
+        # Only draw items that are not picked up
         for item in self.items:
-            item.draw(self.screen)
+            if not item.picked_up:
+                item.draw(self.screen)
+
+        # Draw the cat
         self.cat.draw(self.screen)
+
+        # If inventory is shown, draw it
         if self.game.show_inventory:
             self.draw_inventory()
+
+        # Draw hover message if any
         self.draw_hover_message()
 
 
