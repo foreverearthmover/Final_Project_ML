@@ -62,7 +62,7 @@ class Garden:
             # Handle inventory interactions
             if self.game.show_inventory:
                 for i, item in enumerate(inventory):
-                    item_x = 20 + i * 50
+                    item_x = INVENTORY_POSITION + 20 + i * 50
                     item_y = 20
                     item_rect = pygame.Rect(item_x, item_y, 40, 40)
 
@@ -72,7 +72,7 @@ class Garden:
                         return
 
                     # Drop item if clicking "drop" button
-                    drop_rect = pygame.Rect(item_x, 65, 40, 20)
+                    drop_rect = pygame.Rect(item_x, INVENTORY_POSITION + 65, 40, 20)
                     if (
                         item == self.selected_inventory_item
                         and item.movable == "yes"
@@ -133,7 +133,7 @@ class Garden:
             if self.selected_inventory_item == item and item.movable == "yes":
                 drop_font = pygame.font.SysFont(None, 18)
                 drop_text = drop_font.render("Drop", True, (255, 0, 0))
-                item_x = 20 + i * 50
+                item_x = INVENTORY_POSITION + 20 + i * 50
                 drop_rect = pygame.Rect(item_x, 65, 40, 20)
                 pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
                 self.screen.blit(drop_text, (item_x + 5, 67))

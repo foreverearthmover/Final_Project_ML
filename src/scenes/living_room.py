@@ -42,7 +42,7 @@ class LivingRoom:
             # Check inventory interactions
             if self.game.show_inventory:
                 for i, item in enumerate(inventory):
-                    item_x = 20 + i * 50
+                    item_x = INVENTORY_POSITION + 20 + i * 50
                     item_y = 20
                     item_rect = pygame.Rect(item_x, item_y, 40, 40)
 
@@ -52,7 +52,7 @@ class LivingRoom:
                         return
 
                     # Drop item if clicking "drop" button
-                    drop_rect = pygame.Rect(item_x, 65, 40, 20)
+                    drop_rect = pygame.Rect(item_x, INVENTORY_POSITION+ 65, 40, 20)
                     if (
                         item == self.selected_inventory_item
                         and item.movable == "yes"
@@ -102,7 +102,7 @@ class LivingRoom:
         for i, item in enumerate(inventory):
             # Scale image for inventory display
             inventory_img = pygame.transform.scale(item.image, (45, 45))
-            self.screen.blit(inventory_img, (INVENTORY_POSITION + 20 + i * 60, 20))
+            self.screen.blit(inventory_img, (INVENTORY_POSITION + 20 + i * 60,  20))
 
             # Optional: item name below it
             text = font.render(item.name, True, (WHITE))
@@ -112,8 +112,8 @@ class LivingRoom:
             if self.selected_inventory_item == item and item.movable == "yes":
                 drop_font = pygame.font.SysFont(None, 18)
                 drop_text = drop_font.render("Drop", True, (255, 0, 0))
-                item_x = 20 + i * 50  # <-- this must be inside the loop
-                drop_rect = pygame.Rect(item_x, 65, 40, 20)
+                item_x = INVENTORY_POSITION + 20 + i * 50  # <-- this must be inside the loop
+                drop_rect = pygame.Rect(item_x, 65,  40, 20)
                 pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
                 self.screen.blit(drop_text, (item_x + 5, 67))
 
