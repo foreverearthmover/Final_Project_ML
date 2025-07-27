@@ -1,4 +1,4 @@
-from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE
+from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION,  WHITE
 import os
 import pygame
 
@@ -13,7 +13,7 @@ class Garden:
         self.button_font = game.button_font  # Use same font as in game
 
         # Load items for the garden
-        self.items = create_items_for_room("Garden", game=self.game)
+        self.items = create_items_for_room("Garden", game=self.game, movable=False)
 
         # Update item states based on the global state in `self.game.item_states`
         for item in self.items:
@@ -120,15 +120,15 @@ class Garden:
     def draw_inventory(self):
         # Draw the inventory panel
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, INVENTORY_COLOR, (10, 10, 300, 80))  # Inventory background
-        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (10, 10, 300, 80), 2)  # Border
+        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 10, 300, 80))  # Inventory background
+        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 10, 300, 80), 2)  # Border
 
         for i, item in enumerate(inventory):
             inventory_img = pygame.transform.scale(item.image, (45, 45))
-            self.screen.blit(inventory_img, (20 + i * 60, 20))
+            self.screen.blit(inventory_img, (INVENTORY_POSITION + 20 + i * 60, 20))
 
             text = font.render(item.name, True, WHITE)
-            self.screen.blit(text, (15 + i * 65, 65))
+            self.screen.blit(text, (INVENTORY_POSITION + 15 + i * 65, 65))
 
             if self.selected_inventory_item == item and item.movable == "yes":
                 drop_font = pygame.font.SysFont(None, 18)

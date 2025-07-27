@@ -2,7 +2,7 @@ import pygame
 from scenes.living_room import LivingRoom
 from scenes.bathroom import Bathroom
 from scenes.garden import Garden
-from src.objects.item import create_items_for_room
+from src.objects.item import create_items_for_room, rooms
 from ui.menu import MainMenu
 from objects.player import Cat
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
@@ -19,12 +19,16 @@ class Game:
         self.character_select = CharacterSelect(self)  # Initialize CharacterSelect
         self.hover_message = ""
         self.current_room = None
+        self.font = pygame.font.SysFont(None, 20)
+
+        # Initialize inventory
+        self.inventory = []  # Add this line to initialize the inventory
 
         # Track items in each room
         self.rooms = {
-            "living_room": create_items_for_room("Living room", self),
-            "bathroom": create_items_for_room("Bathroom", self),
-            "garden": create_items_for_room("Garden", self),
+            "living_room": create_items_for_room("Living room", self, movable=False),
+            "bathroom": create_items_for_room("Bathroom", self, movable=False),
+            "garden": create_items_for_room("Garden", self, movable=False),
         }
 
         # Load custom font
@@ -39,11 +43,6 @@ class Game:
         self.left_button = pygame.Rect(10, self.screen.get_height() - 40, 100, 30)
         self.right_button = pygame.Rect(self.screen.get_width() - 170, self.screen.get_height() - 40, 100, 30)
 
-        # Navigation buttons
-        #self.button_font = pygame.font.SysFont(None, 24)
-        #self.left_button = pygame.Rect(10, self.screen.get_height() - 40, 100, 30)
-        #self.right_button = pygame.Rect(self.screen.get_width() - 140, self.screen.get_height() - 40, 100, 30)
-
         # Room connections
         self.item_states = {}  # Dictionary to track item states across scenes
         self.room_exits = {
@@ -51,6 +50,7 @@ class Game:
             "bathroom": {"right": "living_room"},
             "garden": {"left": "living_room"}
         }
+
 
     def start_game(self):
         if not self.cat:
@@ -168,4 +168,26 @@ class Game:
 
             if self.show_inventory:
                 self.current_scene.draw_inventory()
+
+        # Draw stats
+        y_offset = 10
+        room_stats = rooms["Living room"]  # Get the stats for the living room
+
+        for item in room_stats:
+            stat = item["stat"]
+            effect = item["effect"]
+
+            # Only display stats that are not "none"
+            if stat != "none":
+                stat_text = self.font.render(f"{stat}: {effect}", True, (0, 0, 0))
+                self.screen.blit(stat_text, (10, y_offset))
+                y_offset += 30
+
+
+
+    def update_stat(self, stat_name, value):
+        if stat_name in self.cat.stats:
+            self.cat.stats[stat_name] += value
+            print(f"[STAT] {stat_name} updated to {self.cat.stats[stat_name]}")
+
 

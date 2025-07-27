@@ -1,6 +1,7 @@
 import pygame
 import os
 
+
 #Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
@@ -9,6 +10,7 @@ IMAGE_SCALE = 1
 WHITE = (255, 255, 255)
 INVENTORY_COLOR = (155, 103, 60)
 INVENTORY_BORDER_COLOR = (245,222,179)
+INVENTORY_POSITION = 100
 
 #Inventory
 inventory = []
@@ -16,23 +18,23 @@ inventory = []
 #dictonary of what is inside the rooms
 rooms = {
     "Living room":[
-        {"item": "Cat tree", "movable": "no", "use": "attack boost", "msg": "You could sharpen your claws on this.", "x": 395, "y": 130},
-        {"item": "Couch", "movable": "no", "use": "health", "msg": "You could lie down on the couch and take a nap.","x": 60, "y": 145},
-        {"item": "Food bowl", "movable": "no", "use": "none", "msg": "The bowl is empty, but you are still hungry.","x": 526, "y": 405},
-        {"item": "Carton", "movable": "no", "use": "key ", "msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
-        {"item": "Cable", "movable": "yes", "use": "attack", "msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
-        {"item": "Yarn ball", "movable": "yes", "use": "attack", "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
+        {"item": "Cat tree", "movable": "no", "stat": "Damage", "effect": 3, "msg": "You could sharpen your claws on this.", "x": 395, "y": 130},
+        {"item": "Couch", "movable": "no", "stat": "Health", "effect": 3, "msg": "You could lie down on the couch and take a nap.","x": 60, "y": 145},
+        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty, but you are still hungry.","x": 526, "y": 405},
+        {"item": "Carton", "movable": "no", "stat": "none", "effect": 0,"msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
+        {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
+        {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
         #do we add a message?
     ],
     "Bathroom":[
-        {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet." ,"x": 467, "y": 137},
-        {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat." ,"x": 0, "y": 0},
-        {"item": "Cat litter", "movable": "no", "use": "none", "msg": "I don't need to go right now." ,"x": 5, "y": 450},
-        {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could push over the tower.. Or maybe just take one." ,"x": 100, "y": 100},
+        {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." ,"x": 467, "y": 137},
+        {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." ,"x": 0, "y": 0},
+        {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." ,"x": 5, "y": 450},
+        {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." ,"x": 100, "y": 100},
     ],
     "Garden":[
-        {"item": "Squirrel", "movable": "no", "use": "Scene change", "msg": "You could try to catch that Squirrel!" ,"x": 100, "y": 100},
-        {"item": "Boss Cat", "movable": "no", "use": "interact", "msg": "Other cat bad." ,"x": 100, "y": 100},
+        {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" ,"x": 100, "y": 100},
+        {"item": "Boss Cat", "movable": "no", "stat": "Boss fight", "effect": 0,"msg": "Other cat bad." ,"x": 100, "y": 100},
     ]
 }
 
@@ -40,12 +42,13 @@ rooms = {
 
 
 class Item:
-    def __init__(self, name, pos, image, scale, game):
-        width = image.get_width()
-        height = image.get_height()
-        self.game = game
+    def __init__(self, name, pos, image, scale, game, movable = True):
         self.name = name
+        self.x, self.y = pos
+        self.game = game
         self.scale = scale
+        self.collected = False
+
         self.previous_pos = pos
         self.movable = self.get_movable_status(name)
         self.image = pygame.transform.scale(
@@ -55,6 +58,28 @@ class Item:
         self.clicked = False
         self.msg = self.get_msg_for_item(name)
         self.mouse_was_pressed = True  # Track initial mouse state
+
+        # Get item data from dictionary
+
+        item_data = None
+        for room_items in rooms.values():
+            for item in room_items:
+                if item["item"] == name:
+                    item_data = item
+                    break
+            if item_data:
+                break
+
+        self.movable = item_data.get("movable", True) if item_data else True
+        self.stat = item_data.get("stat", None) if item_data else None
+        self.effect = item_data.get("effect", 0) if item_data else 0
+
+        for item in inventory:
+            print(item)
+
+    def apply_effect(self, game):
+        if hasattr(self, "effect") and hasattr(self, "effect_value"):
+            game.stats[self.effect] = game.stats.get(self.effect, 0) + self.effect_value
 
     def get_msg_for_item(self, name):
         for room_items in rooms.values():
@@ -116,6 +141,12 @@ class Item:
         return "no"
 
 
+
+    def use(self):
+        if self.stat and not self.movable:  # Only use non-movable items
+            print(f"[USE] {self.name} used. +{self.effect} {self.stat}")
+            self.game.update_stat(self.stat, self.effect)
+
 #testing
 
 
@@ -128,7 +159,7 @@ def load_test_image(item_name):
 
 
 # Function to create items from dic
-def create_items_for_room(room_name, game):
+def create_items_for_room(room_name, game, movable):
     item_list = []
     if room_name in rooms:
         for item_data in rooms[room_name]:
@@ -142,6 +173,10 @@ def create_items_for_room(room_name, game):
             x = item_data.get("x", 100)
             y = item_data.get("y", 100)
 
-            item = Item(name, (x, y), image, IMAGE_SCALE, game)
+
+
+            movable = item_data.get("movable", True)
+            item = Item(name, (x, y), image, IMAGE_SCALE, game, movable=movable)
+
             item_list.append(item)
         return item_list

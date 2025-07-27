@@ -48,6 +48,12 @@ class Cat:
         self.animation_delay = 200
         self.state = "idle"
         self.facing_left = False
+
+        self.stats = {
+            "Damage": 1,
+            "Health": 1
+        }
+
     ...
     def load_frames(self, start_index, count, scale):
         frames = []

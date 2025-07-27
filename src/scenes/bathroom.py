@@ -1,4 +1,4 @@
-from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE
+from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION
 import os
 import pygame
 
@@ -12,7 +12,7 @@ class Bathroom:
         self.cat = game.cat
 
         # Load items for the room
-        self.items = create_items_for_room("Bathroom", game=self.game)
+        self.items = create_items_for_room("Bathroom", game=self.game, movable=False)
 
         # Update item states based on the global state in `self.game.item_states`
         for item in self.items:
@@ -31,6 +31,8 @@ class Bathroom:
         # Handle item interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
+
+
 
             # Click on items in the room
             for item in self.items:
@@ -74,24 +76,37 @@ class Bathroom:
                         self.selected_inventory_item = None
                         return
 
+                    if event.type == pygame.MOUSEBUTTONDOWN and item.rect.collidepoint(event.pos):
+                        if not item.movable:  # Don't collect, just use
+                            item.use()
 
     def update(self):
         self.cat.update()
+        for item in self.items:
+            if not item.collected and self.game.cat.rect.colliderect(item.rect):
+                if item.movable:
+                    self.game.inventory.append(item)
+                    item.collected = True
+                    print(f"Collected: {item.name}")
+                elif not item.used:
+                    item.apply_effect(self.game)
+                    item.used = True
+                    print(f"Used {item.name}: {item.effect} +{item.effect_value}")
 
     def draw_inventory(self):
         # Draw the inventory UI
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, INVENTORY_COLOR, (10, 10, 300, 80))  # Inventory background
-        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (10, 10, 300, 80), 2)  # Border
+        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 10, 300, 80))  # Inventory background
+        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 10, 300, 80), 2)  # Border
 
         for i, item in enumerate(inventory):
             # Scale item image for inventory
             inventory_img = pygame.transform.scale(item.image, (45, 45))
-            self.screen.blit(inventory_img, (20 + i * 60, 20))
+            self.screen.blit(inventory_img, (INVENTORY_POSITION + 20 + i * 60, 20))
 
             # Optional: Draw the item's name
             text = font.render(item.name, True, WHITE)
-            self.screen.blit(text, (15 + i * 65, 65))
+            self.screen.blit(text, (INVENTORY_POSITION + 15 + i * 65, 65))
 
             # Show "Drop" button for selected item
             if self.selected_inventory_item == item and item.movable == "yes":
