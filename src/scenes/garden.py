@@ -142,6 +142,8 @@ class Garden:
         # Draw the background with the offset
         self.screen.blit(self.background, (-self.scroll_offset, 0))
 
+        self.game.hover_message = ""
+
         # Draw the cat
         self.cat.draw(self.screen)
 
@@ -168,3 +170,14 @@ class Garden:
         # Draw inventory if shown
         if self.game.show_inventory:
             self.draw_inventory()
+
+        # Draw hover message if any
+        self.draw_hover_message()
+
+    def draw_hover_message(self):
+        if hasattr(self.game, "hover_message") and self.game.hover_message:
+            font = pygame.font.SysFont(None, 20)
+            msg_surface = font.render(self.game.hover_message, True, (255, 255, 255))
+            bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
+            pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
+            self.screen.blit(msg_surface, bg_rect)

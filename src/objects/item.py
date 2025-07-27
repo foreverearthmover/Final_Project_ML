@@ -25,9 +25,9 @@ rooms = {
         #do we add a message?
     ],
     "Bathroom":[
-        {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet." ,"x": 100, "y": 100},
-        {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat." ,"x": 100, "y": 100},
-        {"item": "Cat litter", "movable": "yes", "use": "none", "msg": "I don't need to go right now." ,"x": 100, "y": 100},
+        {"item": "Toilet", "movable": "no", "use": "none", "msg": "That is a Toilet." ,"x": 467, "y": 137},
+        {"item": "Shower", "movable": "no", "use": "none", "msg": "She is still in the shower, but you can't wait to eat." ,"x": 0, "y": 0},
+        {"item": "Cat litter", "movable": "no", "use": "none", "msg": "I don't need to go right now." ,"x": 5, "y": 450},
         {"item": "Toilet paper", "movable": "yes", "use": "attack", "msg": "You could push over the tower.. Or maybe just take one." ,"x": 100, "y": 100},
     ],
     "Garden":[
