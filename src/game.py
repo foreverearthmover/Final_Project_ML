@@ -133,6 +133,11 @@ class Game:
                 elif "right" in available_exits and self.right_button.collidepoint(mouse_pos):
                     self.change_scene(available_exits["right"], "left")
 
+            # Handle key presses
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:  # Check for the "E" key
+                    self.show_inventory = not self.show_inventory
+
             if self.current_scene:
                 self.current_scene.handle_event(event)
 
