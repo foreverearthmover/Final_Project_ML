@@ -11,6 +11,7 @@ WHITE = (255, 255, 255)
 INVENTORY_COLOR = (155, 103, 60)
 INVENTORY_BORDER_COLOR = (245,222,179)
 INVENTORY_POSITION = 100
+ITEM_SPACING = 80
 
 #Inventory
 inventory = []
@@ -29,8 +30,8 @@ rooms = {
     "Bathroom":[
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." ,"x": 467, "y": 137},
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." ,"x": 0, "y": 0},
-        {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." ,"x": 5, "y": 450},
-        {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." ,"x": 100, "y": 100},
+        {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." ,"x": 10, "y": 425},
+        {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." ,"x": 430, "y": 290},
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" ,"x": 100, "y": 100},

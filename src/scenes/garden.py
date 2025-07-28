@@ -1,4 +1,4 @@
-from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION,  WHITE
+from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
 import os
 import pygame
 
@@ -62,21 +62,18 @@ class Garden:
             # Handle inventory interactions
             if self.game.show_inventory:
                 for i, item in enumerate(inventory):
-                    item_x = INVENTORY_POSITION + 20 + i * 50
-                    item_y = 20
-                    item_rect = pygame.Rect(item_x, item_y, 40, 40)
+                    item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
+                    item_rect = pygame.Rect(item_x, 20, 40, 40)
 
-                    # Select item in inventory
                     if item_rect.collidepoint(mouse_pos):
                         self.selected_inventory_item = item
                         return
 
-                    # Drop item if clicking "drop" button
-                    drop_rect = pygame.Rect(item_x, INVENTORY_POSITION + 65, 40, 20)
+                    drop_rect = pygame.Rect(item_x, 90, 50, 20)
                     if (
-                        item == self.selected_inventory_item
-                        and item.movable == "yes"
-                        and drop_rect.collidepoint(mouse_pos)
+                            item == self.selected_inventory_item
+                            and item.movable == "yes"
+                            and drop_rect.collidepoint(mouse_pos)
                     ):
                         # Mark item as not picked up
                         item.picked_up = False
@@ -120,23 +117,26 @@ class Garden:
     def draw_inventory(self):
         # Draw the inventory panel
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 10, 300, 80))  # Inventory background
-        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 10, 300, 80), 2)  # Border
+        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 10, 350, 80))  # Inventory background
+        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 10, 350, 80), 2)  # Border
+
 
         for i, item in enumerate(inventory):
+            item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
             inventory_img = pygame.transform.scale(item.image, (45, 45))
-            self.screen.blit(inventory_img, (INVENTORY_POSITION + 20 + i * 60, 20))
+            self.screen.blit(inventory_img, (item_x, 20))
 
-            text = font.render(item.name, True, WHITE)
-            self.screen.blit(text, (INVENTORY_POSITION + 15 + i * 65, 65))
+            # Item name
+            text = font.render(item.name, True, (WHITE))
+            self.screen.blit(text, (item_x, 65))
 
+            # Drop button
             if self.selected_inventory_item == item and item.movable == "yes":
                 drop_font = pygame.font.SysFont(None, 18)
                 drop_text = drop_font.render("Drop", True, (255, 0, 0))
-                item_x = INVENTORY_POSITION + 20 + i * 50
-                drop_rect = pygame.Rect(item_x, 65, 40, 20)
+                drop_rect = pygame.Rect(item_x, 90, 50, 20)
                 pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
-                self.screen.blit(drop_text, (item_x + 5, 67))
+                self.screen.blit(drop_text, (item_x + 5, 93))
 
     def draw(self):
         # Draw the background with the offset
