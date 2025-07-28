@@ -22,7 +22,7 @@ rooms = {
         {"item": "Cat tree", "movable": "no", "stat": "Damage", "effect": 3, "msg": "You could sharpen your claws on this.", "x": 395, "y": 130},
         {"item": "Couch", "movable": "no", "stat": "Health", "effect": 3, "msg": "You could lie down on the couch and take a nap.","x": 60, "y": 145},
         {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty, but you are still hungry.","x": 526, "y": 405},
-        {"item": "Carton", "movable": "no", "stat": "none", "effect": 0,"msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
+        {"item": "Carton", "movable": "no", "stat": "Health", "effect": 1,"msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
         {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
         #do we add a message?
@@ -32,6 +32,7 @@ rooms = {
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." ,"x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." ,"x": 10, "y": 425},
         {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." ,"x": 430, "y": 290},
+        {"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" ,"x": 430, "y": 290}
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" ,"x": 100, "y": 100},
