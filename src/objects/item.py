@@ -182,3 +182,4 @@ def create_items_for_room(room_name, game, movable):
 
             item_list.append(item)
         return item_list
+
