@@ -165,24 +165,32 @@ class Game:
             self.current_scene.update()
 
     def draw_stats(self):
-        font = pygame.font.SysFont(None, 24)
-        stats_text = (f"Health: {self.stats['Health']} "
-                      f"Damage: {self.stats['Damage']} "
-                      f"Love: {self.stats['Love']}")
+            font = pygame.font.SysFont(None, 24)
 
-        # Create surface to measure text
-        text_surface = font.render(stats_text, True, (255, 255, 255))
-        text_rect = text_surface.get_rect(topleft=(10, 10))
+            # Prepare each stat line separately
+            lines = [
+                f"Health: {self.stats['Health']}",
+                f"Damage: {self.stats['Damage']}",
+                f"Love: {self.stats['Love']}"
+            ]
 
-        # Draw semi-transparent or solid background box
-        pygame.draw.rect(self.screen, (0, 0, 0), text_rect.inflate(10, 10))  # solid black background
-        # For transparency (optional): create a surface with alpha and blit
-        bg_surf = pygame.Surface((text_rect.width + 10, text_rect.height + 10), pygame.SRCALPHA)
-        bg_surf.fill((0, 0, 0, 180))  # RGBA: last value is alpha
-        self.screen.blit(bg_surf, (text_rect.left - 5, text_rect.top - 5))
+            x, y = 10, 10
+            padding = 5
+            line_surfaces = [font.render(line, True, (255, 255, 255)) for line in lines]
 
-        # Draw stats text
-        self.screen.blit(text_surface, text_rect)
+            # Determine background size based on all lines
+            width = max(surface.get_width() for surface in line_surfaces)
+            height = sum(surface.get_height() for surface in line_surfaces) + (padding * (len(lines) - 1))
+
+            # Create background surface
+            bg_surf = pygame.Surface((width + 10, height + 10), pygame.SRCALPHA)
+            bg_surf.fill((0, 0, 0, 180))  # semi-transparent background
+            self.screen.blit(bg_surf, (x - 5, y - 5))
+
+            # Render each line
+            for surface in line_surfaces:
+                self.screen.blit(surface, (x, y))
+                y += surface.get_height() + padding
 
     def draw(self):
         if self.state == "character_select":
