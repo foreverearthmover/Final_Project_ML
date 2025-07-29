@@ -59,7 +59,7 @@ class Garden:
             if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
                 self.squirrel_running = True
                 #self.squirrel_visible = False  # optionally hide it immediately
-                self.show_chase_button = True
+                self.show_chase_button = False
                 return  # prevent double-processing
 
             # Handle chase button click
