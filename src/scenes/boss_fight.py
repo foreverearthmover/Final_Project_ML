@@ -20,9 +20,11 @@ class BossFight:
             return "lose"
 
     def update_sprite_with_bow(self):
-        if self.game.cat.name == "Asja":
-            self.game.cat.image = pygame.image.load("../assets/media/characters/Asja_bow.png").convert_alpha()
-        # Add cases for other characters here if needed
+        name = self.game.cat.name
+        if name in ["Asja", "Tofu", "Tommy", "Kira"]:
+            bow_path = f"../assets/media/sprites/{name}_bow.png"
+            if os.path.exists(bow_path):
+                self.game.cat.image = pygame.image.load(bow_path).convert_alpha()
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:

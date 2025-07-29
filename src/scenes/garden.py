@@ -67,6 +67,11 @@ class Garden:
                 self.navigate_to_boss_area()
                 return
 
+            # Click on boss cat to enter fight
+            if self.boss_cat_visible and self.boss_cat.rect.collidepoint(mouse_pos):
+                self.game.current_scene = BossFight(self.game)
+                return
+
             # Handle item interactions
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos) and not item.picked_up:
