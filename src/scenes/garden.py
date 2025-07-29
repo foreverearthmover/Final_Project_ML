@@ -18,7 +18,8 @@ class Garden:
         self.boss_cat = None  # Not created yet
         self.boss_visible = False
 
-
+        # Load items for the garden
+        self.items = create_items_for_room("Garden", game=self.game, movable=False)
 
         # Update item states based on the global state in `self.game.item_states`
         for item in self.items:
@@ -34,8 +35,6 @@ class Garden:
         self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
         self.scroll_offset = 0
 
-        # Load items for the garden
-        self.items = create_items_for_room("Garden", game=self.game, movable=False)
 
         # Squirrel attributes
         self.squirrel_rect = pygame.Rect(self.screen.get_width() - 200, self.screen.get_height() // 2, 40, 40)
