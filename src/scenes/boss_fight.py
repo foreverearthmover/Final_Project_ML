@@ -6,7 +6,8 @@ class BossFight:
         self.screen = game.screen
 
         self.ending = self.get_ending()
-        self.image = pygame.image.load(f"../assets/media/endings/{self.ending}.png").convert()
+        original_image = pygame.image.load(f"../assets/media/endings/{self.ending}.png").convert()
+        self.image = pygame.transform.scale(original_image, self.screen.get_size())
 
     def get_ending(self):
         inventory_names = [item.name for item in self.game.inventory]

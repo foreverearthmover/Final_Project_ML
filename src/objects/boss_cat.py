@@ -2,12 +2,13 @@ import os
 import random
 import pygame
 
-def load_random_skin(exclude=None):
-    all_skins = ["Asja", "Tommy", "Tofu", "Kira"]
-    if exclude and exclude in all_skins:
-        all_skins.remove(exclude)
-    selected = random.choice(all_skins)
-    path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", f"{selected}.png")
+def load_random_skin(exclude_skin):
+    skins = ["Asja", "Tofu", "Tommy", "Kira"]
+    if exclude_skin in skins:
+        skins.remove(exclude_skin)
+    chosen = random.choice(skins)
+
+    path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", f"{chosen}.png")
     return os.path.normpath(path)
 
 class BossCat(pygame.sprite.Sprite):
@@ -19,6 +20,7 @@ class BossCat(pygame.sprite.Sprite):
         self.frame_height = 1000
         self.scale = 0.14
         self.sprite_sheet = pygame.image.load(load_random_skin(player_skin)).convert_alpha()
+        self.image_path = load_random_skin(player_skin)
 
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale)
         self.current_frames = self.idle_frames
