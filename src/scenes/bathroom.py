@@ -36,8 +36,12 @@ class Bathroom:
 
             # Click on items in the room
             for item in self.items:
-                if item.rect.collidepoint(mouse_pos) and not item.picked_up:
-                    item.try_pick_up()
+                if item.rect.collidepoint(mouse_pos):
+                    if not item.picked_up and item.movable:
+                        item.try_pick_up()
+                    elif not item.movable:
+                        item.apply_effect(self.game)
+                        self.game.hover_message = item.msg
 
             # Click in the inventory
             if self.game.show_inventory:

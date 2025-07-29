@@ -7,6 +7,8 @@ from ui.menu import MainMenu
 from objects.player import Cat
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
 import os
+from scenes.boss_fight import BossFight
+
 
 class Game:
     def __init__(self, screen):
@@ -20,6 +22,7 @@ class Game:
         self.hover_message = ""
         self.current_room = None
         self.font = pygame.font.SysFont(None, 20)
+        self.selected_character = None
 
         # Initialize inventory
         self.inventory = []  # Add this line to initialize the inventory
@@ -50,7 +53,11 @@ class Game:
             "bathroom": {"right": "living_room"},
             "garden": {"left": "living_room"}
         }
+        self.stats = {"Health": 0, "Damage": 0, "Love": 0}
 
+        # Recalculate stats from inventory
+        for item in self.inventory:
+            item.apply_effect(self)
 
     def start_game(self):
         if not self.cat:
@@ -157,6 +164,26 @@ class Game:
         elif self.state == "playing" and self.current_scene:
             self.current_scene.update()
 
+    def draw_stats(self):
+        font = pygame.font.SysFont(None, 24)
+        stats_text = (f"Health: {self.stats['Health']} "
+                      f"Damage: {self.stats['Damage']} "
+                      f"Love: {self.stats['Love']}")
+
+        # Create surface to measure text
+        text_surface = font.render(stats_text, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(topleft=(10, 10))
+
+        # Draw semi-transparent or solid background box
+        pygame.draw.rect(self.screen, (0, 0, 0), text_rect.inflate(10, 10))  # solid black background
+        # For transparency (optional): create a surface with alpha and blit
+        bg_surf = pygame.Surface((text_rect.width + 10, text_rect.height + 10), pygame.SRCALPHA)
+        bg_surf.fill((0, 0, 0, 180))  # RGBA: last value is alpha
+        self.screen.blit(bg_surf, (text_rect.left - 5, text_rect.top - 5))
+
+        # Draw stats text
+        self.screen.blit(text_surface, text_rect)
+
     def draw(self):
         if self.state == "character_select":
             self.character_select.draw()
@@ -165,23 +192,12 @@ class Game:
         elif self.state == "playing" and self.current_scene:
             self.current_scene.draw()
             self.draw_navigation_buttons()
+            self.draw_stats()
 
             if self.show_inventory:
                 self.current_scene.draw_inventory()
 
-        # Draw stats
-        y_offset = 10
-        room_stats = rooms["Living room"]  # Get the stats for the living room
 
-        for item in room_stats:
-            stat = item["stat"]
-            effect = item["effect"]
-
-            # Only display stats that are not "none"
-            if stat != "none":
-                stat_text = self.font.render(f"{stat}: {effect}", True, (0, 0, 0))
-                self.screen.blit(stat_text, (10, y_offset))
-                y_offset += 30
 
 
 

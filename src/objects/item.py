@@ -19,24 +19,24 @@ inventory = []
 #dictonary of what is inside the rooms
 rooms = {
     "Living room":[
-        {"item": "Cat tree", "movable": "no", "stat": "Damage", "effect": 3, "msg": "You could sharpen your claws on this.", "x": 395, "y": 130},
-        {"item": "Couch", "movable": "no", "stat": "Health", "effect": 3, "msg": "You could lie down on the couch and take a nap.","x": 60, "y": 145},
-        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty, but you are still hungry.","x": 526, "y": 405},
-        {"item": "Carton", "movable": "no", "stat": "Health", "effect": 1,"msg": "You could go inside, or maybe on top?","x": 232, "y": 398},
-        {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.","x": 311, "y": 434},
-        {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.","x": 500, "y": 238 },
+        {"item": "Cat tree", "movable": "no", "stat": "Damage", "effect": 3, "msg": "You could sharpen your claws on this.", "use": "test", "x": 395, "y": 130},
+        {"item": "Couch", "movable": "no", "stat": "Health", "effect": 3, "msg": "You could lie down on the couch and take a nap.", "use": "test","x": 60, "y": 145},
+        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty, but you are still hungry.", "use": "test","x": 526, "y": 405},
+        {"item": "Carton", "movable": "no", "stat": "Health", "effect": 1,"msg": "You could go inside, or maybe on top?", "use": "test","x": 232, "y": 398},
+        {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.", "use": "test","x": 311, "y": 434},
+        {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.", "use": "test","x": 500, "y": 238 },
         #do we add a message?
     ],
     "Bathroom":[
-        {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." ,"x": 467, "y": 137},
-        {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." ,"x": 0, "y": 0},
-        {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." ,"x": 10, "y": 425},
-        {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." ,"x": 430, "y": 290},
-        {"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" ,"x": 430, "y": 290}
+        {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use": "test", "x": 467, "y": 137},
+        {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use": "test", "x": 0, "y": 0},
+        {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use": "test", "x": 10, "y": 425},
+        {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." , "use": "test", "x": 430, "y": 290},
+        {"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" , "use": "test", "x": 430, "y": 290}
     ],
     "Garden":[
-        {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" ,"x": 100, "y": 100},
-        {"item": "Boss Cat", "movable": "no", "stat": "Boss fight", "effect": 0,"msg": "Other cat bad." ,"x": 100, "y": 100},
+        {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" , "use": "test", "x": 100, "y": 100},
+        {"item": "Boss Cat", "movable": "no", "stat": "Boss fight", "effect": 0,"msg": "Other cat bad." , "use": "test", "x": 100, "y": 100},
     ]
 }
 
@@ -59,6 +59,7 @@ class Item:
         self.picked_up = False
         self.clicked = False
         self.msg = self.get_msg_for_item(name)
+        self.use = self.get_use_for_item(name)
         self.mouse_was_pressed = True  # Track initial mouse state
 
         # Get item data from dictionary
@@ -80,15 +81,22 @@ class Item:
             print(item)
 
     def apply_effect(self, game):
-        if hasattr(self, "effect") and hasattr(self, "effect_value"):
-            game.stats[self.effect] = game.stats.get(self.effect, 0) + self.effect_value
+        if self.stat and self.stat != "none" and not self.used:
+            game.stats[self.stat] = game.stats.get(self.stat, 0) + self.effect
+            self.used = True  # prevent re-use
 
-    def get_msg_for_item(self, name):
+    def get_msg_for_item(self, name: object) -> str | int | None:
         for room_items in rooms.values():
             for item in room_items:
                 if item ['item'] == name:
                     return item ['msg']
         return None
+
+    def get_use_for_item(self, name: object) -> str | int | None:
+        for room_items in rooms.values():
+            for item in room_items:
+                if item["item"] == name:
+                    return item ["use"]
 
     def try_pick_up(self):
         if self.movable == "yes":

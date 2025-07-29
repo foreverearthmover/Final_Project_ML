@@ -1,6 +1,9 @@
 from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
 import os
 import pygame
+from scenes.boss_fight import BossFight
+from objects.boss_cat import BossCat, load_random_skin
+
 
 from src.objects.item import rooms
 
@@ -11,6 +14,7 @@ class Garden:
         self.screen = game.screen
         self.cat = game.cat
         self.button_font = game.button_font  # Use same font as in game
+        self.boss_cat = BossCat(load_random_skin(exclude=self.game.selected_character))
 
         # Load items for the garden
         self.items = create_items_for_room("Garden", game=self.game, movable=False)
@@ -39,12 +43,20 @@ class Garden:
         self.show_chase_button = False
 
         # Boss cat scene attributes
-        self.boss_cat_rect = pygame.Rect(0, self.cat.rect.y, 40, 40)
+        #self.boss_cat_rect = pygame.Rect(0, self.cat.rect.y, 40, 40)
         self.boss_cat_visible = False
+        # Create BossCat, excluding the player's selected character
+        self.boss_cat = BossCat(player_skin=game.selected_character)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
+
+            #boss fight activate
+            for item in self.items:
+                if item.name == "Boss Cat" and item.rect.collidepoint(mouse_pos):
+                    self.game.current_scene = BossFight(self.game)
+                    return
 
             # Handle squirrel click
             if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
@@ -92,6 +104,7 @@ class Garden:
                         inventory.remove(item)
                         self.selected_inventory_item = None
                         return
+
 
 
     def update(self):
@@ -152,8 +165,8 @@ class Garden:
             pygame.draw.rect(self.screen, (165, 42, 42), self.squirrel_rect)  # Red rectangle as squirrel
 
         # Draw the boss cat if visible
-        if self.boss_cat_visible:
-            pygame.draw.rect(self.screen, (0, 0, 255), self.boss_cat_rect)  # Blue rectangle as boss cat
+        if self.boss_cat:
+            self.screen.blit(self.boss_cat.image, self.boss_cat.rect)
 
         # Draw chase button
         if self.show_chase_button:
@@ -170,6 +183,9 @@ class Garden:
         # Draw inventory if shown
         if self.game.show_inventory:
             self.draw_inventory()
+
+
+        self.boss_cat.draw(self.screen)
 
         # Draw hover message if any
         self.draw_hover_message()
