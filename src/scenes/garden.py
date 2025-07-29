@@ -1,11 +1,13 @@
 from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
 import os
 import pygame
+import sys
 from scenes.boss_fight import BossFight
 from objects.boss_cat import BossCat, load_random_skin
 
 
 from src.objects.item import rooms
+from src.scenes import boss_fight
 
 
 class Garden:
@@ -13,11 +15,10 @@ class Garden:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
-        self.button_font = game.button_font  # Use same font as in game
-        self.boss_cat = BossCat(load_random_skin(exclude=self.game.selected_character))
+        self.boss_cat = None  # Not created yet
+        self.boss_visible = False
 
-        # Load items for the garden
-        self.items = create_items_for_room("Garden", game=self.game, movable=False)
+
 
         # Update item states based on the global state in `self.game.item_states`
         for item in self.items:
@@ -32,6 +33,9 @@ class Garden:
         bg_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "backgrounds", "garden.png")
         self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
         self.scroll_offset = 0
+
+        # Load items for the garden
+        self.items = create_items_for_room("Garden", game=self.game, movable=False)
 
         # Squirrel attributes
         self.squirrel_rect = pygame.Rect(self.screen.get_width() - 200, self.screen.get_height() // 2, 40, 40)
@@ -52,15 +56,19 @@ class Garden:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-            #boss fight activate
             for item in self.items:
-                if item.name == "Boss Cat" and item.rect.collidepoint(mouse_pos):
-                    self.game.current_scene = BossFight(self.game)
-                    return
+                if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
+                    self.squirrel_running = True
 
-            # Handle squirrel click
-            if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
-                self.squirrel_running = True
+                    if item.rect.collidepoint(mouse_pos):
+                        if item.name == "Squirrel":
+                            self.boss_visible = True
+                            if not self.boss_cat:
+                                from objects.boss_cat import BossCat, load_random_skin
+                                skin = load_random_skin(exclude=self.game.selected_character)
+                                self.boss_cat = BossCat(skin)
+                        elif item.name == "Boss Cat" and self.boss_visible:
+                            self.handle_boss_encounter()
 
             # Handle chase button click
             if self.show_chase_button and self.chase_button_rect.collidepoint(mouse_pos):
@@ -105,7 +113,33 @@ class Garden:
                         self.selected_inventory_item = None
                         return
 
+    def handle_boss_encounter(self):
+        stats = self.game.stats
+        inventory_names = [item.name for item in self.game.inventory]
 
+        # Check for LOVE ending
+        if inventory_names == ["Bow"]:
+            self.show_ending("love.png")
+            self.cat.set_image_with_bow()
+            return
+
+        # Check for LOSE ending
+        if stats["Health"] < 2 and stats["Damage"] < 3:
+            self.show_ending("lose.png")
+            return
+
+        # WIN by default
+        self.show_ending("win.png")
+
+    def show_ending(self, image_filename):
+        image_path = os.path.join("..", "assets", "media", "endings", image_filename)
+        ending_img = pygame.image.load(image_path).convert()
+        self.screen.blit(ending_img, (0, 0))
+        pygame.display.flip()
+
+        pygame.time.wait(4000)  # Wait 4 seconds before quitting or resetting
+        pygame.quit()
+        sys.exit()  # or return to main menu if you prefer
 
     def update(self):
         # Handle the squirrel running off-screen
@@ -180,6 +214,11 @@ class Garden:
             if not item.picked_up:
                 item.draw(self.screen)
 
+        if self.boss_visible and self.boss_cat:
+            self.screen.blit(self.boss_cat.image, self.boss_cat.rect)
+
+        self.cat.draw(self.screen)
+
         # Draw inventory if shown
         if self.game.show_inventory:
             self.draw_inventory()
@@ -197,3 +236,4 @@ class Garden:
             bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
             self.screen.blit(msg_surface, bg_rect)
+

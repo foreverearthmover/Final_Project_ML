@@ -16,8 +16,9 @@ def load_random_skin(exclude=None):
 class BossCat(pygame.sprite.Sprite):
     def __init__(self, player_skin):
         super().__init__()
-        self.image = load_random_skin(player_skin)
-        self.rect = self.image.get_rect(topleft=(100, 100))  # Set position as needed
+        image = load_random_skin(player_skin).convert_alpha()
+        self.image = pygame.transform.scale(image, (40, 40))  # adjust image size
+        self.rect = self.image.get_rect(topleft=(100, 100))  # Set position
 
 
 

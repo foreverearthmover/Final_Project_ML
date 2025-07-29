@@ -19,23 +19,23 @@ class Cat:
         self.speed = 4
         #self.image = pygame.image.load(image_path).convert_alpha()
         # Load sprite sheet
-        Tofu_path = os.path.join(
+        tofu_path = os.path.join(
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Tofu.png'
         )
 
-        Asja_path = os.path.join(
+        asja_path = os.path.join(
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Asja.png'
         )
 
-        Tommy_path = os.path.join(
+        tommy_path = os.path.join(
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Tommy.png'
         )
 
-        Kira_path = os.path.join(
+        kira_path = os.path.join(
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Kira.png'
         )
 
-
+        self.image_path = image_path  # ✅ Save it for later use in set_image_with_bow()
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
         self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
@@ -53,7 +53,6 @@ class Cat:
             "Damage": 1,
             "Health": 1
         }
-
     ...
     def load_frames(self, start_index, count, scale):
         frames = []
@@ -70,6 +69,28 @@ class Cat:
         image = pygame.transform.scale(image,(int(width * scale), int(height * scale)))
         image.set_colorkey(self.color)
         return image
+
+    def set_image_with_bow(self):
+        if "Asja" in self.image_path:
+            new_path = self.image_path.replace("Asja", "Asja_bow")
+        elif "Tofu" in self.image_path:
+            new_path = self.image_path.replace("Tofu", "Tofu_bow")
+        elif "Tommy" in self.image_path:
+            new_path = self.image_path.replace("Tommy", "Tommy_bow")
+        elif "Kira" in self.image_path:
+            new_path = self.image_path.replace("Kira", "Kira_bow")
+        else:
+            return  # No match, exit
+
+        # Reload the sprite sheet
+        self.sprite_sheet = pygame.image.load(os.path.normpath(new_path)).convert_alpha()
+
+        #Recreate animation frames
+        self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
+        self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
+        self.current_frames = self.idle_frames
+        self.frame_index = 0
+        self.image = self.current_frames[self.frame_index]
 
     def update(self):
         keys = pygame.key.get_pressed()
