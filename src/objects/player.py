@@ -35,7 +35,7 @@ class Cat:
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Kira.png'
         )
 
-        self.image_path = image_path  # ✅ Save it for later use in set_image_with_bow()
+        self.image_path = image_path  # Save it for later use in set_image_with_bow()
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
         self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)

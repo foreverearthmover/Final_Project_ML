@@ -15,8 +15,7 @@ class Garden:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
-        self.boss_cat = None  # Not created yet
-        self.boss_visible = False
+        self.boss_cat = BossCat(player_skin=game.selected_character)
         self.button_font = pygame.font.SysFont(None, 32)
 
         # Load items for the garden
@@ -59,8 +58,8 @@ class Garden:
             # Handle squirrel click s
             if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
                 self.squirrel_running = True
-                self.squirrel_visible = False  # optionally hide it immediately
-                self.show_chase_button = True  # <-- THIS is what was missing or never reached
+                #self.squirrel_visible = False  # optionally hide it immediately
+                self.show_chase_button = True
                 return  # prevent double-processing
 
             # Handle chase button click
@@ -146,13 +145,16 @@ class Garden:
         # Update the player cat animation
         self.cat.update()
 
+        if self.boss_cat_visible:
+            self.boss_cat.update()
+
     def navigate_to_boss_area(self):
-        # Hide chase button and transition to the boss scene
         self.show_chase_button = False
-        self.scroll_offset = self.background.get_width() // 2  # Move to the second half of the background
-        self.cat.rect.x = 50  # Place cat near the left side of the screen
+        self.scroll_offset = self.background.get_width() // 2  # Pan camera right
+        self.cat.rect.x = 50
+        self.boss_cat.rect.topleft = (self.screen.get_width() - 250, self.cat.rect.y)
+        self.boss_cat.start_chase()  # Trigger idle animation and visibility
         self.boss_cat_visible = True
-        self.boss_cat.rect.x = self.screen.get_width() - 100  # Boss cat appears on the right side
 
     def draw_inventory(self):
         # Draw the inventory panel
@@ -191,10 +193,6 @@ class Garden:
         if self.squirrel_visible:
             pygame.draw.rect(self.screen, (165, 42, 42), self.squirrel_rect)  # Red rectangle as squirrel
 
-        # Draw the boss cat if visible
-        if self.boss_cat:
-            self.screen.blit(self.boss_cat.image, self.boss_cat.rect)
-
         # Draw chase button
         if self.show_chase_button:
             pygame.draw.rect(self.screen, (200, 200, 200), self.chase_button_rect, border_radius=10)
@@ -207,17 +205,14 @@ class Garden:
             if not item.picked_up:
                 item.draw(self.screen)
 
-        if self.boss_visible and self.boss_cat:
-            self.screen.blit(self.boss_cat.image, self.boss_cat.rect)
+        if self.boss_cat_visible:
+            self.boss_cat.draw(self.screen)
 
         self.cat.draw(self.screen)
 
         # Draw inventory if shown
         if self.game.show_inventory:
             self.draw_inventory()
-
-
-        self.boss_cat.draw(self.screen)
 
         # Draw hover message if any
         self.draw_hover_message()
