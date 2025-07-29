@@ -17,6 +17,7 @@ class Garden:
         self.cat = game.cat
         self.boss_cat = None  # Not created yet
         self.boss_visible = False
+        self.button_font = pygame.font.SysFont(None, 32)
 
         # Load items for the garden
         self.items = create_items_for_room("Garden", game=self.game, movable=False)
@@ -55,29 +56,22 @@ class Garden:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-            for item in self.items:
-                if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
-                    self.squirrel_running = True
-
-                    if item.rect.collidepoint(mouse_pos):
-                        if item.name == "Squirrel":
-                            self.boss_visible = True
-                            if not self.boss_cat:
-                                from objects.boss_cat import BossCat, load_random_skin
-                                skin = load_random_skin(exclude=self.game.selected_character)
-                                self.boss_cat = BossCat(skin)
-                        elif item.name == "Boss Cat" and self.boss_visible:
-                            self.handle_boss_encounter()
+            # Handle squirrel click s
+            if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
+                self.squirrel_running = True
+                self.squirrel_visible = False  # optionally hide it immediately
+                self.show_chase_button = True  # <-- THIS is what was missing or never reached
+                return  # prevent double-processing
 
             # Handle chase button click
             if self.show_chase_button and self.chase_button_rect.collidepoint(mouse_pos):
                 self.navigate_to_boss_area()
+                return
 
-            # Handle item interactions in the garden
+            # Handle item interactions
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos) and not item.picked_up:
                     item.try_pick_up()
-
             # Handle inventory interactions
             if self.game.show_inventory:
                 for i, item in enumerate(inventory):
@@ -158,7 +152,7 @@ class Garden:
         self.scroll_offset = self.background.get_width() // 2  # Move to the second half of the background
         self.cat.rect.x = 50  # Place cat near the left side of the screen
         self.boss_cat_visible = True
-        self.boss_cat_rect.x = self.screen.get_width() - 100  # Boss cat appears on the right side
+        self.boss_cat.rect.x = self.screen.get_width() - 100  # Boss cat appears on the right side
 
     def draw_inventory(self):
         # Draw the inventory panel
