@@ -84,6 +84,10 @@ class LivingRoom:
                     item.picked_up = False
                     self.game.item_states[item.name] = False
 
+                    # Undo stats if applicable
+                    if item.stat != "none":
+                        self.game.stats[item.stat] -= item.effect
+
                     # Assign item back to its original room
                     for room_name, room_items in rooms.items():
                         if any(room_item["item"] == item.name for room_item in room_items):
@@ -112,8 +116,8 @@ class LivingRoom:
 
     def draw_inventory(self):
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, (INVENTORY_COLOR), (INVENTORY_POSITION, 10, 350, 80))  # inventory background
-        pygame.draw.rect(self.screen, (INVENTORY_BORDER_COLOR), (INVENTORY_POSITION, 10, 350, 80), 2)  # border
+        pygame.draw.rect(self.screen, (INVENTORY_COLOR), (INVENTORY_POSITION, 5, 350, 80))  # inventory background
+        pygame.draw.rect(self.screen, (INVENTORY_BORDER_COLOR), (INVENTORY_POSITION, 5, 350, 80), 2)  # border
 
         ITEM_SPACING = 80  # Space between items
 

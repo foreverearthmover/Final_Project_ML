@@ -4,7 +4,7 @@ from scenes.bathroom import Bathroom
 from scenes.garden import Garden
 from src.objects.item import create_items_for_room, rooms
 from ui.menu import MainMenu
-from objects.player import Cat
+from objects.player import Cat, WHITE
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
 import os
 from scenes.boss_fight import BossFight
@@ -212,16 +212,15 @@ class Game:
                 self.current_scene.draw_inventory()
 
             if self.status_message:
-                #this line?
-                if pygame.time.get_ticks() - self.message_timer > 1000:
-                    self.status_message = ""
-                else:
-                    font = pygame.font.SysFont(None, 24)
-                    text = font.render(self.status_message, True, (255, 255, 255))
-                    background_rect = pygame.Rect(100, 13, 100, 30)
-                    pygame.draw.rect(self.screen, (0, 128, 0), background_rect)
-                    self.screen.blit(text, (30, 545))
+                font = pygame.font.SysFont(None, 24)
+                text_surface = font.render(self.status_message, True, WHITE)  # text
+                text_rect = text_surface.get_rect()
+                text_rect.topleft = (10, self.screen.get_height() - 420)  # adjust position as needed
 
+                pygame.draw.rect(self.screen, (50, 120, 30), text_rect.inflate(10, 10))  # black background
+                self.screen.blit(text_surface, text_rect)
+                if self.status_message and pygame.time.get_ticks() - self.message_timer > 2000:
+                    self.status_message = ""
 
     def update_stat(self, stat_name, value):
         if stat_name in self.cat.stats:
