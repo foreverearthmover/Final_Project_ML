@@ -12,6 +12,9 @@ from scenes.boss_fight import BossFight
 
 class Game:
     def __init__(self, screen):
+        self.status_message = ""
+        self.used_items = set()
+        self.inventory_items = set()
         self.screen = screen
         self.state = "character_select"  # Start with character select state
         self.cat = None
@@ -23,6 +26,7 @@ class Game:
         self.current_room = None
         self.font = pygame.font.SysFont(None, 20)
         self.selected_character = None
+        self.message_timer = 0
 
         # Initialize inventory
         self.inventory = []  # Add this line to initialize the inventory
@@ -192,6 +196,8 @@ class Game:
                 self.screen.blit(surface, (x, y))
                 y += surface.get_height() + padding
 
+
+
     def draw(self):
         if self.state == "character_select":
             self.character_select.draw()
@@ -205,8 +211,16 @@ class Game:
             if self.show_inventory:
                 self.current_scene.draw_inventory()
 
-
-
+            if self.status_message:
+                #this line?
+                if pygame.time.get_ticks() - self.message_timer > 1000:
+                    self.status_message = ""
+                else:
+                    font = pygame.font.SysFont(None, 24)
+                    text = font.render(self.status_message, True, (255, 255, 255))
+                    background_rect = pygame.Rect(100, 13, 100, 30)
+                    pygame.draw.rect(self.screen, (0, 128, 0), background_rect)
+                    self.screen.blit(text, (30, 545))
 
 
     def update_stat(self, stat_name, value):

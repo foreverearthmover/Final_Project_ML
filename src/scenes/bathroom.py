@@ -79,8 +79,14 @@ class Bathroom:
                         return
 
                     if event.type == pygame.MOUSEBUTTONDOWN and item.rect.collidepoint(event.pos):
-                        if not item.movable:  # Don't collect, just use
-                            item.use()
+                        if not item.movable:
+                            if item.name not in self.game.used_items:
+                                if item.stat != "none":
+                                    self.game.stats[item.stat] += item.effect
+                                self.game.used_items.add(item.name)
+                                self.game.status_message = f"Used {item.name}: {item.msg}"
+                            else:
+                                self.game.status_message = f"You already used {item.name}."
 
     def update(self):
         self.cat.update()
@@ -149,3 +155,4 @@ class Bathroom:
             bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
             self.screen.blit(msg_surface, bg_rect)
+

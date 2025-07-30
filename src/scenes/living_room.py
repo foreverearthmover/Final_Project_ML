@@ -37,7 +37,8 @@ class LivingRoom:
             # Check clicks on items in the world
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos):
-                    if not item.picked_up and item.movable:
+                    if not item.picked_up and item.movable == "yes":
+                        # Pick up item
                         item.try_pick_up()
                         if item.name not in self.game.inventory_items:
                             self.game.inventory.append(item)
@@ -65,8 +66,6 @@ class LivingRoom:
                             self.game.message_timer = pygame.time.get_ticks()
 
             # Check inventory interactions
-
-
             for i, item in enumerate(inventory):
                 item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
                 item_rect = pygame.Rect(item_x, 20, 40, 40)
@@ -81,30 +80,22 @@ class LivingRoom:
                         and item.movable == "yes"
                         and drop_rect.collidepoint(mouse_pos)
                 ):
-                    # Drop logic...
+                    # Drop logic
+                    item.picked_up = False
+                    self.game.item_states[item.name] = False
 
-                    # Mark item as not picked up
-                        item.picked_up = False
-                        self.game.item_states[item.name] = False
+                    # Assign item back to its original room
+                    for room_name, room_items in rooms.items():
+                        if any(room_item["item"] == item.name for room_item in room_items):
+                            target_room_items = self.game.rooms.get(
+                                room_name.lower().replace(" ", "_"), []
+                            )
+                            target_room_items.append(item)
+                            break
 
-                        # Assign item back to its original room
-                        for room_name, room_items in rooms.items():
-                            if any(room_item["item"] == item.name for room_item in room_items):
-                                target_room_items = self.game.rooms.get(
-                                    room_name.lower().replace(" ", "_"), []
-                                )
-                                target_room_items.append(item)
-                                break  # Stop searching once the correct room is found
-
-                        # Remove item from inventory and reset selection
-                        inventory.remove(item)
-                        self.selected_inventory_item = None
-                        return
-
-                if event.type == pygame.MOUSEBUTTONDOWN and item.rect.collidepoint(event.pos):
-                    if not item.movable:  # Don't collect, just use
-                        item.use()
-
+                    inventory.remove(item)
+                    self.selected_inventory_item = None
+                    return
 
     def update(self):
         self.cat.update()
@@ -173,3 +164,4 @@ class LivingRoom:
             bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
             self.screen.blit(msg_surface, bg_rect)
+
