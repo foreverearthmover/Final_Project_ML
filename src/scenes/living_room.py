@@ -59,7 +59,7 @@ class LivingRoom:
                             if item.stat != "none":
                                 self.game.stats[item.stat] += item.effect
 
-                            self.game.status_message = f"Used {item.name}: {item.msg}"
+                            self.game.status_message = item.use
                             self.game.message_timer = pygame.time.get_ticks()
                         else:
                             self.game.status_message = f"You already used {item.name}."

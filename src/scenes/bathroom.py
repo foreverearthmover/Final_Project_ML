@@ -37,11 +37,19 @@ class Bathroom:
             # Click on items in the room
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos):
-                    if not item.picked_up and item.movable:
+                    if not item.picked_up and item.movable == "yes":
+                        # Pick up item
                         item.try_pick_up()
-                    elif not item.movable:
-                        item.apply_effect(self.game)
-                        self.game.hover_message = item.msg
+                        if item.name not in self.game.inventory_items:
+                            self.game.inventory.append(item)
+                            self.game.inventory_items.add(item.name)
+
+                            # Only affect stats if stat is not "none"
+                            if item.stat != "none":
+                                self.game.stats[item.stat] += item.effect
+
+                            self.game.status_message = f"Picked up {item.name}."
+                            self.game.message_timer = pygame.time.get_ticks()
 
             # Click in the inventory
             if self.game.show_inventory:
@@ -59,10 +67,13 @@ class Bathroom:
                             and item.movable == "yes"
                             and drop_rect.collidepoint(mouse_pos)
                     ):
-
-                        # Mark item as not picked up
+                        # Drop logic
                         item.picked_up = False
                         self.game.item_states[item.name] = False
+
+                        # Undo stats if applicable
+                        if item.stat != "none":
+                            self.game.stats[item.stat] -= item.effect
 
                         # Assign item back to its original room
                         for room_name, room_items in rooms.items():
@@ -71,9 +82,8 @@ class Bathroom:
                                     room_name.lower().replace(" ", "_"), []
                                 )
                                 target_room_items.append(item)
-                                break  # Stop searching once the correct room is found
+                                break
 
-                        # Remove item from inventory and reset selection
                         inventory.remove(item)
                         self.selected_inventory_item = None
                         return
@@ -84,7 +94,7 @@ class Bathroom:
                                 if item.stat != "none":
                                     self.game.stats[item.stat] += item.effect
                                 self.game.used_items.add(item.name)
-                                self.game.status_message = f"Used {item.name}: {item.msg}"
+                                self.game.status_message = item.use
                             else:
                                 self.game.status_message = f"You already used {item.name}."
 
@@ -104,8 +114,8 @@ class Bathroom:
     def draw_inventory(self):
         # Draw the inventory UI
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 10, 350, 80))  # Inventory background
-        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 10, 350, 80), 2)  # Border
+        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 5, 350, 80))  # Inventory background
+        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 5, 350, 80), 2)  # Border
 
         ITEM_SPACING = 80  # Space between items
 

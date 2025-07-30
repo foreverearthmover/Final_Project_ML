@@ -164,8 +164,8 @@ class Garden:
     def draw_inventory(self):
         # Draw the inventory panel
         font = pygame.font.SysFont(None, 20)
-        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 10, 350, 80))  # Inventory background
-        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 10, 350, 80), 2)  # Border
+        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 5, 350, 80))  # Inventory background
+        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 5, 350, 80), 2)  # Border
 
 
         for i, item in enumerate(inventory):
