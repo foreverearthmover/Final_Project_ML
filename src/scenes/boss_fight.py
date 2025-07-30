@@ -34,5 +34,8 @@ class BossFight:
     def update(self):
         pass
 
+    def draw_inventory(self):
+        pass #this is not supposed to show anything, but without there is an error
+
     def draw(self):
         self.screen.blit(self.image, (0, 0))
