@@ -38,12 +38,18 @@ class Cat:
         self.image_path = image_path  # Save it for later use in set_image_with_bow()
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
-        self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
         self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
         self.current_frames = self.idle_frames
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
+
+        # Replaced this:
+        # self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
+        # With this:
+        self.rect = self.image.get_rect(topleft=(x, y))
+        # so that cat has right hitbox
+
         self.animation_timer = 0
         self.animation_delay = 200
         self.state = "idle"
@@ -132,4 +138,5 @@ class Cat:
 
 
     def draw(self, screen):
+        pygame.draw.rect(screen, (255, 0, 0), self.rect, 2) # for debugging
         screen.blit(self.image, self.rect)
