@@ -90,6 +90,29 @@ class Game:
         elif scene_name == "garden":
             self.current_scene = Garden(self)
 
+    def handle_scene_transitions(self):
+        screen_width = self.screen.get_width()
+        cat = self.cat
+
+        if self.current_room == "living_room":
+            if cat.rect.right < 0:
+                self.change_scene("bathroom", entry_side="right")
+            elif cat.rect.left > screen_width:
+                self.change_scene("garden", entry_side="left")
+
+        elif self.current_room == "bathroom":
+            if cat.rect.left > screen_width:
+                self.change_scene("living_room", entry_side="left")
+
+        elif self.current_room == "garden":
+            # Prevent walking past boss cat
+            if hasattr(self.current_scene, 'boss_cat') and cat.rect.right > self.current_scene.boss_cat.rect.left:
+                cat.rect.right = self.current_scene.boss_cat.rect.left
+
+            if cat.rect.right < 0:
+                self.change_scene("living_room", entry_side="right")
+
+   # unused
     def draw_navigation_buttons(self):
         if self.state != "playing" or not self.current_room:
             return
@@ -147,12 +170,12 @@ class Game:
         elif self.state == "playing":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                available_exits = self.room_exits.get(self.current_room, {})
+                #available_exits = self.room_exits.get(self.current_room, {})
 
-                if "left" in available_exits and self.left_button.collidepoint(mouse_pos):
-                    self.change_scene(available_exits["left"], "right")
-                elif "right" in available_exits and self.right_button.collidepoint(mouse_pos):
-                    self.change_scene(available_exits["right"], "left")
+                #if "left" in available_exits and self.left_button.collidepoint(mouse_pos):
+                    #self.change_scene(available_exits["left"], "right")
+                #elif "right" in available_exits and self.right_button.collidepoint(mouse_pos):
+                    #self.change_scene(available_exits["right"], "left")
 
             # Handle key presses
             if event.type == pygame.KEYDOWN:
@@ -167,6 +190,7 @@ class Game:
             self.character_select.update()
         elif self.state == "playing" and self.current_scene:
             self.current_scene.update()
+            self.handle_scene_transitions()
 
     def draw_stats(self):
             font = pygame.font.SysFont(None, 24)
@@ -205,7 +229,7 @@ class Game:
             self.menu.draw(self.screen)
         elif self.state == "playing" and self.current_scene:
             self.current_scene.draw()
-            self.draw_navigation_buttons()
+            #self.draw_navigation_buttons()
             self.draw_stats()
 
             if self.show_inventory:
