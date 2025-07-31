@@ -12,6 +12,7 @@ class CharacterSelect:
             {"name": "Asja", "image_path": "../assets/media/sprites/Asja.png"},
             {"name": "Kira", "image_path": "../assets/media/sprites/Kira.png"},
             {"name": "Tommy", "image_path": "../assets/media/sprites/Tommy.png"},
+            {"name": "Jimmy", "image_path": "../assets/media/sprites/Jimmy.png"},
         ]
 
         self.cat_objects = []

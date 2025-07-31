@@ -3,7 +3,7 @@ import random
 import pygame
 
 def load_random_skin(exclude_skin):
-    skins = ["Asja", "Tofu", "Tommy", "Kira"]
+    skins = ["Asja", "Tofu", "Tommy", "Kira", "Jimmy"]
     if exclude_skin in skins:
         skins.remove(exclude_skin)
     chosen = random.choice(skins)

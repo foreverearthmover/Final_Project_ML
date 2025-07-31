@@ -115,7 +115,7 @@ class Garden:
         inventory_names = [item.name for item in self.game.inventory]
 
         # Check for LOVE ending
-        if inventory_names == ["Bow"]:
+        if stats["Health"] == 0 and stats["Damage"] == 0 and stats ["Love"] == 1:
             self.show_ending("love.png")
             self.cat.set_image_with_bow()
             return

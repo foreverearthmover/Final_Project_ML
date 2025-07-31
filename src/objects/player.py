@@ -35,6 +35,10 @@ class Cat:
             os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Kira.png'
         )
 
+        jimmy_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Jimmy.png'
+        )
+
         self.image_path = image_path  # Save it for later use in set_image_with_bow()
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
@@ -85,6 +89,8 @@ class Cat:
             new_path = self.image_path.replace("Tommy", "Tommy_bow")
         elif "Kira" in self.image_path:
             new_path = self.image_path.replace("Kira", "Kira_bow")
+        elif "Jimmy" in self.image_path:
+            new_path = self.image_path.replace("Jimmy", "Jimmy_bow")
         else:
             return  # No match, exit
 

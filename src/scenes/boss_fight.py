@@ -4,6 +4,7 @@ class BossFight:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
+        self.name = None
 
         self.ending = self.get_ending()
         original_image = pygame.image.load(f"../assets/media/endings/{self.ending}.png").convert()
@@ -21,8 +22,8 @@ class BossFight:
             return "lose"
 
     def update_sprite_with_bow(self):
-        name = self.game.cat.name
-        if name in ["Asja", "Tofu", "Tommy", "Kira"]:
+        self.name = self.game.cat.name
+        if name in ["Asja", "Tofu", "Tommy", "Kira", "Jimmy"]:
             bow_path = f"../assets/media/sprites/{name}_bow.png"
             if os.path.exists(bow_path):
                 self.game.cat.image = pygame.image.load(bow_path).convert_alpha()
