@@ -65,7 +65,7 @@ class Game:
 
     def start_game(self):
         if not self.cat:
-            self.cat = Cat(x=100, y=250, image_path="../assets/media/sprites/Tofu.png")
+            self.cat = Cat(x=100, y=270, image_path="../assets/media/sprites/Tofu.png")
 
         # Set up initial scene
         self.current_scene = LivingRoom(self)
@@ -79,7 +79,7 @@ class Game:
         else:  # "right"
             self.cat.rect.x = self.screen.get_width() - 150
 
-        self.cat.rect.y = 250
+        self.cat.rect.y = 270
         self.current_room = scene_name
 
         # Create new scene
