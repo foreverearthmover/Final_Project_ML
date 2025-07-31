@@ -100,16 +100,6 @@ class Bathroom:
 
     def update(self):
         self.cat.update()
-        for item in self.items:
-            if not item.collected and self.game.cat.rect.colliderect(item.rect):
-                if item.movable:
-                    self.game.inventory.append(item)
-                    item.collected = True
-                    print(f"Collected: {item.name}")
-                elif not item.used:
-                    item.apply_effect(self.game)
-                    item.used = True
-                    print(f"Used {item.name}: {item.effect} +{item.effect_value}")
 
     def draw_inventory(self):
         # Draw the inventory UI
