@@ -97,17 +97,22 @@ class Cat:
         self.current_frames = self.idle_frames
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
-
+#HIER IST DAS PROBLEM :,)
     def update(self):
         keys = pygame.key.get_pressed()
         moved = False
 
+       #!!! #current_scene_name = self.game.current_scene.class.name
+
+
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        #!!!#if not (self.rect.x <= 0 and current_scene_name == "Bathroom"):
             self.rect.x -= self.speed
             self.facing_left = True
             moved = True
 
         elif keys[pygame.K_RIGHT]: #or keys[pygame.K_d]:
+         #!!!#if not (self.rect.x >= 700 and current_scene_name == "Garden"):
             self.rect.x += self.speed
             self.facing_left = False
             moved = True
