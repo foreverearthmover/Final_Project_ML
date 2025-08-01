@@ -1,4 +1,5 @@
 import pygame
+import os
 
 class BossFight:
     def __init__(self, game):
@@ -23,8 +24,8 @@ class BossFight:
 
     def update_sprite_with_bow(self):
         self.name = self.game.cat.name
-        if name in ["Asja", "Tofu", "Tommy", "Kira", "Jimmy"]:
-            bow_path = f"../assets/media/sprites/{name}_bow.png"
+        if self.name in ["Asja", "Tofu", "Tommy", "Kira", "Jimmy"]:
+            bow_path = f"../assets/media/sprites/{self.name}_bow.png"
             if os.path.exists(bow_path):
                 self.game.cat.image = pygame.image.load(bow_path).convert_alpha()
 

@@ -65,7 +65,7 @@ class Game:
 
     def start_game(self):
         if not self.cat:
-            self.cat = Cat(x=100, y=270, image_path="../assets/media/sprites/Tofu.png")
+            self.cat = Cat(x=100, y=270, image_path="../assets/media/sprites/Tofu.png", game = self)
 
         # Set up initial scene
         self.current_scene = LivingRoom(self)
@@ -189,6 +189,12 @@ class Game:
         if self.state == "character_select":
             self.character_select.update()
         elif self.state == "playing" and self.current_scene:
+            self.current_scene.update()
+            self.handle_scene_transitions()
+        if self.state == "character_select":
+            self.character_select.update()
+        elif self.state == "playing" and self.current_scene:
+            self.cat.update_sprite_if_bow_equipped()  # <-- check for bow
             self.current_scene.update()
             self.handle_scene_transitions()
 

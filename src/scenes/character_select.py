@@ -18,7 +18,7 @@ class CharacterSelect:
         self.cat_objects = []
         for i, cat_data in enumerate(self.cat_options):
             # Each cat starts at a fixed Y position, with different X offset
-            cat = Cat(x=100 + i * 120, y=200, image_path=cat_data["image_path"])
+            cat = Cat(x=100 + i * 120, y=200, image_path=cat_data["image_path"], game=self.game)
             cat.rect = pygame.Rect(100 + i * 120, 200, 80, 80)  # override for UI layout
             self.cat_objects.append({
                 "cat": cat,
@@ -31,7 +31,7 @@ class CharacterSelect:
             pos = pygame.mouse.get_pos()
             for entry in self.cat_objects:
                 if entry["cat"].rect.collidepoint(pos):
-                    self.game.cat = Cat(x=100, y=250, image_path=entry["image_path"])
+                    self.game.cat = Cat(x=100, y=250, image_path=entry["image_path"], game=self.game)
                     self.game.state = "menu"
 
     def update(self):

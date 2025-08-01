@@ -9,8 +9,16 @@ ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 
 WHITE = (255, 255, 255)
 
-class Cat:
-    def __init__(self, x, y, image_path):
+class Cat(pygame.sprite.Sprite):
+    def __init__(self, x, y, image_path, game=None):
+        super().__init__()
+        self.x = x
+        self.y = y
+        self.image_path = image_path  # Save it for later use in set_image_with_bow()
+        self.original_image_path = image_path
+        self.game = game
+        self.name = self.get_name_from_path(image_path)
+        self.bow_equipped = False
         self.frame_width = 975
         self.frame_height = 1000
         self.scale = 0.15
@@ -19,27 +27,7 @@ class Cat:
         self.speed = 4
         #self.image = pygame.image.load(image_path).convert_alpha()
         # Load sprite sheet
-        tofu_path = os.path.join(
-            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Tofu.png'
-        )
 
-        asja_path = os.path.join(
-            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Asja.png'
-        )
-
-        tommy_path = os.path.join(
-            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Tommy.png'
-        )
-
-        kira_path = os.path.join(
-            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Kira.png'
-        )
-
-        jimmy_path = os.path.join(
-            os.path.dirname(__file__), '..', '..', 'assets', 'media', 'sprites', 'Jimmy.png'
-        )
-
-        self.image_path = image_path  # Save it for later use in set_image_with_bow()
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
@@ -60,10 +48,15 @@ class Cat:
         self.facing_left = False
 
         self.stats = {
-            "Damage": 1,
-            "Health": 1
+            "Damage": 0,
+            "Health": 0
         }
     ...
+
+    def get_name_from_path(self, path):
+        filename = os.path.basename(path)
+        return filename.replace(".png", "").replace("_bow", "")
+
     def load_frames(self, start_index, count, scale):
         frames = []
         for i in range(start_index, start_index + count):
@@ -80,30 +73,33 @@ class Cat:
         image.set_colorkey(self.color)
         return image
 
-    def set_image_with_bow(self):
-        if "Asja" in self.image_path:
-            new_path = self.image_path.replace("Asja", "Asja_bow")
-        elif "Tofu" in self.image_path:
-            new_path = self.image_path.replace("Tofu", "Tofu_bow")
-        elif "Tommy" in self.image_path:
-            new_path = self.image_path.replace("Tommy", "Tommy_bow")
-        elif "Kira" in self.image_path:
-            new_path = self.image_path.replace("Kira", "Kira_bow")
-        elif "Jimmy" in self.image_path:
-            new_path = self.image_path.replace("Jimmy", "Jimmy_bow")
-        else:
-            return  # No match, exit
+    def update_sprite_if_bow_equipped(self):
+        if not self.game or not hasattr(self.game, "inventory"):
+            return
 
-        # Reload the sprite sheet
-        self.sprite_sheet = pygame.image.load(os.path.normpath(new_path)).convert_alpha()
+        has_bow = any(item.name == "Bow" for item in self.game.inventory)
 
-        #Recreate animation frames
-        self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
-        self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
-        self.current_frames = self.idle_frames
-        self.frame_index = 0
-        self.image = self.current_frames[self.frame_index]
-#HIER IST DAS PROBLEM :,)
+        if has_bow and not self.bow_equipped:
+            bow_path = self.original_image_path.replace(".png", "_bow.png")
+            if os.path.exists(bow_path):
+                self.sprite_sheet = pygame.image.load(bow_path).convert_alpha()
+                self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
+                self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
+                self.current_frames = self.idle_frames
+                self.frame_index = 0
+                self.bow_equipped = True
+
+        elif not has_bow and self.bow_equipped:
+            original_path = self.original_image_path
+            if os.path.exists(original_path):
+                self.sprite_sheet = pygame.image.load(original_path).convert_alpha()
+                self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
+                self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
+                self.current_frames = self.idle_frames
+                self.frame_index = 0
+                self.bow_equipped = False
+
+    #HIER IST DAS PROBLEM :,)
     def update(self):
         keys = pygame.key.get_pressed()
         moved = False
