@@ -13,7 +13,7 @@ class BossFight:
 
     def get_ending(self):
         inventory_names = [item.name for item in self.game.inventory]
-        if "Bow" in inventory_names and len(inventory_names) == 1:
+        if any(item.name == "Bow" for item in self.game.inventory):
             # Secret love ending
             self.update_sprite_with_bow()
             return "love"

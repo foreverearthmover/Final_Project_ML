@@ -99,16 +99,18 @@ class Item:
 
     def try_pick_up(self):
         if self.movable == "yes":
-            if len(self.game.inventory) < INVENTORY_MAX:
-                self.picked_up = True
-                self.game.inventory.append(self)
-                self.game.item_states[self.name] = True  # Update global state
-                print(f"You picked up [Item: {self.name}]")
+            if self not in self.game.inventory:
+                if len(self.game.inventory) < INVENTORY_MAX:
+                    self.picked_up = True
+                    self.game.inventory.append(self)
+                    self.game.item_states[self.name] = True  # Update global state
+                    print(f"You picked up [Item: {self.name}]")
+                else:
+                    print("Inventory full. Drop something first.")
             else:
-                print("Inventory full. Drop something first.")
+                print(f"{self.name} is already in your inventory.")
         else:
             print(f"[{self.name}] is not movable and cannot be picked up.")
-
 
     def draw(self, screen):
         # Only draw the item if it is not picked up
