@@ -1,4 +1,4 @@
-from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
+from objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
 import os
 import pygame
 import sys
@@ -78,7 +78,7 @@ class Garden:
                     item.try_pick_up()
             # Handle inventory interactions
             if self.game.show_inventory:
-                for i, item in enumerate(inventory):
+                for i, item in enumerate(self.game.inventory):
                     item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
                     item_rect = pygame.Rect(item_x, 20, 40, 40)
 
@@ -106,7 +106,7 @@ class Garden:
                                 break  # Stop searching once the correct room is found
 
                         # Remove item from inventory and reset selection
-                        inventory.remove(item)
+                        self.game.inventory.remove(item)
                         self.selected_inventory_item = None
                         return
 
@@ -168,7 +168,7 @@ class Garden:
         pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 5, 350, 80), 2)  # Border
 
 
-        for i, item in enumerate(inventory):
+        for i, item in enumerate(self.game.inventory):
             item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
             inventory_img = pygame.transform.scale(item.image, (45, 45))
             self.screen.blit(inventory_img, (item_x, 20))

@@ -198,6 +198,9 @@ class Game:
             self.current_scene.update()
             self.handle_scene_transitions()
 
+    def has_bow(self):
+        return any(item.name == "Bow" for item in self.inventory)
+
     def draw_stats(self):
             font = pygame.font.SysFont(None, 24)
 

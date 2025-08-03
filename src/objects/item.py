@@ -2,6 +2,7 @@ import pygame
 import os
 
 
+
 #Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
@@ -14,7 +15,7 @@ INVENTORY_POSITION = 100
 ITEM_SPACING = 80
 
 #Inventory
-inventory = []
+
 
 #dictonary of what is inside the rooms
 rooms = {
@@ -77,8 +78,6 @@ class Item:
         self.stat = item_data.get("stat", None) if item_data else None
         self.effect = item_data.get("effect", 0) if item_data else 0
 
-        for item in inventory:
-            print(item)
 
     def apply_effect(self, game):
         if self.stat and self.stat != "none" and not self.used:
@@ -100,9 +99,9 @@ class Item:
 
     def try_pick_up(self):
         if self.movable == "yes":
-            if len(inventory) < INVENTORY_MAX:
+            if len(self.game.inventory) < INVENTORY_MAX:
                 self.picked_up = True
-                inventory.append(self)
+                self.game.inventory.append(self)
                 self.game.item_states[self.name] = True  # Update global state
                 print(f"You picked up [Item: {self.name}]")
             else:

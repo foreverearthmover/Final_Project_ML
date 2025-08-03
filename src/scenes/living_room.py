@@ -1,7 +1,7 @@
 from objects.player import Cat
 import os
 import pygame
-from objects.item import Item, load_test_image, create_items_for_room, inventory, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE #!!!
+from objects.item import Item, load_test_image, create_items_for_room, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE #!!!
 from objects.item import create_items_for_room
 
 from src.objects.item import rooms
@@ -66,7 +66,7 @@ class LivingRoom:
                             self.game.message_timer = pygame.time.get_ticks()
 
             # Check inventory interactions
-            for i, item in enumerate(inventory):
+            for i, item in enumerate(self.game.inventory):
                 item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
                 item_rect = pygame.Rect(item_x, 20, 40, 40)
 
@@ -97,7 +97,7 @@ class LivingRoom:
                             target_room_items.append(item)
                             break
 
-                    inventory.remove(item)
+                    self.game.inventory.remove(item)
                     self.selected_inventory_item = None
                     return
 
@@ -111,7 +111,7 @@ class LivingRoom:
 
         ITEM_SPACING = 80  # Space between items
 
-        for i, item in enumerate(inventory):
+        for i, item in enumerate(self.game.inventory):
             item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
             inventory_img = pygame.transform.scale(item.image, (45, 45))
             self.screen.blit(inventory_img, (item_x, 20))

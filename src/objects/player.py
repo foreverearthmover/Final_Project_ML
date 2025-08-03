@@ -3,7 +3,6 @@ import os
 
 
 
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 
@@ -76,6 +75,7 @@ class Cat(pygame.sprite.Sprite):
     def update_sprite_if_bow_equipped(self):
         if not self.game or not hasattr(self.game, "inventory"):
             return
+        print("Current inventory items:", [item.name for item in self.game.inventory])
 
         has_bow = any(item.name == "Bow" for item in self.game.inventory)
 
@@ -101,6 +101,7 @@ class Cat(pygame.sprite.Sprite):
 
     #HIER IST DAS PROBLEM :,)
     def update(self):
+        self.update_sprite_if_bow_equipped()
         keys = pygame.key.get_pressed()
         moved = False
 

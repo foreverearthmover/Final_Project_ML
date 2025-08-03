@@ -1,4 +1,4 @@
-from objects.item import create_items_for_room, inventory, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION, ITEM_SPACING
+from objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION, ITEM_SPACING
 import os
 import pygame
 
@@ -53,7 +53,7 @@ class Bathroom:
 
             # Click in the inventory
             if self.game.show_inventory:
-                for i, item in enumerate(inventory):
+                for i, item in enumerate(self.game.inventory):
                     item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
                     item_rect = pygame.Rect(item_x, 20, 40, 40)
 
@@ -84,7 +84,7 @@ class Bathroom:
                                 target_room_items.append(item)
                                 break
 
-                        inventory.remove(item)
+                        self.game.inventory.remove(item)
                         self.selected_inventory_item = None
                         return
 
@@ -109,7 +109,7 @@ class Bathroom:
 
         ITEM_SPACING = 80  # Space between items
 
-        for i, item in enumerate(inventory):
+        for i, item in enumerate(self.game.inventory):
             item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
             inventory_img = pygame.transform.scale(item.image, (45, 45))
             self.screen.blit(inventory_img, (item_x, 20))
