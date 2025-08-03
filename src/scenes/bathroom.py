@@ -38,18 +38,14 @@ class Bathroom:
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos):
                     if not item.picked_up and item.movable == "yes":
-                        # Pick up item
                         item.try_pick_up()
-                        if item.name not in self.game.inventory_items:
-                            self.game.inventory.append(item)
-                            self.game.inventory_items.add(item.name)
+                        self.game.inventory_items.add(item.name)
 
-                            # Only affect stats if stat is not "none"
-                            if item.stat != "none":
-                                self.game.stats[item.stat] += item.effect
+                        if item.stat != "none":
+                            self.game.stats[item.stat] += item.effect
 
-                            self.game.status_message = f"Picked up {item.name}."
-                            self.game.message_timer = pygame.time.get_ticks()
+                        self.game.status_message = f"Picked up {item.name}."
+                        self.game.message_timer = pygame.time.get_ticks()
 
             # Click in the inventory
             if self.game.show_inventory:

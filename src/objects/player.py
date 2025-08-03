@@ -75,7 +75,7 @@ class Cat(pygame.sprite.Sprite):
     def update_sprite_if_bow_equipped(self):
         if not self.game or not hasattr(self.game, "inventory"):
             return
-        print("Current inventory items:", [item.name for item in self.game.inventory])
+
 
         has_bow = any(item.name == "Bow" for item in self.game.inventory)
 
