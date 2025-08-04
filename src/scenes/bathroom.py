@@ -32,21 +32,10 @@ class Bathroom:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-
-
             # Click on items in the room
             for item in self.items:
-                if item.rect.collidepoint(mouse_pos):
-                    if not item.picked_up and item.movable == "yes":
-                        item.try_pick_up()
-                        self.game.inventory_items.add(item.name)
-
-                        if item.stat != "none":
-                            self.game.stats[item.stat] += item.effect
-
-                        self.game.status_message = f"Picked up {item.name}."
-                        self.game.message_timer = pygame.time.get_ticks()
-
+                if item.check_click(mouse_pos):
+                    break
             # Click in the inventory
             if self.game.show_inventory:
                 for i, item in enumerate(self.game.inventory):

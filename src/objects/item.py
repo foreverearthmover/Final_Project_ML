@@ -32,8 +32,9 @@ rooms = {
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use_msg": "I'm not sure why I'm carrying this with me.", "x": 10, "y": 425},
-        {"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." , "use_msg": "Let me just take this.", "x": 430, "y": 290},
-        {"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" , "use_msg": "I look fab.", "x": 430, "y": 290}
+        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "Thats a lot of Toilet paper" , "use_msg": "you go through the Toilet paper", "x": 430, "y": 290},
+        #{"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." , "use_msg": "Let me just take this.", "x": 430, "y": 290},
+        #{"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" , "use_msg": "I look fab.", "x": 430, "y": 290}
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" , "use_msg": "It got away!", "x": 100, "y": 100},
@@ -77,6 +78,11 @@ class Item:
         self.movable = item_data.get("movable", True) if item_data else True
         self.stat = item_data.get("stat", None) if item_data else None
         self.effect = item_data.get("effect", 0) if item_data else 0
+
+        # Multi-Click System for closet
+        self.click_count = 0
+        self.max_clicks = 4
+        self.hidden_item_spawned = False
 
 
     def apply_effect(self, game):
@@ -142,7 +148,17 @@ class Item:
             self.game.hover_message = self.msg
 
     def check_click(self, pos):
-        return self.rect.collidepoint(pos)
+        if self.rect.collidepoint(pos) and not self.picked_up:
+            if self.name == "Cabinet" and self.movable == "no":
+                self.handle_cabinet_clicks()
+                return True
+            elif self.movable == "yes":
+                self.try_pick_up()
+                return True
+            else:
+                self.use()
+                return True
+        return False
 
     def get_movable_status(self, name):
         for room_items in rooms.values():
@@ -151,6 +167,50 @@ class Item:
                     return item['movable']
         return "no"
 
+    def handle_cabinet_clicks(self):
+        #handles cabinet clicks
+        if self.click_count < self.max_clicks:
+            self.click_count += 1
+
+            if self.click_count == 1:
+                print("Picked up one roll of Toilet paper")
+                self.add_toilet_paper_to_inventory()
+            elif self.click_count == 2:
+                print("Picked up even more Toilet paper")
+                self.add_toilet_paper_to_inventory()
+            elif self.click_count == 3:
+                print("Picked up ... I think thats enought Toilet paper.")
+                self.add_toilet_paper_to_inventory()
+            elif self.click_count == 4:
+                print("Ouh, a pretty Bow! You put it on")
+                self.spawn_bow_item()
+        else:
+            print("Cabinet is empty.")
+
+    def add_toilet_paper_to_inventory(self):
+
+        if len(self.game.inventory) < 4:  # INVENTORY_MAX
+            try:
+                tp_image = load_test_image("Toilet paper")
+                tp_item = Item("Toilet paper", (0, 0), tp_image, 1, self.game)
+                tp_item.picked_up = True
+                self.game.inventory.append(tp_item)
+                print("YOU PICKED UP TOILET PAPER")
+            except:
+                print("Cant find Toilet paper picture")
+
+    def spawn_bow_item(self):
+
+        try:
+            bow_image = load_test_image("Bow")
+            bow_item = Item("Bow", (self.x + 80, self.y + 20), bow_image, 1, self.game)
+            #add to scene
+            if hasattr(self.game.current_scene, 'items'):
+                self.game.current_scene.items.append(bow_item)
+                self.game.item_states["Bow"] = False
+            print("THERES A BOW!")
+        except:
+            print("CANT FIND BW PIc")
 
 
     def use(self):
