@@ -32,7 +32,7 @@ rooms = {
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use_msg": "I'm not sure why I'm carrying this with me.", "x": 10, "y": 425},
-        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "That's a lot of Toilet paper" , "use_msg": "You go through the Toilet paper", "x": 323, "y": -3,}
+        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "That's a lot of Toilet paper" , "use_msg": "You go through the Toilet paper", "x": 321, "y": -6,}
         #{"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." , "use_msg": "Let me just take this.", "x": 430, "y": 290},
         #{"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" , "use_msg": "I look fab.", "x": 430, "y": 290}
     ],
@@ -61,7 +61,8 @@ class Item:
         self.picked_up = False
         self.clicked = False
         self.msg = self.get_msg_for_item(name)
-        self.use = self.get_use_for_item(name)
+        #self.use = self.get_use_for_item(name)
+        self.use_msg = self.get_use_for_item(name)
         self.mouse_was_pressed = True  # Track initial mouse state
 
         # Get item data from dictionary
@@ -168,49 +169,53 @@ class Item:
         return "no"
 
     def handle_cabinet_clicks(self):
-        #handles cabinet clicks
-        if self.click_count < self.max_clicks:
-            self.click_count += 1
-
-            if self.click_count == 1:
-                print("Picked up one roll of Toilet paper")
-                self.add_toilet_paper_to_inventory()
-            elif self.click_count == 2:
-                print("Picked up even more Toilet paper")
-                self.add_toilet_paper_to_inventory()
-            elif self.click_count == 3:
-                print("Picked up ... I think thats enought Toilet paper.")
-                self.add_toilet_paper_to_inventory()
-            elif self.click_count == 4:
-                print("Ouh, a pretty Bow! You put it on")
-                self.spawn_bow_item()
+        self.click_count += 1
+        if self.click_count <= 3:
+            self.add_toilet_paper_to_inventory()
+            self.game.status_message = "Picked up Toilet paper."
+            self.game.message_timer = pygame.time.get_ticks()
+        elif self.click_count == 4:
+            self.spawn_bow_item()
+            self.game.status_message = "A bow appeared!"
+            self.game.message_timer = pygame.time.get_ticks()
         else:
-            print("Cabinet is empty.")
+            self.game.status_message = "The cabinet is empty."
+            self.game.message_timer = pygame.time.get_ticks()
 
     def add_toilet_paper_to_inventory(self):
-
         if len(self.game.inventory) < 4:  # INVENTORY_MAX
             try:
                 tp_image = load_test_image("Toilet paper")
                 tp_item = Item("Toilet paper", (0, 0), tp_image, 1, self.game)
+                # Set properties manually to ensure it's droppable
                 tp_item.picked_up = True
+                tp_item.movable = "yes"
+                tp_item.stat = "none"
+                tp_item.effect = 0
+                tp_item.msg = "You could push over the tower.. Or maybe just take one."
+                tp_item.use_msg = "Let me just take this."
                 self.game.inventory.append(tp_item)
                 print("YOU PICKED UP TOILET PAPER")
-            except:
-                print("Cant find Toilet paper picture")
+            except Exception as e:
+                print("Can't find Toilet paper picture", e)
 
     def spawn_bow_item(self):
-
         try:
             bow_image = load_test_image("Bow")
-            bow_item = Item("Bow", (self.x + 80, self.y + 20), bow_image, 1, self.game)
+            bow_item = Item("Bow", (330, 270), bow_image, 1, self.game)
+            # Set properties manually to ensure it's collectible
+            bow_item.movable = "yes"
+            bow_item.stat = "Love"
+            bow_item.effect = 1
+            bow_item.msg = "What a pretty Bow"
+            bow_item.use_msg = "I look fab."
             #add to scene
             if hasattr(self.game.current_scene, 'items'):
                 self.game.current_scene.items.append(bow_item)
                 self.game.item_states["Bow"] = False
             print("THERES A BOW!")
-        except:
-            print("CANT FIND BW PIc")
+        except Exception as e:
+            print("Can't find Bow picture", e)
 
 
     def use(self):

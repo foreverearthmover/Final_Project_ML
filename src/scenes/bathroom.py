@@ -28,15 +28,36 @@ class Bathroom:
         self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
 
     def handle_event(self, event):
-        # Handle item interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-            # Click on items in the room
+            # Check clicks on items in the world
             for item in self.items:
-                if item.check_click(mouse_pos):
+                if item.rect.collidepoint(mouse_pos):
+                    # Special case for Cabinet: always call check_click to use its custom logic
+                    if item.name == "Cabinet":
+                        item.check_click(mouse_pos)
+                        break
+                    elif item.movable == "yes" and not item.picked_up and item not in self.game.inventory:
+                        item.try_pick_up()
+                        self.game.status_message = f"Picked up {item.name}."
+                        self.game.message_timer = pygame.time.get_ticks()
+                    elif item.movable == "yes" and item in self.game.inventory:
+                        self.game.status_message = f"You already picked up {item.name}."
+                        self.game.message_timer = pygame.time.get_ticks()
+                    elif item.movable == "no":
+                        if item.name not in self.game.used_items:
+                            self.game.used_items.add(item.name)
+                            if item.stat != "none":
+                                self.game.stats[item.stat] += item.effect
+                            self.game.status_message = item.use_msg
+                            self.game.message_timer = pygame.time.get_ticks()
+                        else:
+                            self.game.status_message = f"You already used {item.name}."
+                            self.game.message_timer = pygame.time.get_ticks()
                     break
-            # Click in the inventory
+
+            # Inventory interactions
             if self.game.show_inventory:
                 for i, item in enumerate(self.game.inventory):
                     item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
@@ -71,17 +92,9 @@ class Bathroom:
 
                         self.game.inventory.remove(item)
                         self.selected_inventory_item = None
+                        self.game.status_message = f"Dropped {item.name}."
+                        self.game.message_timer = pygame.time.get_ticks()
                         return
-
-                    if event.type == pygame.MOUSEBUTTONDOWN and item.rect.collidepoint(event.pos):
-                        if not item.movable:
-                            if item.name not in self.game.used_items:
-                                if item.stat != "none":
-                                    self.game.stats[item.stat] += item.effect
-                                self.game.used_items.add(item.name)
-                                self.game.status_message = item.use
-                            else:
-                                self.game.status_message = f"You already used {item.name}."
 
     def update(self):
         self.cat.update()

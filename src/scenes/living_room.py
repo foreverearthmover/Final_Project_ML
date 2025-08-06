@@ -37,17 +37,13 @@ class LivingRoom:
             # Check clicks on items in the world
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos):
-                    if not item.picked_up and item.movable == "yes":
-                        # Pick up item
-                        if not item.picked_up and item.movable == "yes":
+                    if item.movable == "yes" and not item.picked_up and item not in self.game.inventory:
                             item.try_pick_up()
                             self.game.inventory_items.add(item.name)
                             if item.stat != 'none':
                                 self.game.stats[item.stat] += item.effect
                             self.game.status_message = f"Picked up {item.name}."
                             self.game.message_timer = pygame.time.get_ticks()
-
-
 
                     elif item.movable == "no":
                         # Use static/non-movable item
@@ -57,8 +53,13 @@ class LivingRoom:
                             if item.stat != "none":
                                 self.game.stats[item.stat] += item.effect
 
-                            self.game.status_message = item.use
+                            self.game.status_message = item.use_msg
                             self.game.message_timer = pygame.time.get_ticks()
+
+                        elif item.movable == "yes" and item in self.game.inventory:
+                            self.game.status_message = f"You already picked up {item.name}."
+                            self.game.message_timer = pygame.time.get_ticks()
+
                         else:
                             self.game.status_message = f"You already used {item.name}."
                             self.game.message_timer = pygame.time.get_ticks()
