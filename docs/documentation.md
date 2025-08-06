@@ -5,4 +5,8 @@
 
 25.07.2025 - basic scene transitions working
 
-![](https://github.com/foreverearthmover/Final_Project_ML/blob/main/docs/gifs/gif_25.07.2025.gif)
+![](https://github.com/foreverearthmover/Final_Project_ML/blob/main/docs/gifs/gif_25.07.2025.gif)  
+  
+06.08.2025 - scene transitions reworked, basic endings working (shown here: secret love ending)
+
+![](https://github.com/foreverearthmover/Final_Project_ML/blob/main/docs/gifs/gif_06.08.2025.gif)  
