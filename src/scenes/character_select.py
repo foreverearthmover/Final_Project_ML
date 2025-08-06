@@ -1,10 +1,18 @@
 import pygame
 from objects.player import Cat
+import os
 
 class CharacterSelect:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
+
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "fonts", "8-bit_wonder.TTF")
+        font_path = os.path.normpath(font_path)
+
+        self.title_font = pygame.font.Font(font_path, 36)
+        self.label_font = pygame.font.Font(font_path, 10)
 
         #cat skins
         self.cat_options = [
@@ -51,11 +59,10 @@ class CharacterSelect:
 
             cat.animate()
 
-    def draw(self):
-        self.screen.fill((20, 20, 30))
-        font = pygame.font.SysFont(None, 40)
-        title = font.render("Which cat do you want to play as:", True, (255, 255, 255))
-        self.screen.blit(title, (200, 100))
+    def draw(self, screen):
+        screen.fill((0, 0, 0))
+        title_surface = self.title_font.render("Choose a Cat", True, (255, 255, 255))
+        screen.blit(title_surface, (screen.get_width() // 2 - title_surface.get_width() // 2, 100))
 
         for entry in self.cat_objects:
             cat = entry["cat"]
@@ -63,7 +70,6 @@ class CharacterSelect:
 
             cat.draw(self.screen)  # Draw animated cat first
 
-            label_font = pygame.font.SysFont(None, 20)
-            label = label_font.render(name, True, (200, 200, 200))
+            label = self.label_font.render(name, True, (200, 200, 200))
             # draw label BELOW the cat
             self.screen.blit(label, (cat.rect.x + 10, cat.rect.y + cat.image.get_height() + 5))

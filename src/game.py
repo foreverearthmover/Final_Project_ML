@@ -233,7 +233,7 @@ class Game:
 
     def draw(self):
         if self.state == "character_select":
-            self.character_select.draw()
+            self.character_select.draw(self.screen)
         elif self.state == "menu":
             self.menu.draw(self.screen)
         elif self.state == "playing" and self.current_scene:
