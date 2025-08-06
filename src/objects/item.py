@@ -32,7 +32,7 @@ rooms = {
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use_msg": "I'm not sure why I'm carrying this with me.", "x": 10, "y": 425},
-        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "Thats a lot of Toilet paper" , "use_msg": "you go through the Toilet paper", "x": 430, "y": 290},
+        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "That's a lot of Toilet paper" , "use_msg": "You go through the Toilet paper", "x": 323, "y": -3,}
         #{"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." , "use_msg": "Let me just take this.", "x": 430, "y": 290},
         #{"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" , "use_msg": "I look fab.", "x": 430, "y": 290}
     ],
