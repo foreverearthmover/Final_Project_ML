@@ -53,7 +53,7 @@ class Bathroom:
                             self.game.status_message = item.use_msg
                             self.game.message_timer = pygame.time.get_ticks()
                         else:
-                            self.game.status_message = f"You already used {item.name}."
+                            self.game.status_message = f"You already examined the {item.name}."
                             self.game.message_timer = pygame.time.get_ticks()
                     break
 
