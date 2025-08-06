@@ -39,9 +39,14 @@ class Bathroom:
                         item.check_click(mouse_pos)
                         break
                     elif item.movable == "yes" and not item.picked_up and item not in self.game.inventory:
-                        item.try_pick_up()
-                        self.game.status_message = f"Picked up {item.name}."
-                        self.game.message_timer = pygame.time.get_ticks()
+                        # Check if inventory is full before trying to pick up
+                        if len(self.game.inventory) >= 4:  # INVENTORY_MAX
+                            self.game.status_message = "Inventory is full. Drop something first."
+                            self.game.message_timer = pygame.time.get_ticks()
+                        else:
+                            item.try_pick_up()
+                            self.game.status_message = f"Picked up {item.name}."
+                            self.game.message_timer = pygame.time.get_ticks()
                     elif item.movable == "yes" and item in self.game.inventory:
                         self.game.status_message = f"You already picked up {item.name}."
                         self.game.message_timer = pygame.time.get_ticks()
@@ -49,7 +54,7 @@ class Bathroom:
                         if item.name not in self.game.used_items:
                             self.game.used_items.add(item.name)
                             if item.stat != "none":
-                                self.game.stats[item.stat] += item.effect
+                                self.game.stats[item.stat] = self.game.stats.get(item.stat, 0) + item.effect
                             self.game.status_message = item.use_msg
                             self.game.message_timer = pygame.time.get_ticks()
                         else:
@@ -77,9 +82,10 @@ class Bathroom:
                         item.picked_up = False
                         self.game.item_states[item.name] = False
 
-                        # Undo stats if applicable
+                        # Undo stats if applicable (prevent negative values)
                         if item.stat != "none":
-                            self.game.stats[item.stat] -= item.effect
+                            current_stat = self.game.stats.get(item.stat, 0)
+                            self.game.stats[item.stat] = max(0, current_stat - item.effect)
 
                         # Assign item back to its original room
                         for room_name, room_items in rooms.items():

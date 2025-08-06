@@ -37,13 +37,20 @@ class LivingRoom:
             # Check clicks on items in the world
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos):
-                    if item.movable == "yes" and not item.picked_up and item not in self.game.inventory:
-                            item.try_pick_up()
-                            self.game.inventory_items.add(item.name)
-                            if item.stat != 'none':
-                                self.game.stats[item.stat] += item.effect
-                            self.game.status_message = f"Picked up {item.name}."
-                            self.game.message_timer = pygame.time.get_ticks()
+                    if not item.picked_up and item.movable == "yes":
+                        # Pick up item
+                        if not item.picked_up and item.movable == "yes":
+                            # Check if inventory is full before trying to pick up
+                            if len(self.game.inventory) >= 4:  # INVENTORY_MAX
+                                self.game.status_message = "Inventory is full. Drop something first."
+                                self.game.message_timer = pygame.time.get_ticks()
+                            else:
+                                item.try_pick_up()
+                                self.game.inventory_items.add(item.name)
+                                self.game.status_message = f"Picked up {item.name}."
+                                self.game.message_timer = pygame.time.get_ticks()
+
+
 
                     elif item.movable == "no":
                         # Use static/non-movable item
@@ -51,17 +58,12 @@ class LivingRoom:
                             self.game.used_items.add(item.name)
 
                             if item.stat != "none":
-                                self.game.stats[item.stat] += item.effect
+                                self.game.stats[item.stat] = self.game.stats.get(item.stat, 0) + item.effect
 
                             self.game.status_message = item.use_msg
                             self.game.message_timer = pygame.time.get_ticks()
-
-                        elif item.movable == "yes" and item in self.game.inventory:
-                            self.game.status_message = f"You already picked up {item.name}."
-                            self.game.message_timer = pygame.time.get_ticks()
-
                         else:
-                            self.game.status_message = f"You already examined the {item.name}."
+                            self.game.status_message = f"You already used {item.name}."
                             self.game.message_timer = pygame.time.get_ticks()
 
             # Check inventory interactions
@@ -83,9 +85,10 @@ class LivingRoom:
                     item.picked_up = False
                     self.game.item_states[item.name] = False
 
-                    # Undo stats if applicable
+                    # Undo stats if applicable (prevent negative values)
                     if item.stat != "none":
-                        self.game.stats[item.stat] -= item.effect
+                        current_stat = self.game.stats.get(item.stat, 0)
+                        self.game.stats[item.stat] = max(0, current_stat - item.effect)
 
                     # Assign item back to its original room
                     for room_name, room_items in rooms.items():

@@ -111,6 +111,9 @@ class Item:
                     self.picked_up = True
                     self.game.inventory.append(self)
                     self.game.item_states[self.name] = True  # Update global state
+                    # Apply stat effect when picked up
+                    if self.stat != "none":
+                        self.game.stats[self.stat] = self.game.stats.get(self.stat, 0) + self.effect
                     print(f"You picked up [Item: {self.name}]")
                 else:
                     print("Inventory full. Drop something first.")
@@ -190,7 +193,7 @@ class Item:
                 # Set properties manually to ensure it's droppable
                 tp_item.picked_up = True
                 tp_item.movable = "yes"
-                tp_item.stat = "none"
+                tp_item.stat = "none"  # Toilet paper has no stat effect
                 tp_item.effect = 0
                 tp_item.msg = "You could push over the tower.. Or maybe just take one."
                 tp_item.use_msg = "Let me just take this."
