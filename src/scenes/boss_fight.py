@@ -16,11 +16,11 @@ class BossFight:
         if any(item.name == "Bow" for item in self.game.inventory):
             # Secret love ending
             self.update_sprite_with_bow()
-            return "love"
+            return "love_ending_3"
         elif self.game.stats["Health"] >= 2 or self.game.stats["Damage"] >= 3:
-            return "win"
+            return "win_ending"
         else:
-            return "lose"
+            return "lose_ending"
 
     def update_sprite_with_bow(self):
         self.name = self.game.cat.name
