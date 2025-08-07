@@ -112,56 +112,6 @@ class Game:
             if cat.rect.right < 0:
                 self.change_scene("living_room", entry_side="right")
 
-   # unused
-    def draw_navigation_buttons(self):
-        if self.state != "playing" or not self.current_room:
-            return
-
-        available_exits = self.room_exits.get(self.current_room, {})
-
-        def format_room_name(room_name):
-            return room_name.replace("_", " ").title()  # Convert "living_room" to "Living Room"
-
-        # Size
-        self.left_button.width = 150
-        self.left_button.height = 35
-        self.right_button.width = 150
-        self.right_button.height = 35
-
-        # Colors
-        button_bg_color_default = (180, 180, 180)
-        button_bg_color_hover = (255, 255, 255)
-        button_border_color = (100, 100, 100)
-        button_text_color = (50, 50, 50)
-
-        mouse_pos = pygame.mouse.get_pos()
-
-        # Draw left button if there's a left exit
-        if "left" in available_exits:
-            left_color = button_bg_color_hover if self.left_button.collidepoint(mouse_pos) else button_bg_color_default
-            pygame.draw.rect(self.screen, left_color, self.left_button, border_radius=10)
-
-        # Border
-            pygame.draw.rect(self.screen, button_border_color, self.left_button, width=2, border_radius=10)
-
-        # Text
-            text = self.button_font.render(f"To {format_room_name(available_exits['left'])}", True, button_text_color)
-            text_rect = text.get_rect(center=self.left_button.center)
-            self.screen.blit(text, text_rect)
-
-        # Draw right button if there's a right exit
-        if "right" in available_exits:
-            right_color = button_bg_color_hover if self.right_button.collidepoint(mouse_pos) else button_bg_color_default
-            pygame.draw.rect(self.screen, right_color, self.right_button, border_radius=10)
-
-        # Border
-            pygame.draw.rect(self.screen, button_border_color, self.right_button, width=2, border_radius=10)
-
-        # Text
-            text = self.button_font.render(f"To {format_room_name(available_exits['right'])}", True, button_text_color)
-            text_rect = text.get_rect(center=self.right_button.center)
-            self.screen.blit(text, text_rect)
-
     def handle_event(self, event):
         if self.state == "character_select":
             self.character_select.handle_event(event)
@@ -239,7 +189,7 @@ class Game:
         elif self.state == "playing" and self.current_scene:
             self.current_scene.draw()
             #self.draw_navigation_buttons()
-            self.draw_stats()
+            #self.draw_stats()
 
             if self.show_inventory:
                 self.current_scene.draw_inventory()
