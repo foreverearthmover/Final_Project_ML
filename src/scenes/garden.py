@@ -1,14 +1,15 @@
 from objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
 import os
 import pygame
-import sys
+from pygame import mixer
 from scenes.boss_fight import BossFight
 from objects.boss_cat import BossCat, load_random_skin
-
-
 from src.objects.item import rooms
-from src.scenes import boss_fight
 
+mixer.init()
+sound_path = os.path.join('..', 'assets', 'media', 'sounds', 'cat_hiss.mp3')
+mixer.music.load(sound_path)
+mixer.music.set_volume(0.7)
 
 class Garden:
     def __init__(self, game):
@@ -46,7 +47,6 @@ class Garden:
         self.show_chase_button = False
 
         # Boss cat scene attributes
-        #self.boss_cat_rect = pygame.Rect(0, self.cat.rect.y, 40, 40)
         self.boss_cat_visible = False
         # Create BossCat, excluding the player's selected character
         self.boss_cat = BossCat(player_skin=game.selected_character)
@@ -70,12 +70,14 @@ class Garden:
             # Click on boss cat to enter fight
             if self.boss_cat_visible and self.boss_cat.rect.collidepoint(mouse_pos):
                 self.game.current_scene = BossFight(self.game)
+                mixer.music.play()
                 return
 
             # Handle item interactions
             for item in self.items:
                 if item.rect.collidepoint(mouse_pos) and not item.picked_up:
                     item.try_pick_up()
+
             # Handle inventory interactions
             if self.game.show_inventory:
                 for i, item in enumerate(self.game.inventory):
@@ -110,33 +112,6 @@ class Garden:
                         self.selected_inventory_item = None
                         return
 
-    def handle_boss_encounter(self):
-        stats = self.game.stats
-        inventory_names = [item.name for item in self.game.inventory]
-
-        # Check for LOVE ending
-        if stats["Health"] == 0 and stats["Damage"] == 0 and stats ["Love"] == 1:
-            self.show_ending("love.png")
-            self.cat.set_image_with_bow()
-            return
-
-        # Check for LOSE ending
-        if stats["Health"] < 2 and stats["Damage"] < 3:
-            self.show_ending("lose.png")
-            return
-
-        # WIN by default
-        self.show_ending("win.png")
-
-    def show_ending(self, image_filename):
-        image_path = os.path.join("..", "assets", "media", "endings", image_filename)
-        ending_img = pygame.image.load(image_path).convert()
-        self.screen.blit(ending_img, (0, 0))
-        pygame.display.flip()
-
-        pygame.time.wait(4000)  # Wait 4 seconds before quitting or resetting
-        pygame.quit()
-        sys.exit()  # or return to main menu if you prefer
 
     def update(self):
         # Handle the squirrel running off-screen

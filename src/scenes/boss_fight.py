@@ -1,6 +1,5 @@
 import pygame
 import os
-import time
 
 class BossFight:
     def __init__(self, game):
@@ -51,7 +50,7 @@ class BossFight:
 
     def advance_sequence(self):
         now = pygame.time.get_ticks()
-#
+
         if self.state == 'intro':
             if self.ending_type == 'love':
                 self.state = 'love1'
@@ -127,5 +126,5 @@ class BossFight:
             self.screen.blit(self.images['lose'], (0, 0))
             self.draw_text_box(self.texts['lose'])
         elif self.state == 'done':
-            # End the game or return to menu
+
             self.game.quit_game()
