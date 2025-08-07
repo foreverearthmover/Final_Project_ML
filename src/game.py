@@ -7,8 +7,7 @@ from ui.menu import MainMenu
 from objects.player import Cat, WHITE
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
 import os
-from scenes.boss_fight import BossFight
-
+import sys
 
 class Game:
     def __init__(self, screen):
@@ -46,10 +45,6 @@ class Game:
             raise FileNotFoundError(f"Font not found at: {font_path}")
         self.button_font = pygame.font.Font(font_path, 11)
 
-        # Navigation buttons
-        self.left_button = pygame.Rect(10, self.screen.get_height() - 40, 100, 30)
-        self.right_button = pygame.Rect(self.screen.get_width() - 170, self.screen.get_height() - 40, 100, 30)
-
         # Room connections
         self.item_states = {}  # Dictionary to track item states across scenes
         self.room_exits = {
@@ -71,6 +66,10 @@ class Game:
         self.current_scene = LivingRoom(self)
         self.current_room = "living_room"
         self.state = "playing"
+
+    def quit_game(self):
+        pygame.quit()
+        sys.exit()
 
     def change_scene(self, scene_name, entry_side):
         # Position cat based on entry side
