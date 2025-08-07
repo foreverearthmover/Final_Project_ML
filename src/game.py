@@ -188,7 +188,6 @@ class Game:
             self.menu.draw(self.screen)
         elif self.state == "playing" and self.current_scene:
             self.current_scene.draw()
-            #self.draw_navigation_buttons()
             #self.draw_stats()
 
             if self.show_inventory:
