@@ -6,6 +6,7 @@ import os
 #Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
+#Inventory
 INVENTORY_MAX = 4
 IMAGE_SCALE = 1
 WHITE = (255, 255, 255)
@@ -13,9 +14,6 @@ INVENTORY_COLOR = (155, 103, 60)
 INVENTORY_BORDER_COLOR = (245,222,179)
 INVENTORY_POSITION = 100
 ITEM_SPACING = 80
-
-#Inventory
-
 
 #dictonary of what is inside the rooms
 rooms = {
@@ -61,7 +59,6 @@ class Item:
         self.picked_up = False
         self.clicked = False
         self.msg = self.get_msg_for_item(name)
-        #self.use = self.get_use_for_item(name)
         self.use_msg = self.get_use_for_item(name)
         self.mouse_was_pressed = True  # Track initial mouse state
 
@@ -114,11 +111,11 @@ class Item:
                     # Apply stat effect when picked up
                     if self.stat != "none":
                         self.game.stats[self.stat] = self.game.stats.get(self.stat, 0) + self.effect
-                    print(f"You picked up [Item: {self.name}]")
+                    print(f"You picked up the [Item: {self.name}]")
                 else:
                     print("Inventory full. Drop something first.")
             else:
-                print(f"{self.name} is already in your inventory.")
+                print(f"The {self.name} is already in your inventory.")
         else:
             print(f"[{self.name}] is not movable and cannot be picked up.")
 
@@ -135,7 +132,7 @@ class Item:
         #mouse hovering
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
-            print(self.msg) #supposed to show the message predifned in the dic when hovering
+            print(self.msg) #supposed to show the message predefined in the dic when hovering
 
         mouse_pressed = pygame.mouse.get_pressed()[0]
         if not mouse_pressed:
