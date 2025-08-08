@@ -3,7 +3,7 @@ import os
 import pygame
 from pygame import mixer
 from scenes.boss_fight import BossFight
-from objects.boss_cat import BossCat, load_random_skin
+from objects.boss_cat import BossCat, load_skin
 from src.objects.item import rooms
 from assets.media.text.fonts import get_big_font, get_small_font
 
@@ -17,7 +17,7 @@ class Garden:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
-        self.boss_cat = BossCat(player_skin=game.selected_character)
+        self.boss_cat = BossCat()
 
         # Load items for the garden
         self.items = create_items_for_room("Garden", game=self.game, movable=False)
@@ -48,8 +48,7 @@ class Garden:
 
         # Boss cat scene attributes
         self.boss_cat_visible = False
-        # Create BossCat, excluding the player's selected character
-        self.boss_cat = BossCat(player_skin=game.selected_character)
+        self.boss_cat = BossCat()
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
