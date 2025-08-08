@@ -41,9 +41,6 @@ rooms = {
     ]
 }
 
-
-
-
 class Item:
     def __init__(self, name, pos, image, scale, game, movable = True):
         self.name = name

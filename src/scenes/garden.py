@@ -5,6 +5,7 @@ from pygame import mixer
 from scenes.boss_fight import BossFight
 from objects.boss_cat import BossCat, load_random_skin
 from src.objects.item import rooms
+from assets.media.text.fonts import get_big_font, get_small_font
 
 mixer.init()
 sound_path = os.path.join('..', 'assets', 'media', 'sounds', 'cat_hiss.mp3')
@@ -17,7 +18,6 @@ class Garden:
         self.screen = game.screen
         self.cat = game.cat
         self.boss_cat = BossCat(player_skin=game.selected_character)
-        self.button_font = pygame.font.SysFont(None, 32)
 
         # Load items for the garden
         self.items = create_items_for_room("Garden", game=self.game, movable=False)
@@ -138,7 +138,7 @@ class Garden:
 
     def draw_inventory(self):
         # Draw the inventory panel
-        font = pygame.font.SysFont(None, 20)
+        font = get_small_font(9)
         pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 5, 350, 80))  # Inventory background
         pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 5, 350, 80), 2)  # Border
 
@@ -154,7 +154,7 @@ class Garden:
 
             # Drop button
             if self.selected_inventory_item == item and item.movable == "yes":
-                drop_font = pygame.font.SysFont(None, 18)
+                drop_font = get_small_font(11)
                 drop_text = drop_font.render("Drop", True, (255, 0, 0))
                 drop_rect = pygame.Rect(item_x, 90, 50, 20)
                 pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
@@ -176,7 +176,8 @@ class Garden:
         # Draw chase button
         if self.show_chase_button:
             pygame.draw.rect(self.screen, (200, 200, 200), self.chase_button_rect, border_radius=10)
-            chase_text = self.button_font.render("Chase", True, (0, 0, 0))
+            self.button_font = get_small_font()
+            chase_text = self.button_font.render("CHASE?", True, (0, 0, 0))
             text_rect = chase_text.get_rect(center=self.chase_button_rect.center)
             self.screen.blit(chase_text, text_rect)
 
@@ -199,7 +200,7 @@ class Garden:
 
     def draw_hover_message(self):
         if hasattr(self.game, "hover_message") and self.game.hover_message:
-            font = pygame.font.SysFont(None, 20)
+            font = get_small_font(12)
             msg_surface = font.render(self.game.hover_message, True, (255, 255, 255))
             bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))

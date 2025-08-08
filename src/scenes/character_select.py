@@ -8,7 +8,7 @@ class CharacterSelect:
         self.screen = game.screen
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "fonts", "8-bit_wonder.TTF")
+        font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "text", "8-bit_wonder.ttf")
         font_path = os.path.normpath(font_path)
 
         self.title_font = pygame.font.Font(font_path, 36)

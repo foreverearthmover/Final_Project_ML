@@ -1,5 +1,6 @@
 import pygame
 import os
+from assets.media.text.fonts import get_big_font, get_small_font
 
 class BossFight:
     def __init__(self, game):
@@ -98,7 +99,7 @@ class BossFight:
         self.screen.blit(s, (0, y))
         pygame.draw.rect(self.screen, (255, 255, 255), (0, y, width, height), 3)
         if text:
-            font = pygame.font.SysFont(None, 32)
+            font = get_small_font(18)
             rendered = font.render(text, True, (255, 255, 255))
             text_rect = rendered.get_rect(center=(width // 2, y + height // 2))
             self.screen.blit(rendered, text_rect)

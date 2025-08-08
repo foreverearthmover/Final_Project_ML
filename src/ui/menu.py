@@ -1,21 +1,14 @@
 import pygame
 import os
+from assets.media.text.fonts import get_big_font, get_small_font
 
 class MainMenu:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
 
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "fonts", "8-bit_wonder.TTF")
-        font_path = os.path.normpath(font_path)
-
-        # debugging
-        if not os.path.isfile(font_path):
-            raise FileNotFoundError(f"Font file not found at {font_path}")
-
-        self.title_font = pygame.font.Font(font_path, 48)
-        self.button_font = pygame.font.Font(font_path, 36)
+        self.title_font = get_big_font()
+        self.button_font = get_big_font()
 
         self.start_button_rect = pygame.Rect(275, 280, 200, 60)
         self.quit_button_rect = pygame.Rect(275, 360, 200, 60)

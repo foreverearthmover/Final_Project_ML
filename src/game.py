@@ -6,7 +6,7 @@ from src.objects.item import create_items_for_room, rooms
 from ui.menu import MainMenu
 from objects.player import Cat, WHITE
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
-import os
+from assets.media.text.fonts import get_big_font, get_small_font
 import sys
 
 class Game:
@@ -23,7 +23,7 @@ class Game:
         self.character_select = CharacterSelect(self)  # Initialize CharacterSelect
         self.hover_message = ""
         self.current_room = None
-        self.font = pygame.font.SysFont(None, 20)
+        self.font = get_small_font(12)
         self.selected_character = None
         self.message_timer = 0
 
@@ -37,13 +37,7 @@ class Game:
             "garden": create_items_for_room("Garden", self, movable=False),
         }
 
-        # Load custom font
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        font_path = os.path.join(BASE_DIR, "..", "assets", "media", "fonts", "8-bit_wonder.TTF")
-        font_path = os.path.normpath(font_path)
-        if not os.path.exists(font_path):
-            raise FileNotFoundError(f"Font not found at: {font_path}")
-        self.button_font = pygame.font.Font(font_path, 11)
+        self.button_font = get_big_font(36)
 
         # Room connections
         self.item_states = {}  # Dictionary to track item states across scenes
@@ -151,7 +145,7 @@ class Game:
         return any(item.name == "Bow" for item in self.inventory)
 
     def draw_stats(self):
-            font = pygame.font.SysFont(None, 24)
+            font = get_small_font(12)
 
             # Prepare each stat line separately
             lines = [
@@ -193,7 +187,7 @@ class Game:
                 self.current_scene.draw_inventory()
 
             if self.status_message:
-                font = pygame.font.SysFont(None, 24)
+                font = get_small_font(12)
                 text_surface = font.render(self.status_message, True, WHITE)  # text
                 text_rect = text_surface.get_rect()
                 text_rect.topleft = (10, self.screen.get_height() - 420)  # adjust position as needed

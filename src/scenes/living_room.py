@@ -3,7 +3,7 @@ import os
 import pygame
 from objects.item import Item, load_test_image, create_items_for_room, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE #!!!
 from objects.item import create_items_for_room
-
+from assets.media.text.fonts import get_big_font, get_small_font
 from src.objects.item import rooms
 
 
@@ -107,7 +107,7 @@ class LivingRoom:
         self.cat.update()
 
     def draw_inventory(self):
-        font = pygame.font.SysFont(None, 20)
+        font = get_small_font(9)
         pygame.draw.rect(self.screen, (INVENTORY_COLOR), (INVENTORY_POSITION, 5, 350, 80))  # inventory background
         pygame.draw.rect(self.screen, (INVENTORY_BORDER_COLOR), (INVENTORY_POSITION, 5, 350, 80), 2)  # border
 
@@ -124,7 +124,7 @@ class LivingRoom:
 
             # Drop button
             if self.selected_inventory_item == item and item.movable == "yes":
-                drop_font = pygame.font.SysFont(None, 18)
+                drop_font = get_small_font(11)
                 drop_text = drop_font.render("Drop", True, (255, 0, 0))
                 drop_rect = pygame.Rect(item_x, 90, 50, 20)
                 pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
@@ -155,7 +155,7 @@ class LivingRoom:
 
     def draw_hover_message(self):
         if hasattr(self.game, "hover_message") and self.game.hover_message:
-            font = pygame.font.SysFont(None, 20)
+            font = get_small_font(12)
             msg_surface = font.render(self.game.hover_message, True, (255, 255, 255))
             bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
             pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
