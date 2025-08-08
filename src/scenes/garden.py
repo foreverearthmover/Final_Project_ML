@@ -173,11 +173,14 @@ class Garden:
         if self.squirrel_visible:
             pygame.draw.rect(self.screen, (165, 42, 42), self.squirrel_rect)  # Red rectangle as squirrel
 
-        # Draw chase button
         if self.show_chase_button:
-            pygame.draw.rect(self.screen, (200, 200, 200), self.chase_button_rect, border_radius=10)
+            button_surface = pygame.Surface(self.chase_button_rect.size, pygame.SRCALPHA)
+            pygame.draw.rect(button_surface, (0, 0, 0, 180), button_surface.get_rect(), border_radius=10)
+            self.screen.blit(button_surface, self.chase_button_rect.topleft)
+            pygame.draw.rect(self.screen, (255, 255, 255), self.chase_button_rect, width=2, border_radius=10)
+
             self.button_font = get_small_font()
-            chase_text = self.button_font.render("CHASE?", True, (0, 0, 0))
+            chase_text = self.button_font.render("CHASE?", True, (255, 255, 255))
             text_rect = chase_text.get_rect(center=self.chase_button_rect.center)
             self.screen.blit(chase_text, text_rect)
 
