@@ -20,7 +20,7 @@ class BossFight:
             'lose': self.load_and_scale_image('lose_ending.PNG'),
         }
         self.texts = {
-            'intro': 'The boss cat approaches! Prepare for the final confrontation...',
+            'intro': 'The cat approaches! Did you prepare well enough...?',
             'love1': 'The cat notices your bow...',
             'love2': '',
             'love3': '',
