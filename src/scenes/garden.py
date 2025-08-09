@@ -50,6 +50,14 @@ class Garden:
         self.boss_cat_visible = False
         self.boss_cat = BossCat()
 
+        # invisible wall to prevent moving out of bounds
+        self.right_wall = pygame.Rect(
+            self.squirrel_rect.left - 10,
+            0,
+            10,
+            self.screen.get_height()
+        )
+
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
@@ -113,19 +121,26 @@ class Garden:
 
 
     def update(self):
-        # Handle the squirrel running off-screen
+        # Handle squirrel movement
         if self.squirrel_running:
             self.squirrel_rect.x += 5  # Squirrel runs to the right
-            if self.squirrel_rect.left > self.screen.get_width():  # If squirrel goes off-screen
+            if self.squirrel_rect.left > self.screen.get_width():  # Squirrel off-screen
                 self.squirrel_running = False
                 self.squirrel_visible = False
-                self.show_chase_button = True  # Show the chase button
+                self.show_chase_button = True
+                # Move wall to the far right so the cat can walk to the end
+                self.right_wall.x = self.screen.get_width() - 10
 
         # Update the player cat animation
         self.cat.update()
 
+        # Update boss cat if visible
         if self.boss_cat_visible:
             self.boss_cat.update()
+
+        # Check collision with wall
+        if self.cat.rect.colliderect(self.right_wall):
+            self.cat.rect.right = self.right_wall.left
 
     def navigate_to_boss_area(self):
         self.show_chase_button = False
