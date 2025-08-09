@@ -27,6 +27,9 @@ class Bathroom:
         bg_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "backgrounds", "bathroom.png")
         self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
 
+        # invisible wall to prevent moving out of bounds
+        self.left_wall = pygame.Rect(0, 0, 5, self.screen.get_height())
+
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
@@ -104,6 +107,10 @@ class Bathroom:
 
     def update(self):
         self.cat.update()
+
+        # Check collision with the invisible wall
+        if self.cat.rect.colliderect(self.left_wall):
+            self.cat.rect.left = self.left_wall.right
 
     def draw_inventory(self):
         # Draw the inventory UI
