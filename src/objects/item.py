@@ -31,9 +31,7 @@ rooms = {
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use_msg": "I'm not sure why I'm carrying this with me.", "x": 10, "y": 425},
-        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "That's a lot of Toilet paper" , "use_msg": "You go through the Toilet paper", "x": 321, "y": -6,}
-        #{"item": "Toilet paper", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "You could push over the tower.. Or maybe just take one." , "use_msg": "Let me just take this.", "x": 430, "y": 290},
-        #{"item": "Bow", "movable": "yes", "stat": "Love", "effect": 1,"msg": "What a pretty Bow" , "use_msg": "I look fab.", "x": 430, "y": 290}
+        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "That's a lot of Toilet paper" , "use_msg": "You go through the Toilet paper", "x": 322, "y": -7}
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" , "use_msg": "It got away!", "x": 100, "y": 100},
@@ -174,7 +172,7 @@ class Item:
             self.game.message_timer = pygame.time.get_ticks()
         elif self.click_count == 4:
             self.spawn_bow_item()
-            self.game.status_message = "A bow appeared!"
+            self.game.status_message = "I found this behind the stacks of toilet paper.. How pretty!"
             self.game.message_timer = pygame.time.get_ticks()
         else:
             self.game.status_message = "The cabinet is empty."

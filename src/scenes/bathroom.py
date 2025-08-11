@@ -141,13 +141,20 @@ class Bathroom:
     def draw(self):
         # Draw the background
         self.screen.blit(self.background, (0, 0))
-
         self.game.hover_message = ""
+
+        # Count collected toilet papers
+        toilet_paper_count = sum(1 for inv_item in self.game.inventory if inv_item.name == "Toilet paper")
 
         # Draw items (only if not picked up)
         for item in self.items:
             if not item.picked_up:
-                item.draw(self.screen)
+                if item.name == "Cabinet":
+                    # Cabinet appears only if at least 2 Toilet paper collected
+                    if toilet_paper_count >= 2:
+                        item.draw(self.screen)
+                else:
+                    item.draw(self.screen)
 
         # Draw the cat
         self.cat.draw(self.screen)
