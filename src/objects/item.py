@@ -31,7 +31,7 @@ rooms = {
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
         {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use_msg": "I'm not sure why I'm carrying this with me.", "x": 10, "y": 425},
-        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "That's a lot of Toilet paper" , "use_msg": "You go through the Toilet paper", "x": 322, "y": -7}
+        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "There seem to be a lot of things stashed here." , "use_msg": "You go through the Toilet paper", "x": 322, "y": -7}
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" , "use_msg": "It got away!", "x": 100, "y": 100},
