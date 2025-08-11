@@ -39,7 +39,26 @@ class Garden:
 
         # Load and setup animated squirrel
         squirrel_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Squirrel.png")
-        self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha()
+        #self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha()
+        self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert()
+        self.squirrel_sprite_sheet.set_colorkey((255, 255, 255))  # Remove white
+
+        # Animation setup
+        self.squirrel_frame_width = 975
+        self.squirrel_frame_height = 1000
+        self.squirrel_scale = 0.5
+        self.squirrel_frame_count = 4
+        self.squirrel_idle_frames = self.load_squirrel_frames()
+
+        # Get scaled dimensions for click rect
+        scaled_width = self.squirrel_idle_frames[0].get_width()
+        scaled_height = self.squirrel_idle_frames[0].get_height()
+        self.squirrel_rect = pygame.Rect(
+            self.screen.get_width() - scaled_width - 20,
+            0,
+            scaled_width,
+            scaled_height
+        )
 
         # Squirrel animation setup
         self.squirrel_frame_width = 975
@@ -55,7 +74,6 @@ class Garden:
 
         # Current squirrel image
         self.current_squirrel_image = self.squirrel_idle_frames[0]
-
 
         # Squirrel attributes
         self.squirrel_rect = pygame.Rect(self.screen.get_width() - 200, self.screen.get_height() // 2, 40, 40)
