@@ -200,7 +200,7 @@ class Item:
     def spawn_bow_item(self):
         try:
             bow_image = load_test_image("Bow")
-            bow_item = Item("Bow", (330, 270), bow_image, 1, self.game)
+            bow_item = Item("Bow", (400, 300), bow_image, 1, self.game)
             # Set properties manually to ensure it's collectible
             bow_item.movable = "yes"
             bow_item.stat = "Love"
