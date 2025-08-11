@@ -36,6 +36,12 @@ class Garden:
         self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
         self.scroll_offset = 0
 
+        #load the squirrel
+        # Load squirrel image
+        squirrel_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Squirrel.png")
+        self.squirrel_image = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha()
+        self.squirrel_image = pygame.transform.scale(self.squirrel_image, (40, 40))  #size
+
 
         # Squirrel attributes
         self.squirrel_rect = pygame.Rect(self.screen.get_width() - 200, self.screen.get_height() // 2, 40, 40)
@@ -185,8 +191,7 @@ class Garden:
 
         # Draw the squirrel if visible
         if self.squirrel_visible:
-            pygame.draw.rect(self.screen, (165, 42, 42), self.squirrel_rect)  # Red rectangle as squirrel
-
+            self.screen.blit(self.squirrel_image, self.squirrel_rect)
         if self.show_chase_button:
             button_surface = pygame.Surface(self.chase_button_rect.size, pygame.SRCALPHA)
             pygame.draw.rect(button_surface, (0, 0, 0, 180), button_surface.get_rect(), border_radius=10)
