@@ -1,4 +1,5 @@
-from objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING,  WHITE
+from objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR,INVENTORY_POSITION, ITEM_SPACING, WHITE
+from src.ui.helper import draw_inventory, draw_hover_message
 import os
 import pygame
 from pygame import mixer
@@ -199,30 +200,6 @@ class Garden:
         self.boss_cat.start_chase()  # Trigger idle animation and visibility
         self.boss_cat_visible = True
 
-    def draw_inventory(self):
-        # Draw the inventory panel
-        font = get_small_font(9)
-        pygame.draw.rect(self.screen, INVENTORY_COLOR, (INVENTORY_POSITION, 5, 350, 80))  # Inventory background
-        pygame.draw.rect(self.screen, INVENTORY_BORDER_COLOR, (INVENTORY_POSITION, 5, 350, 80), 2)  # Border
-
-
-        for i, item in enumerate(self.game.inventory):
-            item_x = INVENTORY_POSITION + 20 + i * ITEM_SPACING
-            inventory_img = pygame.transform.scale(item.image, (45, 45))
-            self.screen.blit(inventory_img, (item_x, 20))
-
-            # Item name
-            text = font.render(item.name, True, (WHITE))
-            self.screen.blit(text, (item_x, 65))
-
-            # Drop button
-            if self.selected_inventory_item == item and item.movable == "yes":
-                drop_font = get_small_font(11)
-                drop_text = drop_font.render("Drop", True, (255, 0, 0))
-                drop_rect = pygame.Rect(item_x, 90, 50, 20)
-                pygame.draw.rect(self.screen, (50, 0, 0), drop_rect)
-                self.screen.blit(drop_text, (item_x + 5, 93))
-
     def draw(self):
         # Draw the background with the offset
         self.screen.blit(self.background, (-self.scroll_offset, 0))
@@ -259,16 +236,7 @@ class Garden:
 
         # Draw inventory if shown
         if self.game.show_inventory:
-            self.draw_inventory()
+            draw_inventory(self.screen, self.game, self.selected_inventory_item)
 
         # Draw hover message if any
-        self.draw_hover_message()
-
-    def draw_hover_message(self):
-        if hasattr(self.game, "hover_message") and self.game.hover_message:
-            font = get_small_font(12)
-            msg_surface = font.render(self.game.hover_message, True, (255, 255, 255))
-            bg_rect = msg_surface.get_rect(topleft=(self.screen.get_width() / 4, self.screen.get_height() - 30))
-            pygame.draw.rect(self.screen, (0, 0, 0), bg_rect.inflate(10, 10))
-            self.screen.blit(msg_surface, bg_rect)
-
+        draw_hover_message(self.screen, self.game)

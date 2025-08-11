@@ -4,6 +4,7 @@ from scenes.bathroom import Bathroom
 from scenes.garden import Garden
 from src.objects.item import create_items_for_room, rooms
 from ui.menu import MainMenu
+from src.ui.helper import draw_inventory, draw_hover_message
 from objects.player import Cat, WHITE
 from scenes.character_select import CharacterSelect  # Importing CharacterSelect
 from assets.media.text.fonts import get_big_font, get_small_font
@@ -144,6 +145,7 @@ class Game:
     def has_bow(self):
         return any(item.name == "Bow" for item in self.inventory)
 
+    # debugging
     def draw_stats(self):
             font = get_small_font(12)
 
@@ -172,29 +174,37 @@ class Game:
                 self.screen.blit(surface, (x, y))
                 y += surface.get_height() + padding
 
-
-
     def draw(self):
         if self.state == "character_select":
             self.character_select.draw(self.screen)
+
         elif self.state == "menu":
             self.menu.draw(self.screen)
+
         elif self.state == "playing" and self.current_scene:
+            # Draw active scene
             self.current_scene.draw()
+
+            # Inventory (only if toggled visible)
+            if self.show_inventory:
+                draw_inventory(self.screen, self, getattr(self.current_scene, "selected_inventory_item", None))
+
+            # Hover message (only if not empty)
+            draw_hover_message(self.screen, self)
+
+            # Optional: draw player stats
             #self.draw_stats()
 
-            if self.show_inventory:
-                self.current_scene.draw_inventory()
-
+            # Temporary status message
             if self.status_message:
                 font = get_small_font(12)
-                text_surface = font.render(self.status_message, True, WHITE)  # text
-                text_rect = text_surface.get_rect()
-                text_rect.topleft = (10, self.screen.get_height() - 420)  # adjust position as needed
+                text_surface = font.render(self.status_message, True, WHITE)
+                text_rect = text_surface.get_rect(topleft=(10, self.screen.get_height() - 420))
 
-                pygame.draw.rect(self.screen, (50, 120, 30), text_rect.inflate(10, 10))  # black background
+                pygame.draw.rect(self.screen, (50, 120, 30), text_rect.inflate(10, 10))
                 self.screen.blit(text_surface, text_rect)
-                if self.status_message and pygame.time.get_ticks() - self.message_timer > 2000:
+
+                if pygame.time.get_ticks() - self.message_timer > 2000:
                     self.status_message = ""
 
     def update_stat(self, stat_name, value):
