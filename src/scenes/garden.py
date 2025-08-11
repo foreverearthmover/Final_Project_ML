@@ -36,11 +36,24 @@ class Garden:
         self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
         self.scroll_offset = 0
 
-        #load the squirrel
-        # Load squirrel image
+        # Load and setup animated squirrel
         squirrel_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Squirrel.png")
-        self.squirrel_image = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha()
-        self.squirrel_image = pygame.transform.scale(self.squirrel_image, (40, 40))  #size
+        self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha()
+
+        # Squirrel animation setup
+        self.squirrel_frame_width = 975
+        self.squirrel_frame_height = 1000
+        self.squirrel_scale = 0.1  # scaling
+        self.squirrel_frame_count = 4
+
+        # Load squirrel idle frames
+        self.squirrel_idle_frames = self.load_squirrel_frames()
+        self.squirrel_current_frame = 0
+        self.squirrel_animation_timer = 0
+        self.squirrel_animation_delay = 100  # Milliseconds between frames
+
+        # Current squirrel image
+        self.current_squirrel_image = self.squirrel_idle_frames[0]
 
 
         # Squirrel attributes
@@ -63,6 +76,34 @@ class Garden:
             10,
             self.screen.get_height()
         )
+
+    def load_squirrel_frames(self):
+        #Load squirrel animation frames from sprite sheet
+        frames = []
+        for i in range(self.squirrel_frame_count):
+            x = i * self.squirrel_frame_width
+            frame = self.get_squirrel_frame(x, 0, self.squirrel_frame_width, self.squirrel_frame_height)
+            frames.append(frame)
+        return frames
+
+    def get_squirrel_frame(self, x, y, width, height):
+        #Extract single frame from squirrel sprite sheet
+        frame = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
+        frame.blit(self.squirrel_sprite_sheet, (0, 0), pygame.Rect(x, y, width, height))
+        frame = pygame.transform.scale(frame, (int(width * self.squirrel_scale), int(height * self.squirrel_scale)))
+        return frame
+
+    def animate_squirrel(self):
+        #Animate the squirrel idle animation
+        if not self.squirrel_visible:
+            return
+
+        current_time = pygame.time.get_ticks()
+        if current_time - self.squirrel_animation_timer > self.squirrel_animation_delay:
+            self.squirrel_animation_timer = current_time
+            self.squirrel_current_frame = (self.squirrel_current_frame + 1) % len(self.squirrel_idle_frames)
+            self.current_squirrel_image = self.squirrel_idle_frames[self.squirrel_current_frame]
+
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -139,6 +180,8 @@ class Garden:
 
         # Update the player cat animation
         self.cat.update()
+        # Animate squirrel
+        self.animate_squirrel()
 
         # Update boss cat if visible
         if self.boss_cat_visible:
@@ -190,8 +233,9 @@ class Garden:
         self.cat.draw(self.screen)
 
         # Draw the squirrel if visible
+        # Draw the animated squirrel if visible
         if self.squirrel_visible:
-            self.screen.blit(self.squirrel_image, self.squirrel_rect)
+            self.screen.blit(self.current_squirrel_image, self.squirrel_rect)
         if self.show_chase_button:
             button_surface = pygame.Surface(self.chase_button_rect.size, pygame.SRCALPHA)
             pygame.draw.rect(button_surface, (0, 0, 0, 180), button_surface.get_rect(), border_radius=10)
