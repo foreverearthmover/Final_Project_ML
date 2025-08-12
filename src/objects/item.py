@@ -21,7 +21,7 @@ rooms = {
     "Living room":[
         {"item": "Cat tree", "movable": "no", "stat": "Damage", "effect": 3, "msg": "You could sharpen your claws on this.", "use_msg": "My claws feel sharper.", "x": 395, "y": 130},
         {"item": "Couch", "movable": "no", "stat": "Health", "effect": 3, "msg": "You could lie down on the couch and take a nap.", "use_msg": "I rested for a while.","x": 60, "y": 145},
-        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty, but you are still hungry.", "use_msg": "I ate the only cat kibble left. Still hungry.","x": 526, "y": 405},
+        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty.. looks like something left a trail with the leftovers.", "use_msg": "I ate the only cat kibble left. Still hungry.","x": 526, "y": 405},
         {"item": "Carton", "movable": "no", "stat": "none", "effect": 0,"msg": "You could go inside, or maybe on top?", "use_msg": "Cartons are a cat's best friend.","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.", "use_msg": "Ahh! Phew I almost got stuck..","x": 311, "y": 434},
         {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.", "use_msg": "I wish my human would play with me.","x": 500, "y": 238 },
