@@ -199,9 +199,9 @@ class Game:
             if self.status_message:
                 font = get_small_font(12)
                 text_surface = font.render(self.status_message, True, WHITE)
-                text_rect = text_surface.get_rect(topleft=(10, self.screen.get_height() - 420))
+                text_rect = text_surface.get_rect(topleft=(10, self.screen.get_height() - 400))
 
-                pygame.draw.rect(self.screen, (50, 120, 30), text_rect.inflate(10, 10))
+                pygame.draw.rect(self.screen, (35, 35, 35), text_rect.inflate(10, 10))
                 self.screen.blit(text_surface, text_rect)
 
                 if pygame.time.get_ticks() - self.message_timer > 2000:
