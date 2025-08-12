@@ -48,7 +48,7 @@ class LivingRoom:
                             else:
                                 item.try_pick_up()
                                 self.game.inventory_items.add(item.name)
-                                self.game.status_message = f"Picked up {item.name}."
+                                self.game.status_message = f"Picked up the {item.name}."
                                 self.game.message_timer = pygame.time.get_ticks()
 
 
@@ -64,7 +64,7 @@ class LivingRoom:
                             self.game.status_message = item.use_msg
                             self.game.message_timer = pygame.time.get_ticks()
                         else:
-                            self.game.status_message = f"You already used {item.name}."
+                            self.game.status_message = f"You already used the {item.name}."
                             self.game.message_timer = pygame.time.get_ticks()
 
             # Check inventory interactions

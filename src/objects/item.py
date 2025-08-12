@@ -21,16 +21,16 @@ rooms = {
     "Living room":[
         {"item": "Cat tree", "movable": "no", "stat": "Damage", "effect": 3, "msg": "You could sharpen your claws on this.", "use_msg": "My claws feel sharper.", "x": 395, "y": 130},
         {"item": "Couch", "movable": "no", "stat": "Health", "effect": 3, "msg": "You could lie down on the couch and take a nap.", "use_msg": "I rested for a while.","x": 60, "y": 145},
-        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty.. looks like something left a trail with the leftovers.", "use_msg": "I ate the only cat kibble left. Still hungry.","x": 526, "y": 405},
+        {"item": "Food bowl", "movable": "no", "stat": "none", "effect": 0, "msg": "The bowl is empty.. someone stole my food!!", "use_msg": "I ate the only cat kibble left. Where does this trail go?","x": 526, "y": 405},
         {"item": "Carton", "movable": "no", "stat": "none", "effect": 0,"msg": "You could go inside, or maybe on top?", "use_msg": "Cartons are a cat's best friend.","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.", "use_msg": "Ahh! Phew I almost got stuck..","x": 311, "y": 434},
         {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.", "use_msg": "I wish my human would play with me.","x": 500, "y": 238 },
     ],
     "Bathroom":[
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
-        {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "She is still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
+        {"item": "Shower", "movable": "no", "stat": "none", "effect": 0,"msg": "They're still in the shower, but you can't wait to eat." , "use_msg": "Can't hear me.", "x": 0, "y": 0},
         {"item": "Cat litter", "movable": "yes", "stat": "none", "effect": 0,"msg": "I don't need to go right now." , "use_msg": "I'm not sure why I'm carrying this with me.", "x": 10, "y": 425},
-        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "There seem to be a lot of things stashed here." , "use_msg": "You go through the Toilet paper", "x": 322, "y": -7}
+        {"item": "Cabinet", "movable": "no", "stat": "none", "effect": 0,"msg": "There seem to be a lot of things stashed here." , "use_msg": "I went through the Toilet paper", "x": 322, "y": -7}
     ],
     "Garden":[
         {"item": "Squirrel", "movable": "no", "stat": "Scene change", "effect": 0, "msg": "You could try to catch that Squirrel!" , "use_msg": "It got away!", "x": 100, "y": 100},

@@ -49,10 +49,10 @@ class Bathroom:
                             self.game.message_timer = pygame.time.get_ticks()
                         else:
                             item.try_pick_up()
-                            self.game.status_message = f"Picked up {item.name}."
+                            self.game.status_message = f"Picked up the {item.name}."
                             self.game.message_timer = pygame.time.get_ticks()
                     elif item.movable == "yes" and item in self.game.inventory:
-                        self.game.status_message = f"You already picked up {item.name}."
+                        self.game.status_message = f"You already picked up the {item.name}."
                         self.game.message_timer = pygame.time.get_ticks()
                     elif item.movable == "no":
                         if item.name not in self.game.used_items:
@@ -102,7 +102,7 @@ class Bathroom:
 
                         self.game.inventory.remove(item)
                         self.selected_inventory_item = None
-                        self.game.status_message = f"Dropped {item.name}."
+                        self.game.status_message = f"Dropped the {item.name}."
                         self.game.message_timer = pygame.time.get_ticks()
                         return
 
