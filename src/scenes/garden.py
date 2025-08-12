@@ -46,9 +46,18 @@ class Garden:
         # Animation setup
         self.squirrel_frame_width = 975
         self.squirrel_frame_height = 1000
-        self.squirrel_scale = 0.5
+        self.squirrel_scale = 0.1
         self.squirrel_frame_count = 4
         self.squirrel_idle_frames = self.load_squirrel_frames()
+        self.squirrel_walk_frames = self.load_squirrel_walk_frames()
+
+        self.squirrel_current_frame = 0
+        self.squirrel_animation_timer = 0
+        self.squirrel_animation_delay = 400  # Milliseconds between frames
+        self.squirrel_current_frames = self.squirrel_idle_frames  # Start with idle
+
+        # Current squirrel image
+        self.current_squirrel_image = self.squirrel_current_frames[0]
 
         # Get scaled dimensions for click rect
         scaled_width = self.squirrel_idle_frames[0].get_width()
@@ -60,12 +69,6 @@ class Garden:
             scaled_height
         )
 
-        # Squirrel animation setup
-        self.squirrel_frame_width = 975
-        self.squirrel_frame_height = 1000
-        self.squirrel_scale = 0.1  # scaling
-        self.squirrel_frame_count = 4
-
         # Load squirrel idle frames
         self.squirrel_idle_frames = self.load_squirrel_frames()
         self.squirrel_current_frame = 0
@@ -76,7 +79,7 @@ class Garden:
         self.current_squirrel_image = self.squirrel_idle_frames[0]
 
         # Squirrel attributes
-        self.squirrel_rect = pygame.Rect(self.screen.get_width() - 200, self.screen.get_height() // 2, 40, 40)
+        self.squirrel_rect = pygame.Rect(self.screen.get_width() - 300, self.screen.get_height() //2, 40, 40)
         self.squirrel_visible = True
         self.squirrel_running = False
 
@@ -105,6 +108,14 @@ class Garden:
             frames.append(frame)
         return frames
 
+    def load_squirrel_walk_frames(self):
+        frames = []
+        for i in range(4, 7):  # Frames 4, 5, 6 für Walk
+            x = i * self.squirrel_frame_width
+            frame = self.get_squirrel_frame(x, 0, self.squirrel_frame_width, self.squirrel_frame_height)
+            frames.append(frame)
+        return frames
+
     def get_squirrel_frame(self, x, y, width, height):
         #Extract single frame from squirrel sprite sheet
         frame = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
@@ -113,16 +124,14 @@ class Garden:
         return frame
 
     def animate_squirrel(self):
-        #Animate the squirrel idle animation
         if not self.squirrel_visible:
             return
 
         current_time = pygame.time.get_ticks()
         if current_time - self.squirrel_animation_timer > self.squirrel_animation_delay:
             self.squirrel_animation_timer = current_time
-            self.squirrel_current_frame = (self.squirrel_current_frame + 1) % len(self.squirrel_idle_frames)
-            self.current_squirrel_image = self.squirrel_idle_frames[self.squirrel_current_frame]
-
+            self.squirrel_current_frame = (self.squirrel_current_frame + 1) % len(self.squirrel_current_frames)
+            self.current_squirrel_image = self.squirrel_current_frames[self.squirrel_current_frame]
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -190,13 +199,23 @@ class Garden:
     def update(self):
         # Handle squirrel movement
         if self.squirrel_running:
-            self.squirrel_rect.x += 5  # Squirrel runs to the right
+            # Switch to walk animation when running
+            if self.squirrel_current_frames != self.squirrel_walk_frames:
+                self.squirrel_current_frames = self.squirrel_walk_frames
+                self.squirrel_current_frame = 0  # Reset frame index
+
+            self.squirrel_rect.x += 5  #Squirrel runs to the right
             if self.squirrel_rect.left > self.screen.get_width():  # Squirrel off-screen
                 self.squirrel_running = False
                 self.squirrel_visible = False
                 self.show_chase_button = True
                 # Move wall to the far right so the cat can walk to the end
                 self.right_wall.x = self.screen.get_width() - 10
+        else:
+            # Use idle animation when not running
+            if self.squirrel_current_frames != self.squirrel_idle_frames:
+                self.squirrel_current_frames = self.squirrel_idle_frames
+                self.squirrel_current_frame = 0
 
         # Update the player cat animation
         self.cat.update()
