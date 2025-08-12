@@ -21,36 +21,54 @@ To play our game, please have all files in one directory and run this in your te
 ```
 Final_Project_ML/
 ├── assets/
-│   └── sprites/
-│       ├── my_cat.png
-│       ├── enemy_cat.png
-│       ├── squirrel.png
-│       └── items/
-│           ├── yarn.png
-│           ├── ribbon.png
-│           ├── toilet_paper.png
-│           ├── carton.png
-│           ├── ...
-│           └── cable.png
 │   └── media/
-│     └── backgrounds/
-│        ├── living_room.png
-│        ├── bathroom.png
-│        └── garden.png
+│   		└── items/
+│        			├── Bow.png
+│       			├── Cabinet.png
+│       			├── Carton.png
+│       			…
+│   				└── YarnBall.png
+│   		└── backgrounds/
+│        			├── bathroom.png
+│       			├── empty_bathroom.png
+│       			├── garden.png
+│   				└── living_room.png
+│   		└── endings/
+│        			├── ending.png
+│       			├── lose_ending.png
+│       			├── love_ending_1.png
+│       			├── love_ending_2.png
+│       			├── love_ending_3.png
+│   				└── win_ending.png
+│   		└── sounds/
+│   				└── cat_hiss.mp3
+│   		└── sprites/
+│        			├── Asja.png
+│       			├── Asja_bow.png
+│       			├── Jimmy.png
+│       			├── ...
+│   				└── Tommy_bow.png
+│   		└── text/
+│       			├── 8-bit_wonder.tff
+│       			├── fonts.py
+│   				└── retro_gaming.tff
 ├── src/
 │   ├── main.py
 │   ├── game.py
 │   └── scenes/
-│        ├── living_room.py
 │        ├── bathroom.py
-│        └── garden.py
+│        ├── boss_fight.py
+│        ├── character_select.py
+│        ├── garden.py
+│        └── Living_room.py
 │   └── objects/
-│        ├── player.py
+│        ├── boss_cat.py
 │        ├── item.py
-│        └── cat_enemy.py
+│        └── player.py
 │   └── ui/
-│         ├── inventory.py
-│         └── fight.py
+│         ├── helper.py
+│         ├── intro.py
+│         └── menu.py
 │
 ├── docs/
 │   ├── documentation
@@ -58,13 +76,14 @@ Final_Project_ML/
 │
 ├── requirements.txt
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 ---
   
-| Item                               | Description                                                                       |
-|------------------------------------|-----------------------------------------------------------------------------------|
-| [assets](./assets)                 | Asset files (images, animation sprites, sounds, etc.) are here.                   |
-| [docs](./docs)                     | Documentation for our game.                                                       |
-| [src](./src)                       | Python code for the game is here.                                                 |  
-| [requirements](./requirements.txt) | All the libraries and dependencies you'll need to install are here. (coming soon) |
+| Item                               | Description                                                              |
+|------------------------------------|--------------------------------------------------------------------------|
+| [assets](./assets)                 | Asset files (images, sprites, sounds, fonts, etc.) are here.             |
+| [docs](./docs)                     | Documentation for our game.                                              |
+| [src](./src)                       | Python code for the game is here.                                        |  
+| [requirements](./requirements.txt) | All the libraries and dependencies you'll need to install are here.      |
