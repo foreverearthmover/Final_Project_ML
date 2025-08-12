@@ -25,7 +25,6 @@ rooms = {
         {"item": "Carton", "movable": "no", "stat": "none", "effect": 0,"msg": "You could go inside, or maybe on top?", "use_msg": "Cartons are a cat's best friend.","x": 232, "y": 398},
         {"item": "Cable", "movable": "yes", "stat": "Damage", "effect": 1,"msg": "These look knotted, be careful to not get caught.", "use_msg": "Ahh! Phew I almost got stuck..","x": 311, "y": 434},
         {"item": "Yarn ball", "movable": "yes", "stat": "Damage","effect": 1, "msg": "That looks fun! But lets not get distracted right now.", "use_msg": "I wish my human would play with me.","x": 500, "y": 238 },
-        #do we add a message?
     ],
     "Bathroom":[
         {"item": "Toilet", "movable": "no", "stat": "none","effect": 0, "msg": "That is a Toilet." , "use_msg": "This thing is way too loud sometimes.", "x": 467, "y": 137},
@@ -236,6 +235,8 @@ def create_items_for_room(room_name, game, movable):
     if room_name in rooms:
         for item_data in rooms[room_name]:
             name = item_data["item"]
+            if item_data["item"] in ["Squirrel", "Boss Cat"]:
+                continue
             try:
                 image = load_test_image(name)
             except FileNotFoundError:

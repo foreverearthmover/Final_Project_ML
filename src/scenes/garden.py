@@ -128,8 +128,9 @@ class Garden:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
-            # Handle squirrel click s
-            if self.squirrel_visible and self.squirrel_rect.collidepoint(mouse_pos):
+            # Handle squirrel click
+            click_rect = self.squirrel_rect.inflate(40, 40)  # make hitbox wider
+            if self.squirrel_visible and click_rect.collidepoint(mouse_pos):
                 self.squirrel_running = True
                 #self.squirrel_visible = False  # optionally hide it immediately
                 self.show_chase_button = False
