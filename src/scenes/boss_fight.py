@@ -12,12 +12,12 @@ class BossFight:
         self.last_advance = pygame.time.get_ticks()
         self.ending_type = self.get_ending_type()
         self.images = {
-            'intro': self.load_and_scale_image('ending.PNG'),
-            'love1': self.load_and_scale_image('love_ending_1.PNG'),
-            'love2': self.load_and_scale_image('love_ending_2.PNG'),
-            'love3': self.load_and_scale_image('love_ending_3.PNG'),
-            'win': self.load_and_scale_image('win_ending.PNG'),
-            'lose': self.load_and_scale_image('lose_ending.PNG'),
+            'intro': self.load_and_scale_image('ending.png'),
+            'love1': self.load_and_scale_image('love_ending_1.png'),
+            'love2': self.load_and_scale_image('love_ending_2.png'),
+            'love3': self.load_and_scale_image('love_ending_3.png'),
+            'win': self.load_and_scale_image('win_ending.png'),
+            'lose': self.load_and_scale_image('lose_ending.png'),
         }
         self.texts = {
             'intro': 'The cat approaches! Did you prepare well enough...?',
