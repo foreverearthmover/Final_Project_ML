@@ -6,7 +6,8 @@ from src.objects.item import create_items_for_room, rooms
 from ui.menu import MainMenu
 from src.ui.helper import draw_inventory, draw_hover_message
 from objects.player import Cat, WHITE
-from scenes.character_select import CharacterSelect  # Importing CharacterSelect
+from src.ui.intro import IntroScreen
+from scenes.character_select import CharacterSelect
 from assets.media.text.fonts import get_big_font, get_small_font
 import sys
 
@@ -16,7 +17,8 @@ class Game:
         self.used_items = set()
         self.inventory_items = set()
         self.screen = screen
-        self.state = "character_select"  # Start with character select state
+        self.intro_screen = IntroScreen(self)
+        self.state = "intro"  # Start with intro
         self.cat = None
         self.current_scene = None
         self.show_inventory = False
@@ -107,19 +109,15 @@ class Game:
                 self.change_scene("living_room", entry_side="right")
 
     def handle_event(self, event):
-        if self.state == "character_select":
+        if self.state == "intro":
+            self.intro_screen.handle_event(event)
+        elif self.state == "character_select":
             self.character_select.handle_event(event)
         elif self.state == "menu":
             self.menu.handle_event(event)
         elif self.state == "playing":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                #available_exits = self.room_exits.get(self.current_room, {})
-
-                #if "left" in available_exits and self.left_button.collidepoint(mouse_pos):
-                    #self.change_scene(available_exits["left"], "right")
-                #elif "right" in available_exits and self.right_button.collidepoint(mouse_pos):
-                    #self.change_scene(available_exits["right"], "left")
 
             # Handle key presses
             if event.type == pygame.KEYDOWN:
@@ -130,7 +128,9 @@ class Game:
                 self.current_scene.handle_event(event)
 
     def update(self):
-        if self.state == "character_select":
+        if self.state == "intro":
+            self.intro_screen.update()
+        elif self.state == "character_select":
             self.character_select.update()
         elif self.state == "playing" and self.current_scene:
             self.current_scene.update()
@@ -175,12 +175,12 @@ class Game:
                 y += surface.get_height() + padding
 
     def draw(self):
-        if self.state == "character_select":
+        if self.state == "intro":
+            self.intro_screen.draw(self.screen)
+        elif self.state == "character_select":
             self.character_select.draw(self.screen)
-
         elif self.state == "menu":
             self.menu.draw(self.screen)
-
         elif self.state == "playing" and self.current_scene:
             # Draw active scene
             self.current_scene.draw()
