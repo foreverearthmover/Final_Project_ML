@@ -1,8 +1,6 @@
 import pygame
 import os
 
-
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
 
@@ -24,9 +22,8 @@ class Cat(pygame.sprite.Sprite):
         self.scale_smaller = 0.14
         self.color = WHITE
         self.speed = 4
-        #self.image = pygame.image.load(image_path).convert_alpha()
-        # Load sprite sheet
 
+        # Load sprite sheet
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
 
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
@@ -39,8 +36,9 @@ class Cat(pygame.sprite.Sprite):
         # self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
         # With this:
         self.rect = self.image.get_rect(topleft=(x, y))
-        # so that cat has right hitbox
+        # so that cat has the right hitbox
 
+        # position and state player starts out with
         self.animation_timer = 0
         self.animation_delay = 200
         self.state = "idle"
@@ -48,11 +46,12 @@ class Cat(pygame.sprite.Sprite):
 
         self.stats = {
             "Damage": 0,
-            "Health": 0
+            "Health": 0,
+            "Love": 0
         }
-    ...
 
     def get_name_from_path(self, path):
+        # Tommy_bow.png -> Tommy
         filename = os.path.basename(path)
         return filename.replace(".png", "").replace("_bow", "")
 
@@ -75,7 +74,6 @@ class Cat(pygame.sprite.Sprite):
     def update_sprite_if_bow_equipped(self):
         if not self.game or not hasattr(self.game, "inventory"):
             return
-
 
         has_bow = any(item.name == "Bow" for item in self.game.inventory)
 
@@ -139,12 +137,12 @@ class Cat(pygame.sprite.Sprite):
             self.frame_index = (self.frame_index +1) % len(self.current_frames)
             frame = self.current_frames[self.frame_index]
 
-            #flipping the image if walking left
+            # flipping the image if walking left
             if self.facing_left:
                 frame = pygame.transform.flip(frame, True, False).convert_alpha()
             self.image = frame
 
 
     def draw(self, screen):
-        #pygame.draw.rect(screen, (255, 0, 0), self.rect, 2) # for debugging
+        pygame.draw.rect(screen, (255, 0, 0), self.rect, 2) # for debugging
         screen.blit(self.image, self.rect)

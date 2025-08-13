@@ -1,8 +1,8 @@
 import os
-import random
 import pygame
 
 def load_skin() :
+    # loads the skin for the boss cat -> always "Jimmy"
     path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Jimmy.png")
     return os.path.normpath(path)
 
@@ -44,7 +44,7 @@ class BossCat(pygame.sprite.Sprite):
         return image
 
     def start_chase(self):
-        self.visible = True # controls whether its drawn and moves
+        self.visible = True # controls whether boss cat is drawn and moves
 
     def update(self):
         if not self.visible:

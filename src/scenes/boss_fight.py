@@ -1,6 +1,6 @@
 import pygame
 import os
-from assets.media.text.fonts import get_big_font, get_small_font
+from assets.media.text.fonts import get_small_font
 
 class BossFight:
     def __init__(self, game):
@@ -38,6 +38,7 @@ class BossFight:
         return pygame.transform.scale(img, self.screen.get_size())
 
     def get_ending_type(self):
+    # ending based on items/stats
         if any(item.name == "Bow" for item in self.game.inventory):
             return 'love'
         elif self.game.stats["Health"] >= 2 or self.game.stats["Damage"] >= 3:
@@ -46,20 +47,22 @@ class BossFight:
             return 'lose'
 
     def handle_event(self, event):
+    # clicking or pressing return skip ending scene
         if event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
             self.advance_sequence()
 
     def advance_sequence(self):
+    # logic for endings
         now = pygame.time.get_ticks()
 
-        if self.state == 'intro':
-            if self.ending_type == 'love':
+        if self.state == 'intro': # drawn for every ending
+            if self.ending_type == 'love': # love ending branch
                 self.state = 'love1'
-            elif self.ending_type == 'win':
+            elif self.ending_type == 'win': # win ending branch
                 self.state = 'win_black'
                 self.last_advance = now
             else:
-                self.state = 'lose_black'
+                self.state = 'lose_black' # lose ending branch
                 self.last_advance = now
         elif self.state == 'love1':
             self.state = 'love2'
@@ -90,7 +93,7 @@ class BossFight:
         pass
 
     def draw_text_box(self, text):
-        # Text Box
+        # Translucent text box to add context to ending screens
         width = self.screen.get_width()
         height = 100
         y = self.screen.get_height() - height

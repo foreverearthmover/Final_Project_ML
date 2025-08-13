@@ -31,7 +31,7 @@ class Game:
         self.message_timer = 0
 
         # Initialize inventory
-        self.inventory = []  # Add this line to initialize the inventory
+        self.inventory = []
 
         # Track items in each room
         self.rooms = {
@@ -56,6 +56,7 @@ class Game:
             item.apply_effect(self)
 
     def start_game(self):
+        # Spawn cat
         if not self.cat:
             self.cat = Cat(x=100, y=270, image_path="../assets/media/sprites/Tofu.png", game = self)
 
@@ -75,7 +76,7 @@ class Game:
         else:  # "right"
             self.cat.rect.x = self.screen.get_width() - 150
 
-        self.cat.rect.y = 270
+        self.cat.rect.y = 270 # height where cat is positioned
         self.current_room = scene_name
 
         # Create new scene
@@ -91,13 +92,13 @@ class Game:
         cat = self.cat
 
         if self.current_room == "living_room":
-            if cat.rect.right < 0:
+            if cat.rect.right < 0: # cat goes out of bounds, to bathroom (left)
                 self.change_scene("bathroom", entry_side="right")
-            elif cat.rect.left > screen_width:
+            elif cat.rect.left > screen_width: # cat goes out of bounds, to garden (right)
                 self.change_scene("garden", entry_side="left")
 
         elif self.current_room == "bathroom":
-            if cat.rect.left > screen_width:
+            if cat.rect.left > screen_width: # cat goes out of bounds, back to living room (right)
                 self.change_scene("living_room", entry_side="left")
 
         elif self.current_room == "garden":
@@ -105,10 +106,11 @@ class Game:
             if hasattr(self.current_scene, 'boss_cat') and cat.rect.right > self.current_scene.boss_cat.rect.left:
                 cat.rect.right = self.current_scene.boss_cat.rect.left
 
-            if cat.rect.right < 0:
+            if cat.rect.right < 0:  # cat goes out of bounds, back to living room (left)
                 self.change_scene("living_room", entry_side="right")
 
     def handle_event(self, event):
+        # main sequence of scenes
         if self.state == "intro":
             self.intro_screen.handle_event(event)
         elif self.state == "character_select":
@@ -122,7 +124,7 @@ class Game:
             # Handle key presses
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:  # Check for the "E" key
-                    self.show_inventory = not self.show_inventory
+                    self.show_inventory = not self.show_inventory # toggles inventory
 
             if self.current_scene:
                 self.current_scene.handle_event(event)
@@ -130,22 +132,19 @@ class Game:
     def update(self):
         if self.state == "intro":
             self.intro_screen.update()
+
         elif self.state == "character_select":
             self.character_select.update()
+
         elif self.state == "playing" and self.current_scene:
-            self.current_scene.update()
-            self.handle_scene_transitions()
-        if self.state == "character_select":
-            self.character_select.update()
-        elif self.state == "playing" and self.current_scene:
-            self.cat.update_sprite_if_bow_equipped()  # <-- check for bow
+            self.cat.update_sprite_if_bow_equipped() # <-- check for bow
             self.current_scene.update()
             self.handle_scene_transitions()
 
     def has_bow(self):
         return any(item.name == "Bow" for item in self.inventory)
 
-    # debugging
+    # for debugging
     def draw_stats(self):
             font = get_small_font(12)
 
@@ -204,6 +203,7 @@ class Game:
                 pygame.draw.rect(self.screen, (35, 35, 35), text_rect.inflate(10, 10))
                 self.screen.blit(text_surface, text_rect)
 
+                # only display for short period of time
                 if pygame.time.get_ticks() - self.message_timer > 2000:
                     self.status_message = ""
 

@@ -1,6 +1,5 @@
 import pygame
-import os
-from assets.media.text.fonts import get_big_font, get_small_font
+from assets.media.text.fonts import get_big_font
 
 class MainMenu:
     def __init__(self, game):
@@ -20,7 +19,6 @@ class MainMenu:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if self.start_button_rect.collidepoint(mouse_pos):
-                #self.game.state = "playing"  # Change to playing state
                 self.game.start_game()  # Initialize the living room
             elif self.quit_button_rect.collidepoint(mouse_pos):
                 pygame.quit()
@@ -29,10 +27,11 @@ class MainMenu:
     def draw(self, screen):
         screen.fill((0, 0, 0))
 
-        # title
+        # Title text
         title_surface = self.title_font.render("Main Menu", True, (255, 255, 255))
         screen.blit(title_surface, (screen.get_width() // 2 - title_surface.get_width() // 2, 100))
 
+        # check for mouse
         mouse_pos = pygame.mouse.get_pos()
 
         # Start Button

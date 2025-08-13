@@ -1,14 +1,12 @@
-from objects.player import Cat
+from src.objects.player import Cat
 from src.ui.helper import draw_inventory, draw_hover_message
 import os
 import pygame
-from objects.item import Item, load_test_image, create_items_for_room, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE #!!!
-from objects.item import create_items_for_room
+from src.objects.item import Item, load_test_image, create_items_for_room, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE #!!!
+from src.objects.item import create_items_for_room
 from assets.media.text.fonts import get_big_font, get_small_font
 from src.objects.item import rooms
 
-
-#Hello I have to edit a couple things since the Items will be in this room, I will mark everything I add
 class LivingRoom:
     def __init__(self, game):
         self.game = game
@@ -100,6 +98,7 @@ class LivingRoom:
                             target_room_items.append(item)
                             break
 
+                    # remove from inventory
                     self.game.inventory.remove(item)
                     self.selected_inventory_item = None
                     return

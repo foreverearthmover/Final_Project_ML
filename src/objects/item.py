@@ -106,7 +106,7 @@ class Item:
                     # Apply stat effect when picked up
                     if self.stat != "none":
                         self.game.stats[self.stat] = self.game.stats.get(self.stat, 0) + self.effect
-                    print(f"You picked up the [Item: {self.name}]")
+                    print(f"You picked up the {self.name}")
                 else:
                     print("Inventory full. Drop something first.")
             else:
