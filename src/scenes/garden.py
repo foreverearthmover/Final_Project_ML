@@ -2,11 +2,13 @@ from src.objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_B
 from src.ui.helper import draw_inventory, draw_hover_message
 import os
 import pygame
+import time
 from pygame import mixer
 from src.scenes.boss_fight import BossFight
 from src.objects.boss_cat import BossCat
 from src.objects.item import rooms
 from assets.media.text.fonts import get_small_font
+from src.objects.player import Cat
 
 mixer.init()
 sound_path = os.path.join('..', 'assets', 'media', 'sounds', 'cat_hiss.mp3')
@@ -99,6 +101,11 @@ class Garden:
             self.screen.get_height()
         )
 
+        #Timer for auto-Walk
+        self.cat_walking_to_boss = False
+        self.walk_start_time = 0
+        self.walk_duration = 3000
+
     def load_squirrel_frames(self):
         #Load squirrel animation frames from sprite sheet
         frames = []
@@ -147,7 +154,11 @@ class Garden:
 
             # Handle chase button click
             if self.show_chase_button and self.chase_button_rect.collidepoint(mouse_pos):
-                self.navigate_to_boss_area()
+                self.cat.start_auto_walk_right()
+                self.cat_walking_to_boss = True
+                self.walk_start_time = pygame.time.get_ticks()
+                self.show_chase_button = False
+
                 return
 
             # Click on boss cat to enter fight
@@ -216,6 +227,14 @@ class Garden:
             if self.squirrel_current_frames != self.squirrel_idle_frames:
                 self.squirrel_current_frames = self.squirrel_idle_frames
                 self.squirrel_current_frame = 0
+
+        if self.cat_walking_to_boss:
+            current_time = pygame.time.get_ticks()
+
+            if current_time - self.walk_start_time > self.walk_duration:
+                self.cat.stop_auto_walk()
+                self.navigate_to_boss_area()
+                self.cat_walking_to_boss = False
 
         # Update the player cat animation
         self.cat.update()

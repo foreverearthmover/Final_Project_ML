@@ -50,6 +50,19 @@ class Cat(pygame.sprite.Sprite):
             "Love": 0
         }
 
+        self.auto_walk_right = False
+        self.auto_walk_speed = 4
+
+    def start_auto_walk_right(self):
+        #automatic walking
+        self.auto_walk_right = True
+        self.state = "walk"
+        self.current_frames = self.walk_frames
+        self.facing_left = False
+
+    def stop_auto_walk(self):
+        self.auto_walk_right = False
+
     def get_name_from_path(self, path):
         # Tommy_bow.png -> Tommy
         filename = os.path.basename(path)
@@ -100,34 +113,33 @@ class Cat(pygame.sprite.Sprite):
     #HIER IST DAS PROBLEM :,)
     def update(self):
         self.update_sprite_if_bow_equipped()
+
+        if self.auto_walk_right:
+            self.rect.x += self.auto_walk_speed
+            self.facing_left = False
+            self.state = "walk"
+            self.current_frames = self.walk_frames
+
         keys = pygame.key.get_pressed()
         moved = False
 
-       #!!! #current_scene_name = self.game.current_scene.class.name
-
-
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        #!!!#if not (self.rect.x <= 0 and current_scene_name == "Bathroom"):
             self.rect.x -= self.speed
             self.facing_left = True
             moved = True
 
         elif keys[pygame.K_RIGHT]: #or keys[pygame.K_d]:
-         #!!!#if not (self.rect.x >= 700 and current_scene_name == "Garden"):
             self.rect.x += self.speed
             self.facing_left = False
             moved = True
 
         if moved:
-            #if self.state != "walk":
                 self.state = "walk"
                 self.current_frames = self.walk_frames
                 #self.frame_index = 0 #to reset it
         else:
-            #if self.state != "idle":
                 self.state = "idle"
                 self.current_frames = self.idle_frames
-                #self.frame_index = 0
         self.animate()
 
     def animate(self):
