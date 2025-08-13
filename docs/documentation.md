@@ -13,4 +13,8 @@
 
 08.08.2025 - improved endings (shown here: also love ending)
 
-![](https://github.com/foreverearthmover/Final_Project_ML/blob/main/docs/gifs/gif_08.08.2025.gif)
+![](https://github.com/foreverearthmover/Final_Project_ML/blob/main/docs/gifs/gif_08.08.2025.gif)  
+  
+13.08.2025 - instructions screen & squirrel (shown here: lose ending)
+
+![](https://github.com/foreverearthmover/Final_Project_ML/blob/main/docs/gifs/gif_13.08.2025.gif)
