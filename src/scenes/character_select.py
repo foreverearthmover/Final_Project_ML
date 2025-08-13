@@ -27,7 +27,7 @@ class CharacterSelect:
         for i, cat_data in enumerate(self.cat_options):
             # Each cat starts at a fixed Y position, with different X offset
             cat = Cat(x=100 + i * 120, y=200, image_path=cat_data["image_path"], game=self.game)
-            cat.rect = pygame.Rect(100 + i * 120, 200, 80, 80)  # override for UI layout
+            cat.rect = pygame.Rect(70 + i * 120, 200, 120, 120)  # override for UI layout
             self.cat_objects.append({
                 "cat": cat,
                 "name": cat_data["name"],
