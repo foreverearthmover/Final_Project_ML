@@ -246,7 +246,7 @@ class Garden:
             self.boss_cat.update()
 
         # Check collision with wall
-        if self.cat.rect.colliderect(self.right_wall):
+        if not self.cat.auto_walk_right and self.cat.rect.colliderect(self.right_wall):
             self.cat.rect.right = self.right_wall.left
 
     def navigate_to_boss_area(self):

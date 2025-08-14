@@ -51,7 +51,7 @@ class Cat(pygame.sprite.Sprite):
         }
 
         self.auto_walk_right = False
-        self.auto_walk_speed = 4
+        self.auto_walk_speed = 8
 
     def start_auto_walk_right(self):
         #automatic walking
