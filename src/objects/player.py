@@ -120,6 +120,9 @@ class Cat(pygame.sprite.Sprite):
             self.state = "walk"
             self.current_frames = self.walk_frames
 
+            self.animate()
+            return
+
         keys = pygame.key.get_pressed()
         moved = False
 
@@ -128,7 +131,7 @@ class Cat(pygame.sprite.Sprite):
             self.facing_left = True
             moved = True
 
-        elif keys[pygame.K_RIGHT]: #or keys[pygame.K_d]:
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.rect.x += self.speed
             self.facing_left = False
             moved = True
