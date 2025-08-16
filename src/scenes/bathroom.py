@@ -1,5 +1,5 @@
 from src.objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION, ITEM_SPACING
-from src.ui.helper import draw_inventory, draw_hover_message
+from src.ui.helper import draw_inventory, draw_hover_message, DROPBUTTON_POS_Y
 import os
 import pygame
 from src.objects.item import rooms
@@ -74,7 +74,7 @@ class Bathroom:
                         self.selected_inventory_item = item
                         return
 
-                    drop_rect = pygame.Rect(item_x, 90, 50, 20)
+                    drop_rect = pygame.Rect(item_x, DROPBUTTON_POS_Y, 50, 20)
                     if (
                             item == self.selected_inventory_item
                             and item.movable == "yes"

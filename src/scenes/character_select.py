@@ -72,4 +72,4 @@ class CharacterSelect:
 
             label = self.label_font.render(name, True, (200, 200, 200))
             # draw label BELOW the cat
-            self.screen.blit(label, (cat.rect.x + 10, cat.rect.y + cat.image.get_height() + 5))
+            self.screen.blit(label, (cat.rect.x + 25, cat.rect.y + cat.image.get_height() + 5))

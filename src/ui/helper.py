@@ -2,6 +2,8 @@ import pygame
 from assets.media.text.fonts import get_small_font
 from src.objects.item import INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION, ITEM_SPACING
 
+DROPBUTTON_POS_Y = 10
+
 def draw_inventory(screen, game, selected_inventory_item):
     # Draws the inventory panel for any scene
     font = get_small_font(9)
@@ -22,12 +24,14 @@ def draw_inventory(screen, game, selected_inventory_item):
         screen.blit(text, (item_x, 65))
 
         # Drop button
+
+
         if selected_inventory_item == item and item.movable == "yes":
             drop_font = get_small_font(11)
             drop_text = drop_font.render("Drop", True, (255, 0, 0))
-            drop_rect = pygame.Rect(item_x, 90, 50, 20)
+            drop_rect = pygame.Rect(item_x, DROPBUTTON_POS_Y, 50, 20)
             pygame.draw.rect(screen, (50, 0, 0), drop_rect)
-            screen.blit(drop_text, (item_x + 5, 93))
+            screen.blit(drop_text, (item_x + 5, DROPBUTTON_POS_Y+3))
 
 def draw_hover_message(screen, game):
     # Draws all hover messages
