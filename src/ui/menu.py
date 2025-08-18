@@ -3,6 +3,7 @@ from assets.media.text.fonts import get_big_font
 
 
 class MainMenu:
+    """ Main menu screen."""
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
@@ -17,6 +18,7 @@ class MainMenu:
         self.button_color_hover = (180, 180, 180)
 
     def handle_event(self, event):
+        """ Handle mouse clicks."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if self.start_button_rect.collidepoint(mouse_pos):
@@ -26,6 +28,7 @@ class MainMenu:
                 exit()
 
     def draw(self, screen):
+        """ Draw buttons and text on screen."""
         screen.fill((0, 0, 0))
 
         # Title text
