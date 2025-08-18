@@ -3,10 +3,12 @@ from objects.player import Cat
 import os
 
 class CharacterSelect:
+    """Character/Cat selection screen."""
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
 
+        # Base directory for assets
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "text", "8-bit_wonder.ttf")
         font_path = os.path.normpath(font_path)
@@ -14,7 +16,7 @@ class CharacterSelect:
         self.title_font = pygame.font.Font(font_path, 36)
         self.label_font = pygame.font.Font(font_path, 10)
 
-        #cat skins
+        # cat skins
         self.cat_options = [
             {"name": "Tofu", "image_path": "../assets/media/sprites/Tofu.png"},
             {"name": "Asja", "image_path": "../assets/media/sprites/Asja.png"},
@@ -35,6 +37,7 @@ class CharacterSelect:
             })
 
     def handle_event(self, event):
+        """Handle mouse clicks."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             for entry in self.cat_objects:
@@ -43,6 +46,7 @@ class CharacterSelect:
                     self.game.state = "menu"
 
     def update(self):
+        """Update cat animation."""
         mouse_pos = pygame.mouse.get_pos()
         for cat_entry in self.cat_objects:
             cat = cat_entry["cat"]
@@ -60,6 +64,7 @@ class CharacterSelect:
             cat.animate()
 
     def draw(self, screen):
+        """Draw title and cat objects on screen."""
         screen.fill((0, 0, 0))
         title_surface = self.title_font.render("Choose a Cat", True, (255, 255, 255))
         screen.blit(title_surface, (screen.get_width() // 2 - title_surface.get_width() // 2, 100))
