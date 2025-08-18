@@ -25,8 +25,8 @@ class BossFight:
             "love1": 'The cat notices your bow...',
             "love2": '',
             "love3": '',
-            "win": 'You have defeated the boss cat! Congratulations!',
-            "lose": 'You were defeated by the boss cat...'
+            "win": 'You have defeated the mean neighbour cat! Congratulations!',
+            "lose": 'You were defeated by the neighbour cat who stole your food...'
         }
         self.black_surface = pygame.Surface(self.screen.get_size())
         self.black_surface.fill((0, 0, 0))
