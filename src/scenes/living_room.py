@@ -53,8 +53,6 @@ class LivingRoom:
                                 self.game.status_message = f"Picked up the {item.name}."
                                 self.game.message_timer = pygame.time.get_ticks()
 
-
-
                     elif item.movable == "no":
                         # Use static/non-movable item
                         if item.name not in self.game.used_items:
