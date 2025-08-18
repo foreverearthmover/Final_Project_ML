@@ -5,9 +5,10 @@ from game import Game
 def main():
     pygame.init()
     screen = pygame.display.set_mode((750, 500)) # display resolution
-    pygame.display.set_caption("Catventure")
+    pygame.display.set_caption("Catventure") # caption for window
     clock = pygame.time.Clock()
 
+    # main game loop
     game = Game(screen)
     running = True
     while running:
