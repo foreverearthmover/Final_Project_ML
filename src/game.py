@@ -13,6 +13,7 @@ import sys
 
 
 class Game:
+    """Main game class."""
     def __init__(self, screen):
         self.status_message = ""
         self.used_items = set()
@@ -175,6 +176,7 @@ class Game:
                 y += surface.get_height() + padding
 
     def draw(self):
+        """Render the game screen and all its elements."""
         if self.state == "intro":
             self.intro_screen.draw(self.screen)
         elif self.state == "character_select":
@@ -209,6 +211,7 @@ class Game:
                     self.status_message = ""
 
     def update_stat(self, stat_name, value):
+        """Update stat values."""
         if stat_name in self.cat.stats:
             self.cat.stats[stat_name] += value
             print(f"[STAT] {stat_name} updated to {self.cat.stats[stat_name]}")
