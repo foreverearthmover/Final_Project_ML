@@ -175,7 +175,7 @@ class Item:
         """Add toilet paper to the inventory properly (special case)."""
         if len(self.game.inventory) < 4:  # INVENTORY_MAX
             try:
-                tp_image = load_test_image("Toilet paper")
+                tp_image = load_image("Toilet paper")
                 tp_item = Item("Toilet paper", (0, 0), tp_image, 1, self.game)
                 # Set properties manually to ensure it's droppable
                 tp_item.picked_up = True
@@ -191,7 +191,7 @@ class Item:
     def spawn_bow_item(self):
         """Spawn bow item in scene (special case)."""
         try:
-            bow_image = load_test_image("Bow")
+            bow_image = load_image("Bow")
             bow_item = Item("Bow", (400, 300), bow_image, 0.9, self.game)
             # Set properties manually to ensure it's collectible
             bow_item.movable = "yes"
@@ -213,7 +213,7 @@ class Item:
             self.game.update_stat(self.stat, self.effect)
 
 #testing
-def load_test_image(item_name):
+def load_image(item_name):
     path = os.path.join(
         os.path.dirname(__file__), "..", "..", "assets", "media", "Items", f"{item_name}.png"
     )
@@ -230,7 +230,7 @@ def create_items_for_room(room_name, game, movable):
             if item_data["item"] in ["Squirrel", "Boss Cat"]:
                 continue
             try:
-                image = load_test_image(name)
+                image = load_image(name)
             except FileNotFoundError:
                 print(f"[Warning] No pic found for {name}")
                 continue
