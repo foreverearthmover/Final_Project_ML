@@ -6,6 +6,11 @@ from src.objects.item import rooms
 
 
 class Bathroom:
+    """
+    Bathroom scene implementation.
+    Contains special cabinet logic and toilet paper collection mechanics.
+    """
+
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
@@ -14,7 +19,7 @@ class Bathroom:
         # Load items for the room
         self.items = create_items_for_room("Bathroom", game=self.game, movable=False)
 
-        # Update item states based on the global state in `self.game.item_states`
+        # Update item states based on the global state in "self.game.item_states"
         for item in self.items:
             if item.name in self.game.item_states:
                 item.picked_up = self.game.item_states[item.name]
@@ -31,6 +36,7 @@ class Bathroom:
         self.left_wall = pygame.Rect(0, 0, 5, self.screen.get_height())
 
     def handle_event(self, event):
+        """Handle room-specific events."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
@@ -106,6 +112,7 @@ class Bathroom:
                         return
 
     def update(self):
+        """Update room state."""
         self.cat.update()
 
         # Check collision with the invisible wall
@@ -113,6 +120,7 @@ class Bathroom:
             self.cat.rect.left = self.left_wall.right
 
     def draw(self):
+        """Render the room and its contents."""
         # Draw the background
         self.screen.blit(self.background, (0, 0))
         self.game.hover_message = ""
@@ -130,12 +138,12 @@ class Bathroom:
                 else:
                     item.draw(self.screen)
 
-        # Draw the cat
+        # Draw cat
         self.cat.draw(self.screen)
 
         # Draw inventory if shown
         if self.game.show_inventory:
             draw_inventory(self.screen, self.game, self.selected_inventory_item)
 
-            # Draw hover message if any
+        # Draw hover message if any
         draw_hover_message(self.screen, self.game)

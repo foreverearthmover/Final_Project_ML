@@ -15,6 +15,11 @@ mixer.music.load(sound_path)
 mixer.music.set_volume(0.7)
 
 class Garden:
+    """
+    Garden scene implementation.
+    Contains squirrel animation and boss cat logic.
+    """
+
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
@@ -140,6 +145,7 @@ class Garden:
             self.current_squirrel_image = self.squirrel_current_frames[self.squirrel_current_frame]
 
     def handle_event(self, event):
+        """Handle room-specific events."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
 
@@ -207,6 +213,7 @@ class Garden:
 
 
     def update(self):
+        """Update room state."""
         # Handle squirrel movement
         if self.squirrel_running:
             # Switch to walk animation when running
@@ -257,6 +264,7 @@ class Garden:
         self.boss_cat_visible = True
 
     def draw(self):
+        """Render the "room" and its contents."""
         # Draw the background with the offset
         self.screen.blit(self.background, (-self.scroll_offset, 0))
 
@@ -265,7 +273,6 @@ class Garden:
         # Draw the cat
         self.cat.draw(self.screen)
 
-        # Draw the squirrel if visible
         # Draw the animated squirrel if visible
         if self.squirrel_visible:
             self.screen.blit(self.current_squirrel_image, self.squirrel_rect)

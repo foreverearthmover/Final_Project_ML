@@ -5,7 +5,7 @@ import os
 
 #Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
+ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "assets"))
 #Inventory
 INVENTORY_MAX = 4
 IMAGE_SCALE = 1

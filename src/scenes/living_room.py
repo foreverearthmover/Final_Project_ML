@@ -7,6 +7,11 @@ from src.objects.item import rooms
 
 
 class LivingRoom:
+    """
+    Living room scene implementation.
+    Handles room-specific logic and rendering.
+    """
+
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
@@ -28,6 +33,7 @@ class LivingRoom:
         self.background = pygame.image.load(path).convert()
 
     def handle_event(self, event):
+        """Handle picking up an item and inventory management."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             print("Mouse clicked at:", mouse_pos)
@@ -103,13 +109,15 @@ class LivingRoom:
                     return
 
     def update(self):
+        """Update room state."""
         self.cat.update()
 
     def draw(self):
-        # Draw the background
+        """Render the room and all its elements."""
+        # Draw background
         self.screen.blit(self.background, (0, 0))
 
-        # Reset the hover message
+        # Reset hover message
         self.game.hover_message = ""
 
         # Only draw items that are not picked up
@@ -117,10 +125,10 @@ class LivingRoom:
             if not item.picked_up:
                 item.draw(self.screen)
 
-        # Draw the cat
+        # Draw cat
         self.cat.draw(self.screen)
 
-        # If inventory is shown, draw it
+        # Draw inventory if shown
         if self.game.show_inventory:
             draw_inventory(self.screen, self.game, self.selected_inventory_item)
 
