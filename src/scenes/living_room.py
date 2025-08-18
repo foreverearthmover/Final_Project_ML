@@ -36,7 +36,6 @@ class LivingRoom:
         """Handle picking up an item and inventory management."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-            print("Mouse clicked at:", mouse_pos)
 
             # Check clicks on items in the world
             for item in self.items:

@@ -2,7 +2,6 @@ import pygame
 import os
 
 
-
 #Constants
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "assets"))
@@ -39,13 +38,13 @@ rooms = {
 }
 
 class Item:
+    """Item class for managing item interactions and state."""
     def __init__(self, name, pos, image, scale, game, movable = True):
         self.name = name
         self.x, self.y = pos
         self.game = game
         self.scale = scale
         self.collected = False
-
         self.previous_pos = pos
         self.movable = self.get_movable_status(name)
         self.image = pygame.transform.scale(
@@ -58,7 +57,6 @@ class Item:
         self.mouse_was_pressed = True  # Track initial mouse state
 
         # Get item data from dictionary
-
         item_data = None
         for room_items in rooms.values():
             for item in room_items:
@@ -72,18 +70,20 @@ class Item:
         self.stat = item_data.get("stat", None) if item_data else None
         self.effect = item_data.get("effect", 0) if item_data else 0
 
-        # Multi-Click System for closet
+        # Multi-Click System for cabinet
         self.click_count = 0
         self.max_clicks = 4
         self.hidden_item_spawned = False
 
 
     def apply_effect(self, game):
+        """Apply item stat effect to player stats."""
         if self.stat and self.stat != "none" and not self.used:
             game.stats[self.stat] = game.stats.get(self.stat, 0) + self.effect
             self.used = True  # prevent re-use
 
     def get_msg_for_item(self, name: object) -> str | int | None:
+        """Get the message to display when hovering over the item."""
         for room_items in rooms.values():
             for item in room_items:
                 if item ["item"] == name:
@@ -91,12 +91,14 @@ class Item:
         return None
 
     def get_use_for_item(self, name: object) -> str | int | None:
+        """Get the message to display when using the item."""
         for room_items in rooms.values():
             for item in room_items:
                 if item["item"] == name:
                     return item ["use_msg"]
 
     def try_pick_up(self):
+        """Pick up item if it is movable and not already in inventory."""
         if self.movable == "yes":
             if self not in self.game.inventory:
                 if len(self.game.inventory) < INVENTORY_MAX:
@@ -106,15 +108,9 @@ class Item:
                     # Apply stat effect when picked up
                     if self.stat != "none":
                         self.game.stats[self.stat] = self.game.stats.get(self.stat, 0) + self.effect
-                    print(f"You picked up the {self.name}")
-                else:
-                    print("Inventory full. Drop something first.")
-            else:
-                print(f"The {self.name} is already in your inventory.")
-        else:
-            print(f"[{self.name}] is not movable and cannot be picked up.")
 
     def draw(self, screen):
+        """Draw item to screen."""
         # Only draw the item if it is not picked up
         if not self.picked_up:
             screen.blit(self.image, self.rect)
@@ -124,11 +120,6 @@ class Item:
         if self.rect.collidepoint(mouse_pos) and not self.picked_up:
             self.game.hover_message = self.msg
 
-        #mouse hovering
-        mouse_pos = pygame.mouse.get_pos()
-        if self.rect.collidepoint(mouse_pos):
-            print(self.msg) #supposed to show the message predefined in the dic when hovering
-
         mouse_pressed = pygame.mouse.get_pressed()[0]
         if not mouse_pressed:
             self.mouse_was_pressed = False
@@ -136,7 +127,7 @@ class Item:
         if not mouse_pressed:
             self.clicked = False
 
-        #make things be clickable multiple times
+        # make things be clickable multiple times
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
@@ -144,6 +135,7 @@ class Item:
             self.game.hover_message = self.msg
 
     def check_click(self, pos):
+        """Check if item is clicked and handle accordingly."""
         if self.rect.collidepoint(pos) and not self.picked_up:
             if self.name == "Cabinet" and self.movable == "no":
                 self.handle_cabinet_clicks()
@@ -157,6 +149,7 @@ class Item:
         return False
 
     def get_movable_status(self, name):
+        """Get movable status of item from dictionary."""
         for room_items in rooms.values():
             for item in room_items:
                 if item["item"] == name:
@@ -164,6 +157,7 @@ class Item:
         return "no"
 
     def handle_cabinet_clicks(self):
+        """Handle clicks for the cabinet (special case)."""
         self.click_count += 1
         if self.click_count <= 3:
             self.add_toilet_paper_to_inventory()
@@ -178,6 +172,7 @@ class Item:
             self.game.message_timer = pygame.time.get_ticks()
 
     def add_toilet_paper_to_inventory(self):
+        """Add toilet paper to the inventory properly (special case)."""
         if len(self.game.inventory) < 4:  # INVENTORY_MAX
             try:
                 tp_image = load_test_image("Toilet paper")
@@ -190,11 +185,11 @@ class Item:
                 tp_item.msg = "You could push over the tower.. Or maybe just take one."
                 tp_item.use_msg = "Let me just take this."
                 self.game.inventory.append(tp_item)
-                print("YOU PICKED UP TOILET PAPER")
             except Exception as e:
                 print("Can't find Toilet paper picture", e)
 
     def spawn_bow_item(self):
+        """Spawn bow item in scene (special case)."""
         try:
             bow_image = load_test_image("Bow")
             bow_item = Item("Bow", (400, 300), bow_image, 0.9, self.game)
@@ -204,11 +199,10 @@ class Item:
             bow_item.effect = 1
             bow_item.msg = "What a pretty Bow"
             bow_item.use_msg = "I look fab."
-            #add to scene
+            # add to scene
             if hasattr(self.game.current_scene, "items"):
                 self.game.current_scene.items.append(bow_item)
                 self.game.item_states["Bow"] = False
-            print("THERES A BOW!")
         except Exception as e:
             print("Can't find Bow picture", e)
 
@@ -219,8 +213,6 @@ class Item:
             self.game.update_stat(self.stat, self.effect)
 
 #testing
-
-
 def load_test_image(item_name):
     path = os.path.join(
         os.path.dirname(__file__), "..", "..", "assets", "media", "Items", f"{item_name}.png"
@@ -229,7 +221,7 @@ def load_test_image(item_name):
     return pygame.image.load(path).convert_alpha()
 
 
-# Function to create items from dic
+# Function to create items from dictionary
 def create_items_for_room(room_name, game, movable):
     item_list = []
     if room_name in rooms:
