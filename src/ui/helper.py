@@ -2,6 +2,7 @@ import pygame
 from assets.media.text.fonts import get_small_font
 from src.objects.item import INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION, ITEM_SPACING
 
+
 DROPBUTTON_POS_Y = 10
 
 def draw_inventory(screen, game, selected_inventory_item):

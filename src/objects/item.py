@@ -11,8 +11,8 @@ INVENTORY_MAX = 4
 IMAGE_SCALE = 1
 WHITE = (255, 255, 255)
 DARK_GREY = (45, 45, 45)
-INVENTORY_COLOR = (DARK_GREY)
-INVENTORY_BORDER_COLOR = (WHITE)
+INVENTORY_COLOR = DARK_GREY
+INVENTORY_BORDER_COLOR = WHITE
 INVENTORY_POSITION = 5
 ITEM_SPACING = 80
 
@@ -86,8 +86,8 @@ class Item:
     def get_msg_for_item(self, name: object) -> str | int | None:
         for room_items in rooms.values():
             for item in room_items:
-                if item ['item'] == name:
-                    return item ['msg']
+                if item ["item"] == name:
+                    return item ["msg"]
         return None
 
     def get_use_for_item(self, name: object) -> str | int | None:
@@ -159,8 +159,8 @@ class Item:
     def get_movable_status(self, name):
         for room_items in rooms.values():
             for item in room_items:
-                if item['item'] == name:
-                    return item['movable']
+                if item["item"] == name:
+                    return item["movable"]
         return "no"
 
     def handle_cabinet_clicks(self):
@@ -205,7 +205,7 @@ class Item:
             bow_item.msg = "What a pretty Bow"
             bow_item.use_msg = "I look fab."
             #add to scene
-            if hasattr(self.game.current_scene, 'items'):
+            if hasattr(self.game.current_scene, "items"):
                 self.game.current_scene.items.append(bow_item)
                 self.game.item_states["Bow"] = False
             print("THERES A BOW!")
@@ -223,7 +223,7 @@ class Item:
 
 def load_test_image(item_name):
     path = os.path.join(
-        os.path.dirname(__file__), '..', '..', 'assets', 'media', 'Items', f"{item_name}.png"
+        os.path.dirname(__file__), "..", "..", "assets", "media", "Items", f"{item_name}.png"
     )
     path = os.path.normpath(path)
     return pygame.image.load(path).convert_alpha()

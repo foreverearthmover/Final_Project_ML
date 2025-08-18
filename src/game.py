@@ -2,7 +2,7 @@ import pygame
 from scenes.living_room import LivingRoom
 from scenes.bathroom import Bathroom
 from scenes.garden import Garden
-from src.objects.item import create_items_for_room, rooms
+from src.objects.item import create_items_for_room
 from ui.menu import MainMenu
 from src.ui.helper import draw_inventory, draw_hover_message
 from objects.player import Cat, WHITE
@@ -10,6 +10,7 @@ from src.ui.intro import IntroScreen
 from scenes.character_select import CharacterSelect
 from assets.media.text.fonts import get_big_font, get_small_font
 import sys
+
 
 class Game:
     def __init__(self, screen):

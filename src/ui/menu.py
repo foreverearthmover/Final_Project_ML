@@ -1,6 +1,7 @@
 import pygame
 from assets.media.text.fonts import get_big_font
 
+
 class MainMenu:
     def __init__(self, game):
         self.game = game

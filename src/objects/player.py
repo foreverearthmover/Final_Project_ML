@@ -1,8 +1,9 @@
 import pygame
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'assets'))
+ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "assets"))
 
 WHITE = (255, 255, 255)
 
@@ -32,11 +33,8 @@ class Cat(pygame.sprite.Sprite):
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
 
-        # Replaced this:
-        # self.rect = pygame.Rect(x, y, self.frame_width, self.frame_height)
-        # With this:
+        # Cat hitbox
         self.rect = self.image.get_rect(topleft=(x, y))
-        # so that cat has the right hitbox
 
         # position and state player starts out with
         self.animation_timer = 0
@@ -54,7 +52,7 @@ class Cat(pygame.sprite.Sprite):
         self.auto_walk_speed = 8
 
     def start_auto_walk_right(self):
-        #automatic walking
+        # automatic walking
         self.auto_walk_right = True
         self.state = "walk"
         self.current_frames = self.walk_frames

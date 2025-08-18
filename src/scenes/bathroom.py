@@ -1,8 +1,9 @@
-from src.objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, WHITE, INVENTORY_POSITION, ITEM_SPACING
+from src.objects.item import create_items_for_room, INVENTORY_POSITION, ITEM_SPACING
 from src.ui.helper import draw_inventory, draw_hover_message, DROPBUTTON_POS_Y
 import os
 import pygame
 from src.objects.item import rooms
+
 
 class Bathroom:
     def __init__(self, game):

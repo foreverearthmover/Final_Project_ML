@@ -1,6 +1,7 @@
 import pygame
 from game import Game
 
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((750, 500)) # display resolution

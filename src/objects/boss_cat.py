@@ -1,6 +1,7 @@
 import os
 import pygame
 
+
 def load_skin() :
     # loads the skin for the boss cat -> always "Jimmy"
     path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Jimmy.png")

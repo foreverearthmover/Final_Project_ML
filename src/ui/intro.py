@@ -1,6 +1,7 @@
 import pygame
 from assets.media.text.fonts import get_small_font
 
+
 class IntroScreen:
     def __init__(self, game):
         self.game = game

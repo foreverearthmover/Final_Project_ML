@@ -1,11 +1,10 @@
-from src.objects.player import Cat
 from src.ui.helper import draw_inventory, draw_hover_message, DROPBUTTON_POS_Y
 import os
 import pygame
-from src.objects.item import Item, load_test_image, create_items_for_room, INVENTORY_COLOR,  INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE #!!!
+from src.objects.item import INVENTORY_POSITION, ITEM_SPACING
 from src.objects.item import create_items_for_room
-from assets.media.text.fonts import get_big_font, get_small_font
 from src.objects.item import rooms
+
 
 class LivingRoom:
     def __init__(self, game):

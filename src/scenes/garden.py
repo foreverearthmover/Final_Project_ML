@@ -2,16 +2,15 @@ from src.objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_B
 from src.ui.helper import draw_inventory, draw_hover_message, DROPBUTTON_POS_Y
 import os
 import pygame
-import time
 from pygame import mixer
 from src.scenes.boss_fight import BossFight
 from src.objects.boss_cat import BossCat
 from src.objects.item import rooms
 from assets.media.text.fonts import get_small_font
-from src.objects.player import Cat
+
 
 mixer.init()
-sound_path = os.path.join('..', 'assets', 'media', 'sounds', 'cat_hiss.mp3')
+sound_path = os.path.join("..", "assets", "media", "sounds", "cat_hiss.mp3")
 mixer.music.load(sound_path)
 mixer.music.set_volume(0.7)
 
