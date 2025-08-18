@@ -2,52 +2,64 @@ import pygame
 import os
 
 
+# Base directory for asset loading
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "assets"))
 
 WHITE = (255, 255, 255)
 
 class Cat(pygame.sprite.Sprite):
+    """
+    Main player character class representing a cat.
+    Handles movement, animation, and sprite management.
+    """
+
     def __init__(self, x, y, image_path, game=None):
         super().__init__()
+        # Basic position and reference attributes
         self.x = x
         self.y = y
-        self.image_path = image_path  # Save it for later use in set_image_with_bow()
-        self.original_image_path = image_path
+        self.image_path = image_path
+        self.original_image_path = image_path  # Store original path for reverting from bow sprite -> set_image_with_bow()
         self.game = game
         self.name = self.get_name_from_path(image_path)
+
+        # Animation and sprite configuration
         self.bow_equipped = False
-        self.frame_width = 975
-        self.frame_height = 1000
-        self.scale = 0.15
-        self.scale_smaller = 0.14
+        self.frame_width = 975 # Width of each frame
+        self.frame_height = 1000 # Height of each frame
+        self.scale = 0.15 # Normal scale of animation
+        self.scale_smaller = 0.14  # Scale for idle animation
         self.color = WHITE
-        self.speed = 4
+        self.speed = 4 # Movement speed
 
         # Load sprite sheet
         self.sprite_sheet = pygame.image.load(os.path.normpath(image_path)).convert_alpha()
-
+        # Load 4 idle frames starting from index 0
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale_smaller)
+        # Load 3 walking frames starting from index 4
         self.walk_frames = self.load_frames(start_index=4, count=3, scale=self.scale)
         self.current_frames = self.idle_frames
         self.frame_index = 0
         self.image = self.current_frames[self.frame_index]
 
-        # Cat hitbox
+        # Cat hitbox for collision detection
         self.rect = self.image.get_rect(topleft=(x, y))
 
         # position and state player starts out with
         self.animation_timer = 0
-        self.animation_delay = 200
+        self.animation_delay = 200 # ms between frames
         self.state = "idle"
         self.facing_left = False
 
+        # Character stats
         self.stats = {
             "Damage": 0,
             "Health": 0,
             "Love": 0
         }
 
+        # Auto walk used in cutscenes
         self.auto_walk_right = False
         self.auto_walk_speed = 8
 
@@ -74,7 +86,7 @@ class Cat(pygame.sprite.Sprite):
             frames.append(frame)
         return frames
 
-    #printing the image on a different sheet
+    # printing the image on a different sheet
     def get_image(self, x, y, width, height, scale):
         image = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha() #this should be an empty image
         image.blit(self.sprite_sheet, (0,0), pygame.Rect(x,y,width,height))
@@ -83,11 +95,13 @@ class Cat(pygame.sprite.Sprite):
         return image
 
     def update_sprite_if_bow_equipped(self):
+        """Changes cat sprite sheet when bow is equipped/unequipped."""
         if not self.game or not hasattr(self.game, "inventory"):
             return
 
         has_bow = any(item.name == "Bow" for item in self.game.inventory)
 
+        # Switch to bow sprite if bow is picked up
         if has_bow and not self.bow_equipped:
             bow_path = self.original_image_path.replace(".png", "_bow.png")
             if os.path.exists(bow_path):
@@ -98,6 +112,7 @@ class Cat(pygame.sprite.Sprite):
                 self.frame_index = 0
                 self.bow_equipped = True
 
+        # Revert to original sprite if bow is dropped
         elif not has_bow and self.bow_equipped:
             original_path = self.original_image_path
             if os.path.exists(original_path):
@@ -108,10 +123,11 @@ class Cat(pygame.sprite.Sprite):
                 self.frame_index = 0
                 self.bow_equipped = False
 
-    #HIER IST DAS PROBLEM :,)
     def update(self):
+        """Main update method handling movement and animation."""
         self.update_sprite_if_bow_equipped()
 
+        # handle auto walk for cutscene
         if self.auto_walk_right:
             self.rect.x += self.auto_walk_speed
             self.facing_left = False
@@ -121,6 +137,7 @@ class Cat(pygame.sprite.Sprite):
             self.animate()
             return
 
+        # handle keyboard input for movement
         keys = pygame.key.get_pressed()
         moved = False
 
@@ -134,16 +151,18 @@ class Cat(pygame.sprite.Sprite):
             self.facing_left = False
             moved = True
 
+        # update animation state based on movement
         if moved:
                 self.state = "walk"
                 self.current_frames = self.walk_frames
-                #self.frame_index = 0 #to reset it
+                #self.frame_index = 0 # to reset it
         else:
                 self.state = "idle"
                 self.current_frames = self.idle_frames
         self.animate()
 
     def animate(self):
+        """Updates animation frames based on timing and direction."""
         current_time = pygame.time.get_ticks()
         if current_time - self.animation_timer > self.animation_delay:
             self.animation_timer = current_time
@@ -157,5 +176,5 @@ class Cat(pygame.sprite.Sprite):
 
 
     def draw(self, screen):
-        #pygame.draw.rect(screen, (255, 0, 0), self.rect, 2) # for debugging
+        #pygame.draw.rect(screen, (255, 0, 0), self.rect, 2) # show hitbox for debugging
         screen.blit(self.image, self.rect)

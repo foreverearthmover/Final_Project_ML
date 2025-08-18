@@ -1,4 +1,4 @@
-from src.objects.item import create_items_for_room, INVENTORY_COLOR, INVENTORY_BORDER_COLOR, INVENTORY_POSITION, ITEM_SPACING, WHITE
+from src.objects.item import create_items_for_room, INVENTORY_POSITION, ITEM_SPACING
 from src.ui.helper import draw_inventory, draw_hover_message, DROPBUTTON_POS_Y
 import os
 import pygame
