@@ -1,6 +1,8 @@
 import pygame
+import sys
 from game import Game
 
+FPS = 60
 
 def main():
     pygame.init()
@@ -20,9 +22,10 @@ def main():
         game.update()
         game.draw()
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(FPS)
 
     pygame.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     main()
