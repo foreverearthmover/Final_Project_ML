@@ -16,7 +16,6 @@ class BossCat(pygame.sprite.Sprite):
         self.frame_height = 1000
         self.scale = 0.14
         self.sprite_sheet = pygame.image.load(load_skin()).convert_alpha()
-        self.image_path = load_skin()
 
         self.idle_frames = self.load_frames(start_index=0, count=4, scale=self.scale)
         self.current_frames = self.idle_frames

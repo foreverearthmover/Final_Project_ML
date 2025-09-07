@@ -186,7 +186,7 @@ class Item:
                 tp_item.use_msg = "Let me just take this."
                 self.game.inventory.append(tp_item)
             except Exception as e:
-                print("Can't find Toilet paper picture", e)
+                print("Warning: Can't find Toilet paper picture", e)
 
     def spawn_bow_item(self):
         """Spawn bow item in scene (special case)."""
@@ -204,7 +204,7 @@ class Item:
                 self.game.current_scene.items.append(bow_item)
                 self.game.item_states["Bow"] = False
         except Exception as e:
-            print("Can't find Bow picture", e)
+            print("Warning: Can't find Bow picture", e)
 
 
     def use(self):
@@ -212,17 +212,22 @@ class Item:
             print(f"[USE] {self.name} used. +{self.effect} {self.stat}")
             self.game.update_stat(self.stat, self.effect)
 
-#testing
 def load_image(item_name):
-    path = os.path.join(
+    try:
+        path = os.path.join(
         os.path.dirname(__file__), "..", "..", "assets", "media", "Items", f"{item_name}.png"
-    )
-    path = os.path.normpath(path)
-    return pygame.image.load(path).convert_alpha()
-
+        )
+        path = os.path.normpath(path)
+        return pygame.image.load(path).convert_alpha()
+    except (pygame.error, FileNotFoundError) as e:
+        print(f"Warning: Error loading image for {item_name}: {e}")
+        # Create a small colored square as fallback
+        surface = pygame.Surface((32, 32))
+        surface.fill((255, 0, 255))  # Magenta to make missing textures obvious
+        return surface
 
 # Function to create items from dictionary
-def create_items_for_room(room_name, game, movable):
+def create_items_for_room(room_name, game, movable=True):
     item_list = []
     if room_name in rooms:
         for item_data in rooms[room_name]:
@@ -232,13 +237,11 @@ def create_items_for_room(room_name, game, movable):
             try:
                 image = load_image(name)
             except FileNotFoundError:
-                print(f"[Warning] No pic found for {name}")
+                print(f"Warning: No pic found for {name}")
                 continue
 
             x = item_data.get("x", 100)
             y = item_data.get("y", 100)
-
-
 
             movable = item_data.get("movable", True)
             item = Item(name, (x, y), image, IMAGE_SCALE, game, movable=movable)

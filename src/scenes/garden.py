@@ -8,11 +8,13 @@ from src.objects.boss_cat import BossCat
 from src.objects.item import rooms
 from assets.media.text.fonts import get_small_font
 
-
-mixer.init()
-sound_path = os.path.join("..", "assets", "media", "sounds", "cat_hiss.mp3")
-mixer.music.load(sound_path)
-mixer.music.set_volume(0.7)
+try:
+    mixer.init()
+    sound_path = os.path.join("..", "assets", "media", "sounds", "cat_hiss.mp3")
+    mixer.music.load(sound_path)
+    mixer.music.set_volume(0.7)
+except pygame.error as e:
+    print(f"Warning: Error loading sound: {e}") # to avoid sound loading failing silently
 
 class Garden:
     """
@@ -45,9 +47,9 @@ class Garden:
 
         # Load and setup animated squirrel
         squirrel_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Squirrel.png")
-        #self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha()
+        #self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert_alpha() -> doesn't work for some reason
         self.squirrel_sprite_sheet = pygame.image.load(os.path.normpath(squirrel_path)).convert()
-        self.squirrel_sprite_sheet.set_colorkey((255, 255, 255))  # Remove white
+        self.squirrel_sprite_sheet.set_colorkey((255, 255, 255))  # Remove white manually
 
         # Animation setup
         self.squirrel_frame_width = 975
