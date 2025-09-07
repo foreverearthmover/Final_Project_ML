@@ -72,6 +72,12 @@ class Game:
         sys.exit()
 
     def change_scene(self, scene_name, entry_side):
+        # Stop shower sound if leaving bathroom
+        if self.current_room == "bathroom" and hasattr(self.current_scene, 'shower_sound'):
+            if hasattr(self.current_scene, 'shower_playing') and self.current_scene.shower_playing:
+                self.current_scene.shower_sound.stop()
+                self.current_scene.shower_playing = False
+
         # Position cat based on entry side
         if entry_side == "left":
             self.cat.rect.x = 50

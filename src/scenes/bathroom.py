@@ -2,6 +2,7 @@ from src.objects.item import create_items_for_room, INVENTORY_POSITION, ITEM_SPA
 from src.ui.helper import draw_inventory, draw_hover_message, DROPBUTTON_POS_Y
 import os
 import pygame
+from pygame import mixer
 from src.objects.item import rooms
 
 
@@ -15,6 +16,16 @@ class Bathroom:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
+
+        # Initialize shower sound
+        try:
+            self.shower_sound = mixer.Sound(os.path.normpath(os.path.join(
+                os.path.dirname(__file__), "..", "..", "assets", "media", "sounds", "shower.wav")))
+            self.shower_sound.set_volume(0.5)
+            self.shower_playing = False
+        except pygame.error as e:
+            print(f"Warning: Could not load shower sound: {e}") # to avoid sound loading failing silently
+            self.shower_sound = None
 
         # Load items for the room
         self.items = create_items_for_room("Bathroom", game=self.game, movable=False)
@@ -118,6 +129,11 @@ class Bathroom:
         # Check collision with the invisible wall
         if self.cat.rect.colliderect(self.left_wall):
             self.cat.rect.left = self.left_wall.right
+
+        # Play shower sound if not already playing
+        if hasattr(self, 'shower_sound') and self.shower_sound and not self.shower_playing:
+            self.shower_sound.play(-1)  # loop indefinitely
+            self.shower_playing = True
 
     def draw(self):
         """Render the room and its contents."""

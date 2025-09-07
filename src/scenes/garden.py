@@ -12,9 +12,9 @@ try:
     mixer.init()
     sound_path = os.path.join("..", "assets", "media", "sounds", "cat_hiss.mp3")
     mixer.music.load(sound_path)
-    mixer.music.set_volume(0.7)
+    mixer.music.set_volume(0.3)
 except pygame.error as e:
-    print(f"Warning: Error loading sound: {e}") # to avoid sound loading failing silently
+    print(f"Warning: Error loading cat hiss sound: {e}") # to avoid sound loading failing silently
 
 class Garden:
     """
