@@ -11,7 +11,7 @@ class IntroScreen:
             "on the search for food while your owner is in the shower...\n"
             "but there may be some surprises ahead.\n\n"
             "Controls:\n"
-            "You move using the arrow keys and can examine items by hovering over them.\n"
+            "You move using the arrow keys/WASD and can examine items by hovering over them.\n"
             "To add them to your inventory click them.\n"
             "Opening your inventory with “E” allows you to drop them again.\n\n"
             "Click to continue."
