@@ -60,7 +60,7 @@ Final_Project_ML/
 │        ├── boss_fight.py
 │        ├── character_select.py
 │        ├── garden.py
-│        └── Living_room.py
+│        └── living_room.py
 │   └── objects/
 │        ├── boss_cat.py
 │        ├── item.py
