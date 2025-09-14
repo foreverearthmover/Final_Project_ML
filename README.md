@@ -1,6 +1,8 @@
 # Catventure - Hungry Cat Simulator 
 by Lilli (https://github.com/foreverearthmover) and Maja (https://github.com/MajaPapayo)
 
+<img width="1504" height="1064" alt="Image" src="https://github.com/user-attachments/assets/b3424071-85d2-48fb-ae7b-0cee08a73c73" />
+
 ### Description
 Have you ever wondered what your cat does when you're not around?  
 Find out with this game - by playing a cat who can't reach their owner even though it's time for food.  
