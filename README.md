@@ -80,7 +80,7 @@ Final_Project_ML/
 │   ├── gifs/ # gifs of stages of of development
 │         ├── gif_06.08.2025.gif
 │         ...
-│         └── gid_25.07.2025.gif
+│         └── gif_25.07.2025.gif
 │   ├── gif_log.md # timeline of screencaps 
 │   └── documentation.pdf # documentation file 
 │
