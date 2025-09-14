@@ -1,83 +1,93 @@
 # Catventure - Hungry Cat Simulator 
 by Lilli (https://github.com/foreverearthmover) and Maja (https://github.com/MajaPapayo)
 
-#### Description
+### Description
 Have you ever wondered what your cat does when you're not around?  
 Find out with this game - by playing a cat who can't reach their owner even though it's time for food.  
 
-#### Quickstart
+### Quickstart
 To install required dependencies/libraries:
 
     pip install -r requirements.txt
 
+### Usage
+To play our game, please have all files in one directory and run this from the project root in your terminal:
 
-#### Usage
-To play our game, please have all files in one directory and run this in your terminal:
+    python -m src.main
 
-    python main.py
+#### Controls
+- Move: WASD or Arrow Keys
+- Interact: Mouse click
+- Open/Close Inventory: "E"
+- Skip: Click or Enter
 
-#### Navigation
+### Navigation
 
 ```
 Final_Project_ML/
-├── assets/
+├── assets/ # Game resources
 │   └── media/
-│   		└── items/
+│   		└── items/ # images for items
 │        			├── Bow.png
 │       			├── Cabinet.png
 │       			├── Carton.png
 │       			…
 │   				└── YarnBall.png
-│   		└── backgrounds/
+│   		└── backgrounds/ # room backgrounds
 │        			├── bathroom.png
 │       			├── empty_bathroom.png
 │       			├── garden.png
 │   				└── living_room.png
-│   		└── endings/
+│   		└── endings/ # ending scene images
 │        			├── ending.png
 │       			├── lose_ending.png
 │       			├── love_ending_1.png
 │       			├── love_ending_2.png
 │       			├── love_ending_3.png
 │   				└── win_ending.png
-│   		└── sounds/
+│   		└── sounds/ # sound effects
 │   				└── cat_hiss.mp3
-│   		└── sprites/
+│   				└── shower.wav
+│   		└── sprites/ # character sprites
 │        			├── Asja.png
 │       			├── Asja_bow.png
 │       			├── Jimmy.png
 │       			├── ...
 │   				└── Tommy_bow.png
-│   		└── text/
+│   		└── text/ # fonts and text formatting preset
 │       			├── 8-bit_wonder.tff
 │       			├── fonts.py
 │   				└── retro_gaming.tff
-├── src/
-│   ├── main.py
-│   ├── game.py
-│   └── scenes/
+├── src/ # source code
+│   ├── main.py # game entry point
+│   ├── game.py # core game logic
+│   └── scenes/ # scenes for the game
 │        ├── bathroom.py
 │        ├── boss_fight.py
 │        ├── character_select.py
 │        ├── garden.py
 │        └── living_room.py
-│   └── objects/
+│   └── objects/ # game object classes
 │        ├── boss_cat.py
 │        ├── item.py
 │        └── player.py
-│   └── ui/
+│   └── ui/ # user interface and helper file
 │         ├── helper.py
 │         ├── intro.py
 │         └── menu.py
 │
-├── docs/
-│   ├── documentation
-│   └── work_distribution
+├── docs/ # documentation
+│   ├── gifs/ # gifs of stages of of development
+│         ├── gif_06.08.2025.gif
+│         ...
+│         └── gid_25.07.2025.gif
+│   ├── gif_log.md # timeline of screencaps 
+│   └── documentation.pdf # documentation file 
 │
-├── requirements.txt
+├── requirements.txt # dependencies
 ├── .gitignore
 ├── LICENSE
-└── README.md
+└── README.md # you are here
 ```
 ---
   

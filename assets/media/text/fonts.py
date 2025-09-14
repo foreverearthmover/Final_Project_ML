@@ -1,6 +1,7 @@
 import os
 import pygame
 
+# presets for text formatting
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
