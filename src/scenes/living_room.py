@@ -29,7 +29,9 @@ class LivingRoom:
 
         self.selected_inventory_item = None
 
-        path = os.path.join("..", "assets", "media", "backgrounds", "living_room.png")
+        # Use absolute path for background image
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(base_dir, "assets", "media", "backgrounds", "living_room.png")
         self.background = pygame.image.load(path).convert()
 
     def handle_event(self, event):

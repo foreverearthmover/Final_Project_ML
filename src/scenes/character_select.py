@@ -1,5 +1,5 @@
 import pygame
-from objects.player import Cat
+from src.objects.player import Cat
 import os
 
 class CharacterSelect:
@@ -9,8 +9,8 @@ class CharacterSelect:
         self.screen = game.screen
 
         # Base directory for assets
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        font_path = os.path.join(BASE_DIR, "..", "..", "assets", "media", "text", "8-bit_wonder.ttf")
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        font_path = os.path.join(BASE_DIR, "assets", "media", "text", "8-bit_wonder.ttf")
         font_path = os.path.normpath(font_path)
 
         self.title_font = pygame.font.Font(font_path, 36)
@@ -18,11 +18,11 @@ class CharacterSelect:
 
         # cat skins
         self.cat_options = [
-            {"name": "Tofu", "image_path": "../assets/media/sprites/Tofu.png"},
-            {"name": "Asja", "image_path": "../assets/media/sprites/Asja.png"},
-            {"name": "Kira", "image_path": "../assets/media/sprites/Kira.png"},
-            {"name": "Tommy", "image_path": "../assets/media/sprites/Tommy.png"},
-            {"name": "Jimmy", "image_path": "../assets/media/sprites/Jimmy.png"},
+            {"name": "Tofu", "image_path": os.path.join(BASE_DIR, "assets", "media", "sprites", "Tofu.png")},
+            {"name": "Asja", "image_path": os.path.join(BASE_DIR, "assets", "media", "sprites", "Asja.png")},
+            {"name": "Kira", "image_path": os.path.join(BASE_DIR, "assets", "media", "sprites", "Kira.png")},
+            {"name": "Tommy", "image_path": os.path.join(BASE_DIR, "assets", "media", "sprites", "Tommy.png")},
+            {"name": "Jimmy", "image_path": os.path.join(BASE_DIR, "assets", "media", "sprites", "Jimmy.png")},
         ]
 
         self.cat_objects = []

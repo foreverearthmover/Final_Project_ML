@@ -12,13 +12,17 @@ class BossFight:
         self.timer = 0
         self.last_advance = pygame.time.get_ticks()
         self.ending_type = self.get_ending_type()
+        
+        # Get the absolute path to the project root
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        
         self.images = {
-            "intro": self.load_and_scale_image("ending.png"),
-            "love1": self.load_and_scale_image("love_ending_1.png"),
-            "love2": self.load_and_scale_image("love_ending_2.png"),
-            "love3": self.load_and_scale_image("love_ending_3.png"),
-            "win": self.load_and_scale_image("win_ending.png"),
-            "lose": self.load_and_scale_image("lose_ending.png"),
+            "intro": self.load_and_scale_image("ending.png", base_dir),
+            "love1": self.load_and_scale_image("love_ending_1.png", base_dir),
+            "love2": self.load_and_scale_image("love_ending_2.png", base_dir),
+            "love3": self.load_and_scale_image("love_ending_3.png", base_dir),
+            "win": self.load_and_scale_image("win_ending.png", base_dir),
+            "lose": self.load_and_scale_image("lose_ending.png", base_dir),
         }
         self.texts = {
             "intro": 'The cat approaches! Did you prepare well enough...?',
@@ -33,8 +37,9 @@ class BossFight:
         self.black_surface.set_alpha(255)
         self.advance_ready = True
 
-    def load_and_scale_image(self, filename):
-        path = os.path.join("..", "assets", "media", "endings", filename)
+    def load_and_scale_image(self, filename, base_dir):
+        """Load and scale an image from the endings directory."""
+        path = os.path.join(base_dir, "assets", "media", "endings", filename)
         img = pygame.image.load(path).convert()
         return pygame.transform.scale(img, self.screen.get_size())
 

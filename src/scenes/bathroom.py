@@ -39,9 +39,10 @@ class Bathroom:
 
         self.selected_inventory_item = None
 
-        # Background image
-        bg_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "backgrounds", "bathroom.png")
-        self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
+        # Use absolute path for background image
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(base_dir, "assets", "media", "backgrounds", "bathroom.png")
+        self.background = pygame.image.load(path).convert()
 
         # invisible wall to prevent moving out of bounds
         self.left_wall = pygame.Rect(0, 0, 5, self.screen.get_height())

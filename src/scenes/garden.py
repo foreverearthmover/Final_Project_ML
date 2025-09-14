@@ -10,7 +10,8 @@ from assets.media.text.fonts import get_small_font
 
 try:
     mixer.init()
-    sound_path = os.path.join("..", "assets", "media", "sounds", "cat_hiss.mp3")
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    sound_path = os.path.join(base_dir, "assets", "media", "sounds", "cat_hiss.mp3")
     mixer.music.load(sound_path)
     mixer.music.set_volume(0.3)
 except pygame.error as e:
@@ -26,24 +27,24 @@ class Garden:
         self.game = game
         self.screen = game.screen
         self.cat = game.cat
-        self.boss_cat = BossCat()
-
-        # Load items for the garden
+        self.boss_cat = None
+        self.selected_inventory_item = None
+        self.scroll_offset = 0  # Initialize scroll_offset
+        
+        # Load items for the room
         self.items = create_items_for_room("Garden", game=self.game, movable=False)
-
-        # Update item states based on the global state in `self.game.item_states`
+        
+        # Update item states
         for item in self.items:
             if item.name in self.game.item_states:
                 item.picked_up = self.game.item_states[item.name]
             else:
                 self.game.item_states[item.name] = item.picked_up
 
-        self.selected_inventory_item = None
-
-        # Load the garden background
-        bg_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "backgrounds", "garden.png")
-        self.background = pygame.image.load(os.path.normpath(bg_path)).convert()
-        self.scroll_offset = 0
+    # Use absolute path for background image
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(base_dir, "assets", "media", "backgrounds", "garden.png")
+        self.background = pygame.image.load(path).convert()
 
         # Load and setup animated squirrel
         squirrel_path = os.path.join(os.path.dirname(__file__), "..", "..", "assets", "media", "sprites", "Squirrel.png")
